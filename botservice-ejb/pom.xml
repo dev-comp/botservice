@@ -58,6 +58,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+
         <!-- Import the JPA API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
