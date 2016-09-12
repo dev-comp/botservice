@@ -66,7 +66,7 @@ public class BotAdapterEditModel implements Serializable {
                 }
             }
             //todo определиться с местом сохранения адаптера
-            Path destination = Paths.get("D:/work/dev-comp/" + botAdapterFileName);
+            Path destination = Paths.get(System.getProperty("botservice.adapter.filepath") + botAdapterFileName);
             try {
                 Files.copy(botAdapterPart.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
