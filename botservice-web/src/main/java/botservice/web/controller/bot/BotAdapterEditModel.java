@@ -2,6 +2,7 @@ package botservice.web.controller.bot;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
+import botservice.properties.BotServiceProperty;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 
@@ -36,6 +37,10 @@ public class BotAdapterEditModel implements Serializable {
 
     private Part botAdapterPart;
 
+    @Inject
+    @BotServiceProperty(name = "botservice.adapter.filepath")
+    private String adapterFilePath;
+
     @PostConstruct
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -66,7 +71,7 @@ public class BotAdapterEditModel implements Serializable {
                 }
             }
             //todo определиться с местом сохранения адаптера
-            Path destination = Paths.get(System.getProperty("botservice.adapter.filepath") + botAdapterFileName);
+            Path destination = Paths.get(adapterFilePath + botAdapterFileName);
             try {
                 Files.copy(botAdapterPart.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
