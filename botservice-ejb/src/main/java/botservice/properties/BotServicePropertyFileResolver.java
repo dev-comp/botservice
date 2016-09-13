@@ -18,7 +18,7 @@ public class BotServicePropertyFileResolver {
 
     @PostConstruct
     private void init() {
-        String propertyFile = System.getProperty("botservice.properties");
+        String propertyFile = System.getProperty(BotServicePropertyConst.PROPERTIES_FILE_PATH);
         File file = new File(propertyFile);
         try {
             properties.load(new FileInputStream(file));

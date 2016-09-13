@@ -3,6 +3,7 @@ package botservice.web.controller.bot;
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
 import botservice.properties.BotServiceProperty;
+import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 
@@ -38,7 +39,7 @@ public class BotAdapterEditModel implements Serializable {
     private Part botAdapterPart;
 
     @Inject
-    @BotServiceProperty(name = "botservice.adapter.filepath")
+    @BotServiceProperty(name = BotServicePropertyConst.ADAPTER_FILE_PATH)
     private String adapterFilePath;
 
     @PostConstruct
