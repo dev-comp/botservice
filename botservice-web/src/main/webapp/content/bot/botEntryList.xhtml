@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="content">
+
+        <h:messages showDetail="true" showSummary="true"/>
+
+        <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
+
+        <h:form id="botEntryEntityListForm">
+            <br/>
+            <br/>
+            <h:button id="addEntry" value="Add entry" outcome="botEntryEdit.xhtml"/>
+            <br/>
+            <br/>
+            <h:dataTable id="botEntryEntityList" value="#{botEntryListModel.botEntryList}" var="botEntry" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:link outcome="botEntryEdit.xhtml?id=#{botEntry.id}" value="#{botEntry.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Adapter"/>
+                    </f:facet>
+                    <h:outputText value="#{botEntry.botAdapterEntity.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Remove"/>
+                    </f:facet>
+                    <h:commandButton id="DeleteBotEntry" value="Delete" action="#{botEntryListModel.doDeleteBotEntry(botEntry)}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>
