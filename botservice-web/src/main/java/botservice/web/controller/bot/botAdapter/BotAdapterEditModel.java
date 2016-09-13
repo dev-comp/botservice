@@ -1,4 +1,4 @@
-package botservice.web.controller.bot;
+package botservice.web.controller.bot.botAdapter;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;

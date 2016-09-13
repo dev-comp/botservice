@@ -1,4 +1,4 @@
-package botservice.web.controller.bot;
+package botservice.web.controller.bot.botEntry;
 
 import botservice.model.bot.BotEntryEntity;
 import botservice.service.BotService;
