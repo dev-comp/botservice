@@ -61,7 +61,6 @@ public class BotAdapterEditModel implements Serializable {
                     break;
                 }
             }
-            //todo определиться с местом сохранения адаптера
             Path destination = Paths.get(adapterFilePath + botAdapterFileName);
             try {
                 Files.copy(botAdapterPart.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
