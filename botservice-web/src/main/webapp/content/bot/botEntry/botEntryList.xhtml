@@ -34,9 +34,30 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">
+                        <h:outputText value="Active"/>
+                    </f:facet>
+                    <h:outputText value="#{botEntry.state == 1 ? 'Yes' : 'No'}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Start"/>
+                    </f:facet>
+                    <h:commandButton id="StartBotEntry" value="Start" action="#{botEntryListModel.doStartBotEntry(botEntry)}"
+                                     disabled="#{botEntryListModel.isStartBotEntryDisabled(botEntry)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Stop"/>
+                    </f:facet>
+                    <h:commandButton id="StopBotEntry" value="Stop" action="#{botEntryListModel.doStopBotEntry(botEntry)}"
+                                     disabled="#{botEntryListModel.isStopBotEntryDisabled(botEntry)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
                         <h:outputText value="Remove"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBotEntry" value="Delete" action="#{botEntryListModel.doDeleteBotEntry(botEntry)}"/>
+                    <h:commandButton id="DeleteBotEntry" value="Delete" action="#{botEntryListModel.doDeleteBotEntry(botEntry)}"
+                                     disabled="#{botEntryListModel.isDeleteBotEntryDisabled(botEntry)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>
