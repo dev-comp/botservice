@@ -34,8 +34,6 @@ public class BotAdapterEditModel implements Serializable {
     @Inject
     private BotService botService;
 
-    private boolean isNew = true;
-
     private Part botAdapterPart;
 
     @Inject
@@ -45,20 +43,12 @@ public class BotAdapterEditModel implements Serializable {
     @PostConstruct
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
-        if (idParam != null){
-            loadBotAdapterEntity(Long.parseLong(idParam));
-            isNew = false;
-        }
-    }
-
-    private void loadBotAdapterEntity(Long botAdapterEntityId){
-        botAdapterEntity = botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.id, botAdapterEntityId));
+        if (idParam != null)
+            botAdapterEntity = botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.id, Long.parseLong(idParam)));
     }
 
     public void doSaveBotAdapter(){
         botAdapterEntity = botService.mergeEntity(botAdapterEntity);
-        if (isNew)
-            loadBotAdapterEntity(botAdapterEntity.getId());
     }
 
     public void uploadBotAdapter(){

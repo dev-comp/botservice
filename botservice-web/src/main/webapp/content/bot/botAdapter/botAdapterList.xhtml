@@ -28,9 +28,44 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">
+                        <h:outputText value="Active"/>
+                    </f:facet>
+                    <h:outputText value="#{botAdapter.state == 1 ? 'Yes' : 'No'}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Install"/>
+                    </f:facet>
+                    <h:commandButton id="InstallBotAdapter" value="Install" action="#{botAdapterListModel.doInstallBotAdapter(botAdapter)}"
+                                     disabled="#{botAdapterListModel.isInstallBotAdapterDisabled(botAdapter)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Start"/>
+                    </f:facet>
+                    <h:commandButton id="StartBotAdapter" value="Start" action="#{botAdapterListModel.doStartBotAdapter(botAdapter)}"
+                                     disabled="#{botAdapterListModel.isStartBotAdapterDisabled(botAdapter)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Stop"/>
+                    </f:facet>
+                    <h:commandButton id="StopBotAdapter" value="Stop" action="#{botAdapterListModel.doStopBotAdapter(botAdapter)}"
+                                     disabled="#{botAdapterListModel.isStopBotAdapterDisabled(botAdapter)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Uninstall"/>
+                    </f:facet>
+                    <h:commandButton id="UninstallBotAdapter" value="Uninstall" action="#{botAdapterListModel.doUninstallBotAdapter(botAdapter)}"
+                                     disabled="#{botAdapterListModel.isUninstallBotAdapterDisabled(botAdapter)}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
                         <h:outputText value="Remove"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBotAdapter" value="Delete" action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"/>
+                    <h:commandButton id="DeleteBotAdapter" value="Delete" action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"
+                                     disabled="#{botAdapterListModel.isDeleteBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

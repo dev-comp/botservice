@@ -30,26 +30,16 @@ public class BotEntryEditModel implements Serializable {
 
     private List<BotAdapterEntity> botAdapterEntityList;
 
-    private boolean isNew = true;
-
     @PostConstruct
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
-        if (idParam != null) {
-            loadBotEntryEntity(Long.parseLong(idParam));
-            isNew = false;
-        }
+        if (idParam != null)
+            botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class, new BaseParam(BotEntryEntity_.id, Long.parseLong(idParam)));
         botAdapterEntityList = botService.getEntityList(BotAdapterEntity.class);
-    }
-
-    private void loadBotEntryEntity(Long botEntryEntityId){
-        botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class, new BaseParam(BotEntryEntity_.id, botEntryEntityId));
     }
 
     public void doSaveBotEntry(){
         botEntryEntity = botService.mergeEntity(botEntryEntity);
-        if (isNew)
-            loadBotEntryEntity(botEntryEntity.getId());
     }
 
     public BotEntryEntity getBotEntryEntity() {
