@@ -98,6 +98,7 @@ public class BotAdapterListModel implements Serializable{
             Bundle bundle = getBundle(botAdapterEntity);
             if (bundle != null){
                 bundle.stop();
+                // todo сменить статус всех entry на 0 (адаптер погасит потоки автоматически)
                 botAdapterEntity.setState(0);
                 doSaveBotAdapterEntity(botAdapterEntity);
             }
