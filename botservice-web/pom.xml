@@ -104,14 +104,6 @@
 
    </dependencies>
 
-   <repositories>
-       <repository>
-          <id>jboss</id>
-          <name>jboss repo</name>
-          <url>http://repository.jboss.org/nexus/content/repositories/releases/</url>
-      </repository>
-   </repositories>
-
    <build>
       <finalName>${project.artifactId}</finalName>
       <plugins>
