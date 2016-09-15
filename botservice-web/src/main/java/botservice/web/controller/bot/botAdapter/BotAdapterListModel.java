@@ -80,9 +80,9 @@ public class BotAdapterListModel implements Serializable{
         try {
             Bundle bundle = getBundle(botAdapterEntity);
             if (bundle != null){
+                bundle.start();
                 botAdapterEntity.setState(1);
                 doSaveBotAdapterEntity(botAdapterEntity);
-                bundle.start();
             }
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -97,9 +97,9 @@ public class BotAdapterListModel implements Serializable{
         try {
             Bundle bundle = getBundle(botAdapterEntity);
             if (bundle != null){
+                bundle.stop();
                 botAdapterEntity.setState(0);
                 doSaveBotAdapterEntity(botAdapterEntity);
-                bundle.stop();
             }
         }catch (Exception e){
             throw new RuntimeException(e);
