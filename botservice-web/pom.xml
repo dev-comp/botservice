@@ -81,8 +81,6 @@
            <groupId>org.jboss.osgi.distribution</groupId>
            <artifactId>jbosgi-distribution</artifactId>
            <version>2.5.2.Final</version>
-           <classifier>installer</classifier>
-           <type>jar</type>
        </dependency>
 
        <!-- JSR-303 (Bean Validation) Implementation -->
