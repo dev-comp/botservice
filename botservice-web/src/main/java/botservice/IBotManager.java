@@ -1,4 +1,4 @@
-package botservice.common;
+package botservice;
 
 /**
  * @author ikka
