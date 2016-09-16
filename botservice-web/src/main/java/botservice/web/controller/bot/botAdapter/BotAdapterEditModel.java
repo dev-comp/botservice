@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 /**
  * Компонент-подложка для управления одним адаптером бота
@@ -34,21 +35,72 @@ public class BotAdapterEditModel implements Serializable {
     @Inject
     private BotService botService;
 
+    private List<PropItem> propList = new ArrayList<>();
+
     private Part botAdapterPart;
 
     @Inject
     @BotServiceProperty(name = BotServicePropertyConst.ADAPTER_FILE_PATH)
     private String adapterFilePath;
 
+    public class PropItem {
+        String key;
+        String value;
+
+        public PropItem(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
+    }
+
     @PostConstruct
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
-        if (idParam != null)
+        if (idParam != null){
             botAdapterEntity = botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.id, Long.parseLong(idParam)));
+            movePropsFromEntity();
+        }
     }
 
     public void doSaveBotAdapter(){
+        if (botAdapterEntity.getProps() != null)
+            botAdapterEntity.getProps().clear();
+        movePropsToEntity();
         botAdapterEntity = botService.mergeEntity(botAdapterEntity);
+    }
+
+    private void movePropsFromEntity(){
+        propList.clear();
+        for(Map.Entry<String, String> entry: botAdapterEntity.getProps().entrySet())
+            propList.add(new PropItem(entry.getKey(), entry.getValue()));
+    }
+
+    private void movePropsToEntity(){
+        if (botAdapterEntity.getProps() == null)
+            botAdapterEntity.setProps(new HashMap<String, String>());
+        for(PropItem propItem: propList)
+            botAdapterEntity.getProps().put(propItem.getKey(), propItem.getValue());
     }
 
     public void uploadBotAdapter(){
@@ -71,6 +123,14 @@ public class BotAdapterEditModel implements Serializable {
         }
     }
 
+    public void doAddBotAdapterProperty(){
+        propList.add(new PropItem("", ""));
+    }
+
+    public void doDeleteAdapterProp(PropItem propItem){
+        propList.remove(propItem);
+    }
+
     public BotAdapterEntity getBotAdapterEntity() {
         return botAdapterEntity;
     }
@@ -81,5 +141,13 @@ public class BotAdapterEditModel implements Serializable {
 
     public void setBotAdapterPart(Part botAdapterPart) {
         this.botAdapterPart = botAdapterPart;
+    }
+
+    public List<PropItem> getPropList() {
+        return propList;
+    }
+
+    public void setPropList(List<PropItem> propList) {
+        this.propList = propList;
     }
 }

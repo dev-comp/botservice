@@ -26,6 +26,29 @@
                 <h:commandButton value="Upload" action="#{botAdapterEditModel.uploadBotAdapter}"/>
             </h:panelGrid>
             <br/>
+            <h:outputText id="propLabel" value="Properties"/>
+            <h:dataTable id="botAdapterProps" value="#{botAdapterEditModel.propList}" var="botProp" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Key"/>
+                    </f:facet>
+                    <h:inputText value="#{botProp.key}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Value"/>
+                    </f:facet>
+                    <h:inputText value="#{botProp.value}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Remove"/>
+                    </f:facet>
+                    <h:commandButton id="DeleteAdapterProp" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterProp(botProp)}"/>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton id="AddProperty" value="Add property" action="#{botAdapterEditModel.doAddBotAdapterProperty}"/>
+            <br/>
             <br/>
             <h:commandButton id="ApplyBotAdapter" value="Apply" action="#{botAdapterEditModel.doSaveBotAdapter}"/>
         </h:form>
