@@ -3,6 +3,7 @@ package botservice.web.controller.bot.botAdapter;
 import botservice.model.bot.BotAdapterEntity;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
+import com.bftcom.devcomp.api.IBotManager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
