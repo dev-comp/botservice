@@ -1,13 +1,10 @@
 package botservice.web.controller.bot.botEntry;
 
 import botservice.model.bot.BotEntryEntity;
-import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
-import com.bftcom.devcomp.api.IBotManager;
-import org.osgi.framework.BundleContext;
+import botservice.web.controller.bot.common.OSGIService;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,9 +22,8 @@ public class BotEntryListModel implements Serializable {
     @Inject
     private BotService botService;
 
-    @Resource(name = BotServicePropertyConst.OSGI_BUNDLE_CONTEXT_JNDI_NAME)
-    private BundleContext bundleContext;
-
+    @Inject
+    OSGIService osgiService;
 
     private List<BotEntryEntity> botEntryList;
 
@@ -59,10 +55,10 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
-        botEntryEntity.setState(1);
-        IBotManager botManager = ((IBotManager) bundleContext.getService(bundleContext.getServiceReference(IBotManager.class.getName())));
-        botManager.startBotSession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps());
-        doSaveBotEntryEntity(botEntryEntity);
+        if (osgiService.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps())){
+            botEntryEntity.setState(1);
+            doSaveBotEntryEntity(botEntryEntity);
+        }
     }
 
     public boolean isStopBotEntryDisabled(BotEntryEntity botEntryEntity){
@@ -70,9 +66,9 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){
-        botEntryEntity.setState(0);
-        IBotManager botManager = ((IBotManager) bundleContext.getService(bundleContext.getServiceReference(IBotManager.class.getName())));
-        botManager.stopBotSession(botEntryEntity.getName());
-        doSaveBotEntryEntity(botEntryEntity);
+        if (osgiService.stopEntrySession(botEntryEntity.getName())){
+            botEntryEntity.setState(0);
+            doSaveBotEntryEntity(botEntryEntity);
+        }
     }
 }

@@ -2,6 +2,7 @@ package botservice.service.common;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -21,7 +22,7 @@ public class BaseService {
     }
 
     public <T> void removeEntity(T entity){
-        entity = mergeEntity(entity); // Праттачим сущность, заодно отработает оптимистическая блокировка
+        entity = mergeEntity(entity);
         em.remove(entity);
     }
 
@@ -31,6 +32,20 @@ public class BaseService {
         return em.createQuery(criteria).getResultList();
     }
 
+    private <T> TypedQuery<T> getQueryByCriteria(Class<T> entityClass, BaseParam ... params){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = cb.createQuery(entityClass);
+        Root<T> entityRoot = criteriaQuery.from(entityClass);
+        criteriaQuery.select(entityRoot);
+        for (BaseParam baseParam: params)
+            criteriaQuery.where(cb.equal(entityRoot.get(baseParam.getAttribute().getName()), baseParam.getValue()));
+        return em.createQuery(criteriaQuery);
+    }
+
+    public <T> List<T> getEntityListByCriteria(Class<T> entityClass, BaseParam ... params){
+        return getQueryByCriteria(entityClass, params).getResultList();
+    }
+
     public <T> T getEntityByCriteria(Class<T> entityClass, BaseParam ... params){
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = cb.createQuery(entityClass);
@@ -38,7 +53,7 @@ public class BaseService {
         criteriaQuery.select(entityRoot);
         for (BaseParam baseParam: params)
             criteriaQuery.where(cb.equal(entityRoot.get(baseParam.getAttribute().getName()), baseParam.getValue()));
-        return em.createQuery(criteriaQuery).getSingleResult();
+        return getQueryByCriteria(entityClass, params).getSingleResult();
     }
 
 }
