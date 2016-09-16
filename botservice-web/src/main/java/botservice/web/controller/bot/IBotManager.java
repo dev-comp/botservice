@@ -1,8 +1,8 @@
-package botservice;
+package botservice.web.controller.bot;
 
 /**
+ * Интерфейс для управления потоками адаптера (конкретными ботами)
  * @author ikka
- * @date: 16.09.2016.
  */
 public interface IBotManager {
   boolean startBotSession(String string, String proxyHost, Integer proxyPort);

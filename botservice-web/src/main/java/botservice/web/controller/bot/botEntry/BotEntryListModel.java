@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Компонент-подложка для управления экземпляром бота
+ * Компонент-подложка для управления списком экземпляров ботов
  */
 
 @Named
@@ -65,6 +65,4 @@ public class BotEntryListModel implements Serializable {
         doSaveBotEntryEntity(botEntryEntity);
         //todo послать сообщение адаптеру об остановке потока
     }
-
-
 }
