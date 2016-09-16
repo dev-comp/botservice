@@ -1,4 +1,4 @@
-package com.bftcom.devcomp.bots;
+package botservice.common;
 
 /**
  * @author ikka
