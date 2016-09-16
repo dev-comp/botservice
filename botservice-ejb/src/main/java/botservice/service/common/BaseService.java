@@ -5,7 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,8 +39,10 @@ public class BaseService {
         CriteriaQuery<T> criteriaQuery = cb.createQuery(entityClass);
         Root<T> entityRoot = criteriaQuery.from(entityClass);
         criteriaQuery.select(entityRoot);
+        List<Predicate> predicateList = new ArrayList<>();
         for (BaseParam baseParam: params)
-            criteriaQuery.where(cb.equal(entityRoot.get(baseParam.getAttribute().getName()), baseParam.getValue()));
+          predicateList.add(cb.equal(entityRoot.get(baseParam.getAttribute().getName()), baseParam.getValue()));
+        criteriaQuery.where(cb.and(predicateList.toArray(new Predicate[predicateList.size()])));
         return em.createQuery(criteriaQuery);
     }
 
