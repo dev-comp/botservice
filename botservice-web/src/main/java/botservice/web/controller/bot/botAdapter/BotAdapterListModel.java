@@ -5,6 +5,8 @@ import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -80,8 +82,15 @@ public class BotAdapterListModel implements Serializable{
         try {
             Bundle bundle = getBundle(botAdapterEntity);
             if (bundle != null){
-                bundle.start();
+                bundle.start();                
                 botAdapterEntity.setState(1);
+//              ((IBotManager)bundleContext.getService(bundleContext.getServiceReference(IBotManager.class.getName()))).startBotSession("299411168:AAFB8lD1_08mklizl_xwH93lIckjEHIpjCE", "localhost", 53128)
+                bundle.getBundleContext().addServiceListener(new ServiceListener() {
+                    @Override
+                    public void serviceChanged(ServiceEvent event) {
+                        System.out.println(event.toString());
+                    }
+                });
                 doSaveBotAdapterEntity(botAdapterEntity);
             }
         }catch (Exception e){
