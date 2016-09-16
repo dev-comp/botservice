@@ -3,6 +3,7 @@ package botservice.model.clientapp;
 import botservice.model.bot.BotEntryEntity;
 import botservice.model.common.AbstractBaseEntity;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,7 +13,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name = "clientapp", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "clientapp", uniqueConstraints = {@UniqueConstraint(columnNames = "name"), @UniqueConstraint(columnNames = "path")})
 public class ClientAppEntity extends AbstractBaseEntity {
 
     @NotEmpty
@@ -23,6 +24,9 @@ public class ClientAppEntity extends AbstractBaseEntity {
     @JoinColumn(name = "botentry_id")
     private BotEntryEntity botEntryEntity;
 
+    @NotEmpty
+    @URL
+    private String path;
 
     public String getName() {
         return name;
@@ -38,5 +42,13 @@ public class ClientAppEntity extends AbstractBaseEntity {
 
     public void setBotEntryEntity(BotEntryEntity botEntryEntity) {
         this.botEntryEntity = botEntryEntity;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

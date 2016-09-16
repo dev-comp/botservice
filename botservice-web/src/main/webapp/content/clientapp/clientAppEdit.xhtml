@@ -20,6 +20,8 @@
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
                 <h:inputText value="#{clientAppEditModel.clientAppEntity.name}"/>
+                <h:outputLabel value="Path:"/>
+                <h:inputText value="#{clientAppEditModel.clientAppEntity.path}"/>
                 <h:outputLabel value="Bot Entry:"/>
                 <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.botEntryEntity}" converter="#{botEntryConverter}">
                     <f:selectItems value="#{clientAppEditModel.botEntryEntityList}" var="entry"
