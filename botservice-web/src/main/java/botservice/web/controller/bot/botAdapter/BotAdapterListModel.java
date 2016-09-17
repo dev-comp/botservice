@@ -3,7 +3,7 @@ package botservice.web.controller.bot.botAdapter;
 import botservice.model.bot.*;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
-import botservice.web.controller.bot.common.OSGIService;
+import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

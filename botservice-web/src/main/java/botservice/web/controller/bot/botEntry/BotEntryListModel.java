@@ -2,7 +2,7 @@ package botservice.web.controller.bot.botEntry;
 
 import botservice.model.bot.BotEntryEntity;
 import botservice.service.BotService;
-import botservice.web.controller.bot.common.OSGIService;
+import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

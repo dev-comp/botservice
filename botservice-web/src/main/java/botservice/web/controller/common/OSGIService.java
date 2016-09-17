@@ -1,4 +1,4 @@
-package botservice.web.controller.bot.common;
+package botservice.web.controller.common;
 
 import botservice.properties.BotServicePropertyConst;
 import com.bftcom.devcomp.api.IBotManager;
