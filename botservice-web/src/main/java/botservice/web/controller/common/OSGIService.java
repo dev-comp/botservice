@@ -1,7 +1,6 @@
 package botservice.web.controller.common;
 
 import botservice.properties.BotServicePropertyConst;
-import com.bftcom.devcomp.api.IBotManager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
@@ -24,12 +23,6 @@ public class OSGIService implements Serializable {
 
     private Bundle getBundle(String bundleName){
         return bundleContext.getBundle(bundleName);
-    }
-
-    //todo Тут переделать, расширив интерфейс IBotManager и передав в этот метод имя адаптера.
-    //todo Кроме этого есть смысл кэшировать все адаптеры при первом обращении и только если не нашли лезть в BundleContext
-    private IBotManager getBotManager(){
-        return ((IBotManager) bundleContext.getService(bundleContext.getServiceReference(IBotManager.class.getName())));
     }
 
     public Bundle installBotAdapter(String filePath, String uqName){
@@ -88,10 +81,12 @@ public class OSGIService implements Serializable {
     }
 
     public boolean startEntrySession(String uqName, Map<String, String> props) {
-        return getBotManager().startBotSession(uqName, props);
+        // todo послать сообщение на старт бота
+        return true;
     }
 
     public boolean stopEntrySession(String uqName){
-        return getBotManager().stopBotSession(uqName);
+        //todo послать сообщение на остановку бота
+        return true;
     }
 }

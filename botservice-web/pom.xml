@@ -102,12 +102,6 @@
            <version>5.0.0</version>
        </dependency>
 
-       <dependency>
-         <groupId>com.bftcom.devcomp.api</groupId>
-         <artifactId>bot-adapter-api</artifactId>
-         <version>1.0.0</version>
-       </dependency>
-
    </dependencies>
 
    <build>
