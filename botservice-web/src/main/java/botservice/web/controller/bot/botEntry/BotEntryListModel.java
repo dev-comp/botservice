@@ -2,6 +2,7 @@ package botservice.web.controller.bot.botEntry;
 
 import botservice.model.bot.BotEntryEntity;
 import botservice.service.BotService;
+import botservice.web.controller.common.BotManager;
 import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +25,9 @@ public class BotEntryListModel implements Serializable {
 
     @Inject
     OSGIService osgiService;
+
+    @Inject
+    private BotManager botManager;
 
     private List<BotEntryEntity> botEntryList;
 
@@ -55,10 +59,11 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
-        if (osgiService.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps())){
+//        if (osgiService.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps())){
             botEntryEntity.setState(1);
+            botManager.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps());
             doSaveBotEntryEntity(botEntryEntity);
-        }
+//        }
     }
 
     public boolean isStopBotEntryDisabled(BotEntryEntity botEntryEntity){
@@ -66,9 +71,10 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){
-        if (osgiService.stopEntrySession(botEntryEntity.getName())){
+//        if (osgiService.stopEntrySession(botEntryEntity.getName())){
             botEntryEntity.setState(0);
+            botManager.stopEntrySession(botEntryEntity.getName());
             doSaveBotEntryEntity(botEntryEntity);
-        }
+//        }
     }
 }

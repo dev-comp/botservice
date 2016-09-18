@@ -79,14 +79,4 @@ public class OSGIService implements Serializable {
     public boolean isBundleInstalled(String bundleName){
         return getBundle(bundleName) != null;
     }
-
-    public boolean startEntrySession(String uqName, Map<String, String> props) {
-        // todo послать сообщение на старт бота
-        return true;
-    }
-
-    public boolean stopEntrySession(String uqName){
-        //todo послать сообщение на остановку бота
-        return true;
-    }
 }
