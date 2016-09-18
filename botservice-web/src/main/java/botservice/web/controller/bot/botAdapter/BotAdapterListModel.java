@@ -3,7 +3,7 @@ package botservice.web.controller.bot.botAdapter;
 import botservice.model.bot.*;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
-import botservice.web.controller.common.BotManager;
+import botservice.web.controller.queueprocessing.BotManager;
 import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;

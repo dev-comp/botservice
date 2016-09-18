@@ -1,4 +1,4 @@
-package botservice.web.controller.common;
+package botservice.web.controller.queueprocessing;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotEntryEntity;
@@ -30,7 +30,9 @@ import java.util.Map;
  */
 @ApplicationScoped
 public class BotManager {
-  private static ObjectMapper mapper = new ObjectMapper();
+
+  public static ObjectMapper mapper = new ObjectMapper();
+
   private Connection connection;
   private Channel channel;
 
@@ -58,8 +60,14 @@ public class BotManager {
     try {
       connection = factory.newConnection();
       channel = connection.createChannel();
-      channel.queueDeclare(BotConst.QUEUE_SERVICE_PREFIX + managementQueueName, false, false, false, null);// todo нужен слушатель
-      channel.queueDeclare(BotConst.QUEUE_SERVICE_PREFIX + entryQueueNAme, false, false, false, null);     // todo нужен слушатель
+
+      final String fullManagementQueueName = BotConst.QUEUE_SERVICE_PREFIX + managementQueueName;
+      channel.queueDeclare(fullManagementQueueName, false, false, false, null);
+      channel.basicConsume(fullManagementQueueName, true, new ManagementQueueConsumer(channel));
+
+      final String fullEntryQueueName = BotConst.QUEUE_SERVICE_PREFIX + entryQueueNAme;
+      channel.queueDeclare(fullEntryQueueName, false, false, false, null);
+      channel.basicConsume(fullEntryQueueName, true, new EntryQueueConsumer(channel));
     } catch (IOException e) {
       e.printStackTrace();
     }
