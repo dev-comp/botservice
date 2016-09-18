@@ -1,10 +1,18 @@
 package botservice.web.controller.queueprocessing;
 
+import botservice.model.bot.BotAdapterEntity;
+import botservice.model.bot.BotAdapterEntity_;
+import botservice.model.bot.BotEntryEntity;
+import botservice.service.BotService;
+import botservice.service.common.BaseParam;
 import com.bftcom.devcomp.bots.BotCommand;
+import com.bftcom.devcomp.bots.BotConst;
 import com.bftcom.devcomp.bots.Message;
 import com.rabbitmq.client.Channel;
 
+import javax.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Потребитель управляющих сообщений
@@ -17,10 +25,25 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
     }
 
     @SuppressWarnings("unused")
-    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.ADAPTER_PROCESS_MESSAGE) {
+    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE) {
+
+        @Inject
+        BotService botService;
+
+        @Inject
+        BotManager botManager;
+
         @Override
         public void handleMessage(Message message) throws IOException {
-            //todo реализация метода обработки служебного сообщения
+            String adapterName = message.getServiceProperties().get(BotConst.PROP_ADAPTER_NAME);
+            if (adapterName == null)
+                throw new RuntimeException("Unknown adapter");
+            BotAdapterEntity botAdapterEntity =
+                    botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.name, adapterName));
+            if (botAdapterEntity == null)
+                throw new RuntimeException("Adapter not found");
+            for(BotEntryEntity botEntryEntity: botService.getActiveAdapterEntriesList(botAdapterEntity))
+                botManager.stopEntrySession(botEntryEntity);
         }
     };
 

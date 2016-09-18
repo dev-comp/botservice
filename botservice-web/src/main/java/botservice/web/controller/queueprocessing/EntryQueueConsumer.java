@@ -17,7 +17,7 @@ public class EntryQueueConsumer extends CommonQueueConsumer {
     }
 
     @SuppressWarnings("unused")
-    IQueueConsumer entryProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.ENTRY_PROCESS_MESSAGE) {
+    IQueueConsumer entryProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_ENTRIES) {
         @Override
         public void handleMessage(Message message) throws IOException {
             //todo реализация метода проброски сообщений клиентским приложениям

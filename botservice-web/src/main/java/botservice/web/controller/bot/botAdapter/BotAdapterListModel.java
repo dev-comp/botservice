@@ -80,9 +80,7 @@ public class BotAdapterListModel implements Serializable{
 
     public void doStopBotAdapter(BotAdapterEntity botAdapterEntity){
         if (osgiService.stopBotAdapter(botAdapterEntity.getName())){
-            List<BotEntryEntity> botEntryList = botService.getEntityListByCriteria(BotEntryEntity.class,
-                    new BaseParam(BotEntryEntity_.botAdapterEntity, botAdapterEntity),
-                    new BaseParam(BotBaseEntity_.state, 1));
+            List<BotEntryEntity> botEntryList = botService.getActiveAdapterEntriesList(botAdapterEntity);
             for (BotEntryEntity botEntryEntity: botEntryList){
                 botEntryEntity.setState(0);
                 botService.mergeEntity(botEntryEntity);

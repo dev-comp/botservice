@@ -4,9 +4,12 @@ package com.bftcom.devcomp.bots;
  * Константы
  */
 public interface BotConst {
-    String QUEUE_SERVICE_PREFIX = "SERVICE_QUEUE";
-    String QUEUE_ADAPTER_PREFIX = "ADAPTER_QUEUE";
-    String QUEUE_ENTRY_PREFIX = "ENTRY_QUEUE";
+    // Префиксы очередей
+    String QUEUE_SERVICE_PREFIX = "SERVICE_QUEUE";   // Очереди, которые слушает сервис
+    String QUEUE_ADAPTER_PREFIX = "ADAPTER_QUEUE";   // Очереди, которые слушают адаптеры
+    String QUEUE_ENTRY_PREFIX = "ENTRY_QUEUE";       // Очереди, которые слушают экземпляры адаптеров
 
-    String PROP_ENTRY_NAME = "ENTRY_NAME";
+    // Имена системных пропертей, передаваемых в сообщении
+    String PROP_ADAPTER_NAME = "ENTRY_NAME";                // Свойство, определяющие имя адаптера
+    String PROP_ENTRY_NAME = "ENTRY_NAME";                  // Свойство, определяющие имя экземпляра адаптера
 }
