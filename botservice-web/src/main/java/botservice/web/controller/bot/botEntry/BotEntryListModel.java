@@ -60,7 +60,7 @@ public class BotEntryListModel implements Serializable {
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
         botEntryEntity.setState(1);
-        botManager.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps());
+        botManager.startEntrySession(botEntryEntity);
         doSaveBotEntryEntity(botEntryEntity);
     }
 
@@ -70,7 +70,7 @@ public class BotEntryListModel implements Serializable {
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){
         botEntryEntity.setState(0);
-        botManager.stopEntrySession(botEntryEntity.getName());
+        botManager.stopEntrySession(botEntryEntity);
         doSaveBotEntryEntity(botEntryEntity);
     }
 }

@@ -27,6 +27,29 @@
                 </h:selectOneMenu>
             </h:panelGrid>
             <br/>
+            <h:outputText id="propLabel" value="Properties"/>
+            <h:dataTable id="botEntryProps" value="#{botEntryEditModel.propList}" var="botProp" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Key"/>
+                    </f:facet>
+                    <h:inputText value="#{botProp.key}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Value"/>
+                    </f:facet>
+                    <h:inputText value="#{botProp.value}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Delete"/>
+                    </f:facet>
+                    <h:commandButton id="DeleteEntryProp" value="Delete" action="#{botEntryEditModel.doDeleteEntryProp(botProp)}"/>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton id="AddProperty" value="Add property" action="#{botEntryEditModel.doAddEntryProperty}"/>
+            <br/>
             <br/>
             <h:commandButton id="ApplyBotEntry" value="Apply" action="#{botEntryEditModel.doSaveBotEntry}"/>
         </h:form>

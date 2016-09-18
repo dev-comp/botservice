@@ -1,22 +1,27 @@
 package botservice.web.controller.common;
 
-import com.bftcom.devcomp.bots.*;
+import botservice.model.bot.BotAdapterEntity;
+import botservice.model.bot.BotEntryEntity;
+import botservice.properties.BotServiceProperty;
+import botservice.properties.BotServicePropertyConst;
+import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.bots.OutcomingCommands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
- * todo@shapoval add class description
- * <p>
+ * Класс, инкапсулирущий методы лдя работы с очередями
  * date: 18.09.2016
  *
  * @author p.shapoval
@@ -26,62 +31,80 @@ public class BotManager {
   private static ObjectMapper mapper = new ObjectMapper();
   private Connection connection;
   private Channel channel;
+
+  @Inject
+  @BotServiceProperty(name = BotServicePropertyConst.RABBITMQ_HOST)
+  private String rabbitMQHost;
+
+  @Inject
+  @BotServiceProperty(name = BotServicePropertyConst.RABBITMQ_PORT)
+  private int rabbitMQPort;
+
+  @Inject
+  @BotServiceProperty(name = BotServicePropertyConst.MANAGEMENT_QUEUE_NAME)
+  private String managementQueueName;
+
+  @Inject
+  @BotServiceProperty(name = BotServicePropertyConst.ENTRY_QUEUE_NAME)
+  private String entryQueueNAme;
   
-  public BotManager () {
+  @PostConstruct
+  public void init () {
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("localhost");
-    
+    factory.setHost(rabbitMQHost);
+    factory.setPort(rabbitMQPort);
     try {
       connection = factory.newConnection();
       channel = connection.createChannel();
-      channel.queueDeclare(QueuesConfiguration.MANAGEMENT_QUEUE, false, false, false, null);
+      channel.queueDeclare(managementQueueName, false, false, false, null);// todo нужен слушатель
+      channel.queueDeclare(entryQueueNAme, false, false, false, null);     // todo нужен слушатель
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public boolean startEntrySession(String uqName, Map<String, String> props) {
-    // todo послать сообщение на старт бота
-    props.put(Configuration.BOT_TOKEN, uqName);
+  public boolean startEntrySession(BotEntryEntity botEntryEntity) {
     Message message = new Message();
-    message.setGuid(UUID.randomUUID().toString());
-    message.setType(RequestType.REQUEST.name());
-    message.setCommand(Commands.START_BOT.name());
-    message.setProperties(props);
-    
+    message.setCommand(OutcomingCommands.START_ENTRY.name());
+    Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
+    propMap.putAll(botEntryEntity.getProps());
+    message.setProperties(propMap);
     try {
-      channel.basicPublish("", QueuesConfiguration.MANAGEMENT_QUEUE, null, mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
+      channel.basicPublish("", botEntryEntity.getBotAdapterEntity().getName(), null,
+              mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     return true;
   }
 
-  public boolean stopEntrySession(String uqName) {
-    //todo послать сообщение на остановку бота
+  public boolean stopEntrySession(BotEntryEntity botEntryEntity) {
     try {
       Message message = new Message();
-      message.setGuid(UUID.randomUUID().toString());
-      message.setType(RequestType.REQUEST.name());
-      message.setCommand(Commands.STOP_BOT.name());
-      
-      HashMap<String, String> config = new HashMap<>();
-      config.put(Configuration.PROXY_HOST, "localhost");
-      config.put(Configuration.PROXY_PORT, "53128");
-      config.put(Configuration.BOT_TOKEN, uqName);
-      config.put(Configuration.BOT_USERNAME, "BftDevCompEchoService");
-      message.setProperties(config);
-      channel.basicPublish("", QueuesConfiguration.MANAGEMENT_QUEUE, null, mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
+      message.setCommand(OutcomingCommands.STOP_ENTRY.name());
+      Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
+      propMap.putAll(botEntryEntity.getProps());
+      message.setProperties(propMap);
+      channel.basicPublish("", botEntryEntity.getBotAdapterEntity().getName(), null,
+              mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     return true;
   }
 
-  @Override
-  protected void finalize() throws Throwable {
-    channel.close();
-    connection.close();
-    super.finalize();
+  public boolean stopAllEntries(BotAdapterEntity botAdapterEntity){
+    //todo послать команду на остановку всех ботов конкретного адаптера
+    return true;
+  }
+
+  @PreDestroy
+  public void close() {
+    try {
+      channel.close();
+      connection.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

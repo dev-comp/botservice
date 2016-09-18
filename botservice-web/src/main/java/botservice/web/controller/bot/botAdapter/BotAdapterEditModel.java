@@ -93,7 +93,7 @@ public class BotAdapterEditModel implements Serializable {
         }
     }
 
-    public void doAddBotAdapterProperty(){
+    public void doAddAdapterProperty(){
         propList.add(new PropItem("", ""));
     }
 
