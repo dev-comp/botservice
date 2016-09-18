@@ -11,7 +11,8 @@ import java.util.Map;
 public class Message {
 
   private String command;
-  private Map<String, String> properties;
+  private Map<String, String> userProperties;
+  private Map<String, String> serviceProperties;
 
   public String getCommand() {
     return command;
@@ -21,11 +22,19 @@ public class Message {
     this.command = command;
   }
 
-  public Map<String, String> getProperties() {
-    return properties;
+  public Map<String, String> getUserProperties() {
+    return userProperties;
   }
 
-  public void setProperties(Map<String, String> properties) {
-    this.properties = properties;
+  public void setUserProperties(Map<String, String> userProperties) {
+    this.userProperties = userProperties;
+  }
+
+  public Map<String, String> getServiceProperties() {
+    return serviceProperties;
+  }
+
+  public void setServiceProperties(Map<String, String> serviceProperties) {
+    this.serviceProperties = serviceProperties;
   }
 }

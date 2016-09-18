@@ -4,7 +4,8 @@ import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotEntryEntity;
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
-import com.bftcom.devcomp.bots.Commands;
+import com.bftcom.devcomp.bots.*;
+import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -56,46 +58,49 @@ public class BotManager {
     try {
       connection = factory.newConnection();
       channel = connection.createChannel();
-      channel.queueDeclare(managementQueueName, false, false, false, null);// todo нужен слушатель
-      channel.queueDeclare(entryQueueNAme, false, false, false, null);     // todo нужен слушатель
+      channel.queueDeclare(BotConst.QUEUE_SERVICE_PREFIX + managementQueueName, false, false, false, null);// todo нужен слушатель
+      channel.queueDeclare(BotConst.QUEUE_SERVICE_PREFIX + entryQueueNAme, false, false, false, null);     // todo нужен слушатель
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public boolean startEntrySession(BotEntryEntity botEntryEntity) {
+  private boolean sendCommandToAdapter(BotCommand botCommand, BotEntryEntity botEntryEntity){
     Message message = new Message();
-    message.setCommand(Commands.START_ENTRY.name());
+    message.setCommand(botCommand.name());
     Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
     propMap.putAll(botEntryEntity.getProps());
-    message.setProperties(propMap);
+    message.setUserProperties(propMap);
+    Map<String, String> serviceProperties = new HashMap<>();
+    serviceProperties.put(BotConst.PROP_ENTRY_NAME, botEntryEntity.getName());
+    message.setServiceProperties(serviceProperties);
+    return sendCommandToBotAdapter(message, botEntryEntity.getBotAdapterEntity());
+  }
+
+  private boolean sendCommandToBotAdapter(Message message, BotAdapterEntity botAdapterEntity){
     try {
-      channel.basicPublish("", botEntryEntity.getBotAdapterEntity().getName(), null,
+      String queueName = BotConst.QUEUE_ADAPTER_PREFIX + botAdapterEntity.getName();
+      channel.queueDeclare(queueName, false, false, false, null);
+      channel.basicPublish("", queueName, null,
               mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     return true;
+  }
+
+  public boolean startEntrySession(BotEntryEntity botEntryEntity) {
+    return sendCommandToAdapter(BotCommand.START_ENTRY, botEntryEntity);
   }
 
   public boolean stopEntrySession(BotEntryEntity botEntryEntity) {
-    try {
-      Message message = new Message();
-      message.setCommand(Commands.STOP_ENTRY.name());
-      Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
-      propMap.putAll(botEntryEntity.getProps());
-      message.setProperties(propMap);
-      channel.basicPublish("", botEntryEntity.getBotAdapterEntity().getName(), null,
-              mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    return true;
+    return sendCommandToAdapter(BotCommand.STOP_ENTRY, botEntryEntity);
   }
 
   public boolean stopAllEntries(BotAdapterEntity botAdapterEntity){
-    //todo послать команду на остановку всех ботов конкретного адаптера
-    return true;
+    Message message = new Message();
+    message.setCommand(BotCommand.STOP_ALL_ENTRIES.name());
+    return sendCommandToBotAdapter(message, botAdapterEntity);
   }
 
   @PreDestroy
