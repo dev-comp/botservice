@@ -5,7 +5,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import javax.annotation.Resource;
-import javax.faces.bean.ApplicationScoped;
+import javax.faces.view.ViewScoped;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Инструменты для работы с OSGI
  */
 
-@ApplicationScoped
+@ViewScoped
 public class OSGIService implements Serializable {
 
     @Resource(name = BotServicePropertyConst.OSGI_BUNDLE_CONTEXT_JNDI_NAME)
