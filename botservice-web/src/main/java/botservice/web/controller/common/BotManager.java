@@ -4,8 +4,8 @@ import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotEntryEntity;
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
+import com.bftcom.devcomp.bots.Commands;
 import com.bftcom.devcomp.bots.Message;
-import com.bftcom.devcomp.bots.OutcomingCommands;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -65,7 +65,7 @@ public class BotManager {
 
   public boolean startEntrySession(BotEntryEntity botEntryEntity) {
     Message message = new Message();
-    message.setCommand(OutcomingCommands.START_ENTRY.name());
+    message.setCommand(Commands.START_ENTRY.name());
     Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
     propMap.putAll(botEntryEntity.getProps());
     message.setProperties(propMap);
@@ -81,7 +81,7 @@ public class BotManager {
   public boolean stopEntrySession(BotEntryEntity botEntryEntity) {
     try {
       Message message = new Message();
-      message.setCommand(OutcomingCommands.STOP_ENTRY.name());
+      message.setCommand(Commands.STOP_ENTRY.name());
       Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
       propMap.putAll(botEntryEntity.getProps());
       message.setProperties(propMap);
