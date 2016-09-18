@@ -75,7 +75,7 @@ public class BotManager {
 
   private boolean sendCommandToAdapter(BotCommand botCommand, BotEntryEntity botEntryEntity){
     Message message = new Message();
-    message.setCommand(botCommand.name());
+    message.setCommand(botCommand);
     Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
     propMap.putAll(botEntryEntity.getProps());
     message.setUserProperties(propMap);
@@ -98,16 +98,16 @@ public class BotManager {
   }
 
   public boolean startEntrySession(BotEntryEntity botEntryEntity) {
-    return sendCommandToAdapter(BotCommand.START_ENTRY, botEntryEntity);
+    return sendCommandToAdapter(BotCommand.ADAPTER_START_ENTRY, botEntryEntity);
   }
 
   public boolean stopEntrySession(BotEntryEntity botEntryEntity) {
-    return sendCommandToAdapter(BotCommand.STOP_ENTRY, botEntryEntity);
+    return sendCommandToAdapter(BotCommand.ADAPTER_STOP_ENTRY, botEntryEntity);
   }
 
   public boolean stopAllEntries(BotAdapterEntity botAdapterEntity){
     Message message = new Message();
-    message.setCommand(BotCommand.STOP_ALL_ENTRIES.name());
+    message.setCommand(BotCommand.ADAPTER_STOP_ALL_ENTRIES);
     return sendCommandToBotAdapter(message, botAdapterEntity);
   }
 

@@ -10,18 +10,19 @@ import java.util.Map;
  */
 public class Message {
 
-  private String command;
+  private BotCommand command;
   private Map<String, String> userProperties;
   private Map<String, String> serviceProperties;
 
-  public String getCommand() {
+  public BotCommand getCommand() {
     return command;
   }
 
-  public void setCommand(String command) {
+  public void setCommand(BotCommand command) {
     this.command = command;
   }
 
+  @SuppressWarnings("unused")
   public Map<String, String> getUserProperties() {
     return userProperties;
   }
@@ -30,6 +31,7 @@ public class Message {
     this.userProperties = userProperties;
   }
 
+  @SuppressWarnings("unused")
   public Map<String, String> getServiceProperties() {
     return serviceProperties;
   }
