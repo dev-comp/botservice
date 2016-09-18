@@ -17,7 +17,7 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
     }
 
     @SuppressWarnings("unused")
-    AbstractQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.ADAPTER_PROCESS_MESSAGE) {
+    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.ADAPTER_PROCESS_MESSAGE) {
         @Override
         public void handleMessage(Message message) throws IOException {
             //todo реализация метода обработки служебного сообщения
