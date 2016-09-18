@@ -1,11 +1,6 @@
 package com.bftcom.devcomp.bots;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Класс, представляющий собой сообщение для бомена между сервисом и адаптерами/экземплярами ботов
