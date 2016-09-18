@@ -104,11 +104,6 @@
 
      <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-all -->
      <dependency>
-       <groupId>org.apache.activemq</groupId>
-       <artifactId>activemq-all</artifactId>
-       <version>5.14.0</version>
-     </dependency>
-     <dependency>
        <groupId>com.rabbitmq</groupId>
        <artifactId>amqp-client</artifactId>
        <version>3.2.4</version>

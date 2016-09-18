@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -26,13 +24,11 @@ import java.util.UUID;
 @ApplicationScoped
 public class BotManager {
   private static ObjectMapper mapper = new ObjectMapper();
-  private static Logger logger = LoggerFactory.getLogger(BotManager.class);
-  private ConnectionFactory factory;
   private Connection connection;
   private Channel channel;
   
   public BotManager () {
-    factory = new ConnectionFactory();
+    ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
     
     try {
@@ -56,7 +52,7 @@ public class BotManager {
     try {
       channel.basicPublish("", QueuesConfiguration.MANAGEMENT_QUEUE, null, mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
-      logger.error("", e);
+      throw new RuntimeException(e);
     }
     return true;
   }
@@ -77,7 +73,7 @@ public class BotManager {
       message.setProperties(config);
       channel.basicPublish("", QueuesConfiguration.MANAGEMENT_QUEUE, null, mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
-      logger.error("", e);
+      throw new RuntimeException(e);
     }
     return true;
   }
