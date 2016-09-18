@@ -68,7 +68,7 @@ public class BotManager {
       final String fullEntryQueueName = BotConst.QUEUE_SERVICE_PREFIX + entryQueueNAme;
       channel.queueDeclare(fullEntryQueueName, false, false, false, null);
       channel.basicConsume(fullEntryQueueName, true, new EntryQueueConsumer(channel));
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -116,7 +116,7 @@ public class BotManager {
     try {
       channel.close();
       connection.close();
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
