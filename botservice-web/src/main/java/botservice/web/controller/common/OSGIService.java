@@ -9,7 +9,6 @@ import javax.faces.bean.ApplicationScoped;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Инструменты для работы с OSGI
