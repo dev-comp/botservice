@@ -59,11 +59,9 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
-//        if (osgiService.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps())){
-            botEntryEntity.setState(1);
-            botManager.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps());
-            doSaveBotEntryEntity(botEntryEntity);
-//        }
+        botEntryEntity.setState(1);
+        botManager.startEntrySession(botEntryEntity.getName(), botEntryEntity.getBotAdapterEntity().getProps());
+        doSaveBotEntryEntity(botEntryEntity);
     }
 
     public boolean isStopBotEntryDisabled(BotEntryEntity botEntryEntity){
@@ -71,10 +69,8 @@ public class BotEntryListModel implements Serializable {
     }
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){
-//        if (osgiService.stopEntrySession(botEntryEntity.getName())){
-            botEntryEntity.setState(0);
-            botManager.stopEntrySession(botEntryEntity.getName());
-            doSaveBotEntryEntity(botEntryEntity);
-//        }
+        botEntryEntity.setState(0);
+        botManager.stopEntrySession(botEntryEntity.getName());
+        doSaveBotEntryEntity(botEntryEntity);
     }
 }
