@@ -6,7 +6,7 @@ import botservice.model.bot.BotEntryEntity;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.BotConst;
+import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
 import com.rabbitmq.client.Channel;
 
@@ -34,7 +34,7 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
 
         @Override
         public void handleMessage(Message message) throws IOException {
-            String adapterName = message.getServiceProperties().get(BotConst.PROP_ADAPTER_NAME);
+            String adapterName = message.getServiceProperties().get(IBotConst.PROP_ADAPTER_NAME);
             if (adapterName == null)
                 throw new RuntimeException("Unknown adapter");
             BotAdapterEntity botAdapterEntity =

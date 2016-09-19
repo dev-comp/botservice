@@ -2,7 +2,7 @@ package botservice.queueprocessing;
 
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
-import com.bftcom.devcomp.bots.BotConst;
+import com.bftcom.devcomp.bots.IBotConst;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -52,11 +52,11 @@ public class BotManager {
       connection = factory.newConnection();
       channel = connection.createChannel();
 
-      final String fullManagementQueueName = BotConst.QUEUE_SERVICE_PREFIX + managementQueueName;
+      final String fullManagementQueueName = IBotConst.QUEUE_SERVICE_PREFIX + managementQueueName;
       channel.queueDeclare(fullManagementQueueName, false, false, false, null);
       channel.basicConsume(fullManagementQueueName, true, new ManagementQueueConsumer(channel));
 
-      final String fullEntryQueueName = BotConst.QUEUE_SERVICE_PREFIX + entryQueueName;
+      final String fullEntryQueueName = IBotConst.QUEUE_SERVICE_PREFIX + entryQueueName;
       channel.queueDeclare(fullEntryQueueName, false, false, false, null);
       channel.basicConsume(fullEntryQueueName, true, new EntryQueueConsumer(channel));
     } catch (Exception e) {

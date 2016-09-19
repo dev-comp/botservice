@@ -1,7 +1,6 @@
 package botservice.queueprocessing;
 
 import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.BotConst;
 import com.bftcom.devcomp.bots.Message;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -28,7 +27,7 @@ public class CommonQueueConsumer extends DefaultConsumer {
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
         String sMsg = new String(body, StandardCharsets.UTF_8);
-        Message message = BotConst.mapper.readValue(sMsg, Message.class);
+        Message message = IQueueConsumer.mapper.readValue(sMsg, Message.class);
         IQueueConsumer queueConsumer = consumerMap.get(message.getCommand());
         if (queueConsumer == null)
             throw new RuntimeException("Consumer not found");

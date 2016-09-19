@@ -3,7 +3,7 @@ package botservice.queueprocessing;
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotEntryEntity;
 import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.BotConst;
+import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
 
 import javax.ejb.Stateless;
@@ -30,16 +30,16 @@ public class BotManagerService {
         propMap.putAll(botEntryEntity.getProps());
         message.setUserProperties(propMap);
         Map<String, String> serviceProperties = new HashMap<>();
-        serviceProperties.put(BotConst.PROP_ENTRY_NAME, botEntryEntity.getName());
+        serviceProperties.put(IBotConst.PROP_ENTRY_NAME, botEntryEntity.getName());
         message.setServiceProperties(serviceProperties);
         return sendCommandToBotAdapter(message, botEntryEntity.getBotAdapterEntity());
     }
 
     private boolean sendCommandToBotAdapter(Message message, BotAdapterEntity botAdapterEntity){
         try {
-            String queueName = BotConst.QUEUE_ADAPTER_PREFIX + botAdapterEntity.getName();
+            String queueName = IBotConst.QUEUE_ADAPTER_PREFIX + botAdapterEntity.getName();
             botManager.getChannel().queueDeclare(queueName, false, false, false, null);
-            botManager.getChannel().basicPublish("", queueName, null, BotConst.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
+            botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

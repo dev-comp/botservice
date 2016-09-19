@@ -1,13 +1,9 @@
 package com.bftcom.devcomp.bots;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * Константы
  */
-public interface BotConst {
-    ObjectMapper mapper = new ObjectMapper();
-
+public interface IBotConst {
     // Префиксы очередей
     String QUEUE_SERVICE_PREFIX = "SERVICE_QUEUE_";   // Очереди, которые слушает сервис
     String QUEUE_ADAPTER_PREFIX = "ADAPTER_QUEUE_";   // Очереди, которые слушают адаптеры
