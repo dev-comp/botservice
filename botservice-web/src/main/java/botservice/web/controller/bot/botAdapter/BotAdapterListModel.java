@@ -47,7 +47,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isDeleteBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return false;
+        return !osgiService.isBundleInstalled(botAdapterEntity.getName());
     }
 
     public void doDeleteBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -56,7 +56,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isInstallBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return false;
+        return osgiService.isBundleInstalled(botAdapterEntity.getName());
     }
 
     public void doInstallBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -64,7 +64,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isStartBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return false;
+        return (!osgiService.isBundleInstalled(botAdapterEntity.getName())) || (botAdapterEntity.getState() == 1);
     }
 
     public void doStartBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -75,7 +75,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isStopBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return false;
+        return (!osgiService.isBundleInstalled(botAdapterEntity.getName())) || (botAdapterEntity.getState() == 0);
     }
 
     public void doStopBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -92,7 +92,8 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isUninstallBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return false;
+        return (   (osgiService.isBundleInstalled(botAdapterEntity.getName()) && (botAdapterEntity.getState() == 1))
+                || !osgiService.isBundleInstalled(botAdapterEntity.getName()));
     }
 
     public void doUninstallBotAdapter(BotAdapterEntity botAdapterEntity){
