@@ -20,6 +20,7 @@ public class EntryQueueConsumer extends CommonQueueConsumer {
     IQueueConsumer entryProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_ENTRIES) {
         @Override
         public void handleMessage(Message message) throws IOException {
+            System.err.println("ENTRY_PROCESS_MESSAGE");
             //todo реализация метода проброски сообщений клиентским приложениям
         }
     };

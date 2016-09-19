@@ -50,7 +50,7 @@ public class BotManager {
 
   @Inject
   @BotServiceProperty(name = BotServicePropertyConst.ENTRY_QUEUE_NAME)
-  private String entryQueueNAme;
+  private String entryQueueName;
   
   @PostConstruct
   public void init () {
@@ -65,7 +65,7 @@ public class BotManager {
       channel.queueDeclare(fullManagementQueueName, false, false, false, null);
       channel.basicConsume(fullManagementQueueName, true, new ManagementQueueConsumer(channel));
 
-      final String fullEntryQueueName = BotConst.QUEUE_SERVICE_PREFIX + entryQueueNAme;
+      final String fullEntryQueueName = BotConst.QUEUE_SERVICE_PREFIX + entryQueueName;
       channel.queueDeclare(fullEntryQueueName, false, false, false, null);
       channel.basicConsume(fullEntryQueueName, true, new EntryQueueConsumer(channel));
     } catch (Exception e) {
@@ -89,8 +89,7 @@ public class BotManager {
     try {
       String queueName = BotConst.QUEUE_ADAPTER_PREFIX + botAdapterEntity.getName();
       channel.queueDeclare(queueName, false, false, false, null);
-      channel.basicPublish("", queueName, null,
-              mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
+      channel.basicPublish("", queueName, null, mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

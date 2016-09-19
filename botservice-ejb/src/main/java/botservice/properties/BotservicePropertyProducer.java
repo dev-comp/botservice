@@ -19,6 +19,7 @@ public class BotservicePropertyProducer {
         String propertyName = injectionPoint.getAnnotated().getAnnotation(BotServiceProperty.class).name();
         String value = fileResolver.getProperties().getProperty(propertyName);
         if (value == null || propertyName.trim().length() == 0) {
+
             throw new IllegalArgumentException("No property found with name " + value);
         }
         return value;
