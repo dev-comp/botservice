@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name = "clientapp", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "botentry_id"})})
+@Table(name = "clientapp")
 public class ClientAppEntity extends AbstractBaseEntity {
 
     @NotEmpty
