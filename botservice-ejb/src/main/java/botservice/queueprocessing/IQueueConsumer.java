@@ -1,4 +1,4 @@
-package botservice.web.controller.queueprocessing;
+package botservice.queueprocessing;
 
 import com.bftcom.devcomp.bots.Message;
 

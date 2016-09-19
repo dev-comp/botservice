@@ -1,4 +1,4 @@
-package botservice.web.controller.queueprocessing;
+package botservice.queueprocessing;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
@@ -12,7 +12,6 @@ import com.rabbitmq.client.Channel;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Потребитель управляющих сообщений
@@ -31,7 +30,7 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
         BotService botService;
 
         @Inject
-        BotManager botManager;
+        BotManagerService botManagerService;
 
         @Override
         public void handleMessage(Message message) throws IOException {
@@ -43,7 +42,7 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
             if (botAdapterEntity == null)
                 throw new RuntimeException("Adapter not found");
             for(BotEntryEntity botEntryEntity: botService.getActiveAdapterEntriesList(botAdapterEntity))
-                botManager.stopEntrySession(botEntryEntity);
+                botManagerService.stopEntrySession(botEntryEntity);
         }
     };
 

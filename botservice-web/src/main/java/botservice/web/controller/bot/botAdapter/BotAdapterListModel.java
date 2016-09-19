@@ -1,9 +1,8 @@
 package botservice.web.controller.bot.botAdapter;
 
 import botservice.model.bot.*;
+import botservice.queueprocessing.BotManagerService;
 import botservice.service.BotService;
-import botservice.service.common.BaseParam;
-import botservice.web.controller.queueprocessing.BotManager;
 import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +27,7 @@ public class BotAdapterListModel implements Serializable{
     private OSGIService osgiService;
 
     @Inject
-    BotManager botManager;
+    BotManagerService botManagerService;
 
     private List<BotAdapterEntity> botAdapterList;
 
@@ -87,7 +86,7 @@ public class BotAdapterListModel implements Serializable{
             }
             botAdapterEntity.setState(0);
             doSaveBotAdapterEntity(botAdapterEntity);
-            botManager.stopAllEntries(botAdapterEntity);
+            botManagerService.stopAllEntries(botAdapterEntity);
         }
     }
 

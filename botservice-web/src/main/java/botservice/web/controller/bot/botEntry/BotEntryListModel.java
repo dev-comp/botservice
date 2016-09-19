@@ -1,8 +1,8 @@
 package botservice.web.controller.bot.botEntry;
 
 import botservice.model.bot.BotEntryEntity;
+import botservice.queueprocessing.BotManagerService;
 import botservice.service.BotService;
-import botservice.web.controller.queueprocessing.BotManager;
 import botservice.web.controller.common.OSGIService;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +27,7 @@ public class BotEntryListModel implements Serializable {
     OSGIService osgiService;
 
     @Inject
-    private BotManager botManager;
+    private BotManagerService botManagerService;
 
     private List<BotEntryEntity> botEntryList;
 
@@ -60,7 +60,7 @@ public class BotEntryListModel implements Serializable {
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
         botEntryEntity.setState(1);
-        botManager.startEntrySession(botEntryEntity);
+        botManagerService.startEntrySession(botEntryEntity);
         doSaveBotEntryEntity(botEntryEntity);
     }
 
@@ -70,7 +70,7 @@ public class BotEntryListModel implements Serializable {
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){
         botEntryEntity.setState(0);
-        botManager.stopEntrySession(botEntryEntity);
+        botManagerService.stopEntrySession(botEntryEntity);
         doSaveBotEntryEntity(botEntryEntity);
     }
 }
