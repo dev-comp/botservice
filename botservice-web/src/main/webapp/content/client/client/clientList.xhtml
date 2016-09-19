@@ -13,36 +13,24 @@
 
         <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
 
-        <h:form id="clientAppEntityListForm">
+        <h:form id="clientEntityListForm">
             <br/>
             <br/>
-            <h:button id="addClientApp" value="Add client application" outcome="clientAppEdit.xhtml"/>
+            <h:button id="addClient" value="Add client" outcome="clientEdit.xhtml"/>
             <br/>
             <br/>
-            <h:dataTable id="clientAppEntityList" value="#{clientAppListModel.clientAppList}" var="clientApp" border="1">
+            <h:dataTable id="clientEntityList" value="#{clientListModel.clientList}" var="client" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link outcome="clientAppEdit.xhtml?id=#{clientApp.id}" value="#{clientApp.name}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Path"/>
-                    </f:facet>
-                    <h:outputText value="#{clientApp.path}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Entry"/>
-                    </f:facet>
-                    <h:outputText value="#{clientApp.botEntryEntity.name}"/>
+                    <h:link outcome="clientEdit.xhtml?id=#{client.id}" value="#{client.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteClientApp" value="Delete" action="#{clientAppListModel.doDeleteClientApp(clientApp)}"/>
+                    <h:commandButton id="DeleteClient" value="Delete" action="#{clientListModel.doDeleteClient(client)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

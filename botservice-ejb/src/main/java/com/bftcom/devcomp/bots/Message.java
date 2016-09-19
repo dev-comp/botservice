@@ -1,5 +1,6 @@
 package com.bftcom.devcomp.bots;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,8 +12,8 @@ import java.util.Map;
 public class Message {
 
   private BotCommand command;
-  private Map<String, String> userProperties;
-  private Map<String, String> serviceProperties;
+  private Map<String, String> userProperties = new HashMap<>();
+  private Map<String, String> serviceProperties = new HashMap<>();
 
   public BotCommand getCommand() {
     return command;

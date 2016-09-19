@@ -24,7 +24,7 @@ public class ManagementQueueConsumer extends CommonQueueConsumer {
     }
 
     @SuppressWarnings("unused")
-    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE) {
+    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_ENTRIES) {
 
         @Inject
         BotService botService;

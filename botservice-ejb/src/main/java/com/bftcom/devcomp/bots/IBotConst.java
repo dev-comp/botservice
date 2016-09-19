@@ -10,6 +10,10 @@ public interface IBotConst {
     String QUEUE_ENTRY_PREFIX = "ENTRY_QUEUE_";       // Очереди, которые слушают экземпляры адаптеров
 
     // Имена системных пропертей, передаваемых в сообщении
-    String PROP_ADAPTER_NAME = "ENTRY_NAME_";                // Свойство, определяющие имя адаптера
-    String PROP_ENTRY_NAME = "ENTRY_NAME_";                  // Свойство, определяющие имя экземпляра адаптера
+    String PROP_ADAPTER_NAME = "ENTRY_NAME";                // Свойство, определяющие имя адаптера
+    String PROP_ENTRY_NAME = "ENTRY_NAME";                  // Свойство, определяющие имя экземпляра адаптера
+
+    // Имена пользователских пропертей, передаваемых в сообщении
+    String PROP_BODY_TEXT = "BODY_TEXT";                // Свойство, определяющие текст, передаваемый от бота и обратно (текст сообщения)
+
 }

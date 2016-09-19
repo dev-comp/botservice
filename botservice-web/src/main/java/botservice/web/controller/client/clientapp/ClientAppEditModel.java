@@ -1,9 +1,10 @@
-package botservice.web.controller.clientapp;
+package botservice.web.controller.client.clientapp;
 
 import botservice.model.bot.BotEntryEntity;
-import botservice.model.clientapp.ClientAppEntity;
-import botservice.model.clientapp.ClientAppEntity_;
-import botservice.service.ClientAppService;
+import botservice.model.client.ClientAppEntity;
+import botservice.model.client.ClientAppEntity_;
+import botservice.model.client.ClientEntity;
+import botservice.service.ClientService;
 import botservice.service.common.BaseParam;
 
 import javax.annotation.PostConstruct;
@@ -23,23 +24,26 @@ import java.util.List;
 public class ClientAppEditModel implements Serializable {
 
     @Inject
-    private ClientAppService clientAppService;
+    private ClientService clientService;
 
     @Inject
     private ClientAppEntity clientAppEntity;
 
     private List<BotEntryEntity> botEntryEntityList;
 
+    private List<ClientEntity> clientEntityList;
+
     @PostConstruct
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (idParam != null)
-            clientAppEntity = clientAppService.getEntityByCriteria(ClientAppEntity.class, new BaseParam(ClientAppEntity_.id, Long.parseLong(idParam)));
-        botEntryEntityList = clientAppService.getEntityList(BotEntryEntity.class);
+            clientAppEntity = clientService.getEntityByCriteria(ClientAppEntity.class, new BaseParam(ClientAppEntity_.id, Long.parseLong(idParam)));
+        botEntryEntityList = clientService.getEntityList(BotEntryEntity.class);
+        clientEntityList = clientService.getEntityList(ClientEntity.class);
     }
 
     public void doSaveClientApp(){
-        clientAppEntity = clientAppService.mergeEntity(clientAppEntity);
+        clientAppEntity = clientService.mergeEntity(clientAppEntity);
     }
 
     public ClientAppEntity getClientAppEntity() {
@@ -56,5 +60,13 @@ public class ClientAppEditModel implements Serializable {
 
     public void setBotEntryEntityList(List<BotEntryEntity> botEntryEntityList) {
         this.botEntryEntityList = botEntryEntityList;
+    }
+
+    public List<ClientEntity> getClientEntityList() {
+        return clientEntityList;
+    }
+
+    public void setClientEntityList(List<ClientEntity> clientEntityList) {
+        this.clientEntityList = clientEntityList;
     }
 }

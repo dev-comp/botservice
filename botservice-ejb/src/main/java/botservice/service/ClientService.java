@@ -9,5 +9,5 @@ import javax.ejb.Stateless;
  */
 
 @Stateless
-public class ClientAppService extends BaseService {
+public class ClientService extends BaseService {
 }

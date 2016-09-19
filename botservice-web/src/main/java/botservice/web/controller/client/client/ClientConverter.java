@@ -1,8 +1,8 @@
-package botservice.web.controller.bot.botEntry;
+package botservice.web.controller.client.client;
 
-import botservice.model.bot.BotEntryEntity;
-import botservice.model.bot.BotEntryEntity_;
-import botservice.service.BotService;
+import botservice.model.client.ClientEntity;
+import botservice.model.client.ClientEntity_;
+import botservice.service.ClientService;
 import botservice.service.common.BaseParam;
 
 import javax.faces.application.FacesMessage;
@@ -14,33 +14,32 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Конвертер для BotEntryEntity
+ * Конвертер для ClientEntity
  */
 
 @Named
-public class BotEntryConverter implements Converter {
+public class ClientConverter implements Converter {
 
     @Inject
-    BotService botService;
+    ClientService clientService;
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value == null || value.isEmpty())
             return null;
         try {
-            return botService.getEntityByCriteria(BotEntryEntity.class, new BaseParam(BotEntryEntity_.id, Long.parseLong(value)));
+            return clientService.getEntityByCriteria(ClientEntity.class, new BaseParam(ClientEntity_.id, Long.parseLong(value)));
         } catch (NumberFormatException e) {
-            throw new ConverterException(new FacesMessage(String.format("%s is not a valid Entry ID", value)), e);
+            throw new ConverterException(new FacesMessage(String.format("%s is not a valid Client ID", value)), e);
         }    }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value == null)
             return "";
-        if (value instanceof BotEntryEntity) {
-            return String.valueOf(((BotEntryEntity)value).getId());
+        if (value instanceof ClientEntity) {
+            return String.valueOf(((ClientEntity)value).getId());
         } else {
-            throw new ConverterException(new FacesMessage(String.format("%s is not a valid Entry", value)));
+            throw new ConverterException(new FacesMessage(String.format("%s is not a valid Client", value)));
         }    }
-
 }

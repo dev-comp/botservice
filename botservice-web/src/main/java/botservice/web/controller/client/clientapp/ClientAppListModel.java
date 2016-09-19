@@ -1,7 +1,7 @@
-package botservice.web.controller.clientapp;
+package botservice.web.controller.client.clientapp;
 
-import botservice.model.clientapp.ClientAppEntity;
-import botservice.service.ClientAppService;
+import botservice.model.client.ClientAppEntity;
+import botservice.service.ClientService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -19,13 +19,13 @@ import java.util.List;
 public class ClientAppListModel implements Serializable {
 
     @Inject
-    private ClientAppService clientAppService;
+    private ClientService clientService;
 
     private List<ClientAppEntity> clientAppList;
 
     @PostConstruct
     private void init(){
-        clientAppList = clientAppService.getEntityList(ClientAppEntity.class);
+        clientAppList = clientService.getEntityList(ClientAppEntity.class);
     }
 
     public List<ClientAppEntity> getClientAppList() {
@@ -38,6 +38,6 @@ public class ClientAppListModel implements Serializable {
 
     public void doDeleteClientApp(ClientAppEntity clientAppEntity){
         clientAppList.remove(clientAppEntity);
-        clientAppService.removeEntity(clientAppEntity);
+        clientService.removeEntity(clientAppEntity);
     }
 }

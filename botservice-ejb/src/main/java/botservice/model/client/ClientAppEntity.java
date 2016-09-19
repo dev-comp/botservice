@@ -1,4 +1,4 @@
-package botservice.model.clientapp;
+package botservice.model.client;
 
 import botservice.model.bot.BotEntryEntity;
 import botservice.model.common.AbstractBaseEntity;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name = "clientapp", uniqueConstraints = {@UniqueConstraint(columnNames = "name"), @UniqueConstraint(columnNames = "path")})
+@Table(name = "clientapp", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "botentry_id"})})
 public class ClientAppEntity extends AbstractBaseEntity {
 
     @NotEmpty
@@ -23,6 +23,10 @@ public class ClientAppEntity extends AbstractBaseEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "botentry_id")
     private BotEntryEntity botEntryEntity;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id")
+    private ClientEntity clientEntity;
 
     @NotEmpty
     @URL
@@ -50,5 +54,13 @@ public class ClientAppEntity extends AbstractBaseEntity {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public ClientEntity getClientEntity() {
+        return clientEntity;
+    }
+
+    public void setClientEntity(ClientEntity clientEntity) {
+        this.clientEntity = clientEntity;
     }
 }
