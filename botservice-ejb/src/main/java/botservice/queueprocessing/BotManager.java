@@ -1,8 +1,21 @@
 package botservice.queueprocessing;
 
+import botservice.model.bot.BotAdapterEntity;
+import botservice.model.bot.BotAdapterEntity_;
+import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntryEntity_;
+import botservice.model.system.UserKeyEntity;
+import botservice.model.system.UserKeyEntity_;
+import botservice.model.system.UserLogEntity;
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
+import botservice.service.BotService;
+import botservice.service.common.BaseParam;
+import botservice.service.common.BaseService;
+import botservice.util.BotMsgDirectionType;
+import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
+import com.bftcom.devcomp.bots.Message;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -12,6 +25,9 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Класс, инкапсулирущий методы лдя работы с очередями
@@ -42,7 +58,13 @@ public class BotManager {
   @Inject
   @BotServiceProperty(name = BotServicePropertyConst.ENTRY_QUEUE_NAME)
   private String entryQueueName;
-  
+
+  @Inject
+  BotService botService;
+
+  @Inject
+  BotManagerService botManagerService;
+
   @PostConstruct
   public void init () {
     ConnectionFactory factory = new ConnectionFactory();
@@ -77,4 +99,71 @@ public class BotManager {
       throw new RuntimeException(e);
     }
   }
+
+  public class ManagementQueueConsumer extends CommonQueueConsumer {
+
+    public ManagementQueueConsumer(Channel channel) {
+      super(channel);
+    }
+
+    @SuppressWarnings("unused")
+    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_ENTRIES) {
+
+      @Override
+      public void handleMessage(Message message) throws IOException {
+        String adapterName = message.getServiceProperties().get(IBotConst.PROP_ADAPTER_NAME);
+        if (adapterName == null)
+          throw new RuntimeException("Unknown adapter");
+        BotAdapterEntity botAdapterEntity =
+                botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.name, adapterName));
+        if (botAdapterEntity == null)
+          throw new RuntimeException("Adapter not found");
+        for(BotEntryEntity botEntryEntity: botService.getActiveAdapterEntriesList(botAdapterEntity))
+          botManagerService.stopEntrySession(botEntryEntity);
+      }
+    };
+  }
+
+  public class EntryQueueConsumer extends CommonQueueConsumer {
+
+    public EntryQueueConsumer(Channel channel) {
+      super(channel);
+    }
+
+    @SuppressWarnings("unused")
+    IQueueConsumer entryProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE) {
+
+      @Override
+      public void handleMessage(Message message) throws IOException {
+        String msgBody = message.getUserProperties().get(IBotConst.PROP_BODY_TEXT);
+        // Ищем экземпляр бота
+        BotEntryEntity botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class,
+                new BaseParam(BotEntryEntity_.name, message.getServiceProperties().get(IBotConst.PROP_ENTRY_NAME)));
+        // записываем в таблицу юзеров
+        String userName = message.getServiceProperties().get(IBotConst.PROP_USER_NAME);
+        List<UserKeyEntity> userKeyEntitiesList = botService.getEntityListByCriteria(UserKeyEntity.class,
+                new BaseParam(UserKeyEntity_.userName, userName),
+                new BaseParam(UserKeyEntity_.botEntryEntity, botEntryEntity));
+        UserKeyEntity userKeyEntity;
+        if (userKeyEntitiesList.size() > 0)
+          userKeyEntity = userKeyEntitiesList.get(0);
+        else
+          userKeyEntity = new UserKeyEntity();
+        userKeyEntity.setBotEntryEntity(botEntryEntity);
+        userKeyEntity.setUserName(userName);
+        userKeyEntity = botService.mergeEntity(userKeyEntity);
+        // Записываем в лог
+        UserLogEntity userLogEntity = new UserLogEntity();
+        userLogEntity.setDirectionType(BotMsgDirectionType.IN);
+        userLogEntity.setMsgBody(msgBody);
+        userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
+        userLogEntity.setUserKeyEntity(userKeyEntity);
+        botService.mergeEntity(userLogEntity);
+        // пробрасываем клиенту
+        //todo реализация метода проброски сообщений клиентским приложениям
+        System.err.println(msgBody);
+      }
+    };
+  }
+
 }
