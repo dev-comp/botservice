@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="content">
+
+        <h:messages showDetail="true" showSummary="true"/>
+
+        <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
+
+        <h:form id="userKeyEntityListForm">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="MaxResult:"/>
+                <h:inputText value="#{userKeyListModel.maxResult}"/>
+            </h:panelGrid>
+
+            <h:commandButton value="Refresh" action="#{userKeyListModel.refreshList}"/>
+            <br/>
+            <br/>
+            <h:dataTable id="userKeyEntityList" value="#{userKeyListModel.userKeyList}" var="userKey" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="User name"/>
+                    </f:facet>
+                    <h:outputText value="#{userKey.userName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="BotEntry name"/>
+                    </f:facet>
+                    <h:outputText value="#{userKey.botEntryEntity.name}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>

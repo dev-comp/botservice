@@ -29,9 +29,16 @@ public class BaseService {
     }
 
     public <T> List<T> getEntityList(Class<T> entityClass){
+        return getEntityList(entityClass, 0);
+    }
+
+    public <T> List<T> getEntityList(Class<T> entityClass, int maxResult){
         CriteriaQuery<T> criteria = em.getCriteriaBuilder().createQuery(entityClass);
         criteria.select(criteria.from(entityClass));
-        return em.createQuery(criteria).getResultList();
+        TypedQuery<T> typedQuery = em.createQuery(criteria);
+        if (maxResult > 0)
+            typedQuery.setMaxResults(maxResult);
+        return typedQuery.getResultList();
     }
 
     private <T> TypedQuery<T> getQueryByCriteria(Class<T> entityClass, BaseParam ... params){
