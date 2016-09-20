@@ -17,7 +17,7 @@ import java.util.List;
 public class BaseService {
 
     @Inject
-    private EntityManager em;
+    protected EntityManager em;
 
     public <T> T mergeEntity(T entity){
         return em.merge(entity);
