@@ -11,7 +11,6 @@ import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
-import botservice.service.common.BaseService;
 import botservice.util.BotMsgDirectionType;
 import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
@@ -151,6 +150,7 @@ public class BotManager {
           userKeyEntity = new UserKeyEntity();
         userKeyEntity.setBotEntryEntity(botEntryEntity);
         userKeyEntity.setUserName(userName);
+        userKeyEntity.setProps(message.getServiceProperties());
         userKeyEntity = botService.mergeEntity(userKeyEntity);
         // Записываем в лог
         UserLogEntity userLogEntity = new UserLogEntity();

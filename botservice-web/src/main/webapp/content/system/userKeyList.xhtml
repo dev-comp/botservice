@@ -20,6 +20,7 @@
             </h:panelGrid>
 
             <h:commandButton value="Refresh" action="#{userKeyListModel.refreshList}"/>
+            <h:commandButton value="Clear" action="#{userKeyListModel.clearAll}"/>
             <br/>
             <br/>
             <h:dataTable id="userKeyEntityList" value="#{userKeyListModel.userKeyList}" var="userKey" border="1">

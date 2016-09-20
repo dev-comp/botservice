@@ -20,6 +20,7 @@
             </h:panelGrid>
 
             <h:commandButton value="Refresh" action="#{userLogListModel.refreshList}"/>
+            <h:commandButton value="Clear" action="#{userLogListModel.clearAll}"/>
             <br/>
             <br/>
             <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogList}" var="userLog" border="1">

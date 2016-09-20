@@ -1,7 +1,15 @@
 package botservice.queueprocessing;
 
 import botservice.model.bot.BotAdapterEntity;
+import botservice.model.bot.BotAdapterEntity_;
 import botservice.model.bot.BotEntryEntity;
+import botservice.model.system.UserKeyEntity;
+import botservice.model.system.UserKeyEntity_;
+import botservice.model.system.UserLogEntity;
+import botservice.service.BotService;
+import botservice.service.SystemService;
+import botservice.service.common.BaseParam;
+import botservice.util.BotMsgDirectionType;
 import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
@@ -10,6 +18,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +31,12 @@ public class BotManagerService {
 
     @Inject
     BotManager botManager;
+
+    @Inject
+    BotService botService;
+
+    @Inject
+    SystemService systemService;
 
     private boolean sendCommandToAdapter(BotCommand botCommand, BotEntryEntity botEntryEntity){
         Message message = new Message();
@@ -58,6 +73,34 @@ public class BotManagerService {
         Message message = new Message();
         message.setCommand(BotCommand.ADAPTER_STOP_ALL_ENTRIES);
         return sendCommandToBotAdapter(message, botAdapterEntity);
+    }
+
+    public boolean sendMessageToBotEntry(String msgBody, String userName, String entryName){
+        BotEntryEntity botEntryEntity = botService.getEntityByCriteria(
+                BotEntryEntity.class, new BaseParam(BotAdapterEntity_.name, entryName));
+        UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
+                new BaseParam(UserKeyEntity_.userName, userName),
+                new BaseParam(UserKeyEntity_.botEntryEntity, botEntryEntity));
+        // отправляем сообщение
+        Message message = new Message();
+        message.setCommand(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE);
+        message.setServiceProperties(userKeyEntity.getProps());
+        message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgBody);
+        try {
+            String queueName = IBotConst.QUEUE_ENTRY_PREFIX + botEntryEntity.getName();
+            botManager.getChannel().queueDeclare(queueName, false, false, false, null);
+            botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // логируем
+        UserLogEntity userLogEntity = new UserLogEntity();
+        userLogEntity.setUserKeyEntity(userKeyEntity);
+        userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
+        userLogEntity.setMsgBody(msgBody);
+        userLogEntity.setDirectionType(BotMsgDirectionType.OUT);
+        systemService.mergeEntity(userLogEntity);
+        return true;
     }
 
 }

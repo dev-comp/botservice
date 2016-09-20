@@ -49,4 +49,10 @@ public class UserKeyListModel implements Serializable{
     public void setMaxResult(int maxResult) {
         this.maxResult = maxResult;
     }
+
+    public void clearAll(){
+        systemService.removeAllEntities(UserKeyEntity.class);
+        refreshList();
+    }
+
 }

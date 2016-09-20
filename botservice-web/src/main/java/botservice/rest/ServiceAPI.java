@@ -1,6 +1,8 @@
 package botservice.rest;
 
 import botservice.model.system.UserKeyEntity;
+import botservice.queueprocessing.BotManagerService;
+import botservice.rest.model.MsgObject;
 import botservice.rest.model.UserObject;
 import botservice.service.ClientService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,10 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -27,6 +26,9 @@ public class ServiceAPI {
 
     @Inject
     ClientService clientService;
+
+    @Inject
+    BotManagerService botManagerService;
 
     /**
      * @return список ключей пользователей
@@ -47,4 +49,16 @@ public class ServiceAPI {
         return Response.ok(userObjectList).build();
     }
 
+    /**
+     * @return Прием сообщения от клиента
+     */
+    @PermitAll
+    @POST
+    @Path("/sendMsg")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response sendMsg(MsgObject msgObject) throws JsonProcessingException {
+        botManagerService.sendMessageToBotEntry(msgObject.getMsgBody(),
+                msgObject.getUserObject().getUserName(), msgObject.getUserObject().getBotEntryName());
+        return Response.ok().build();
+    }
 }

@@ -50,4 +50,9 @@ public class UserLogListModel implements Serializable {
         this.maxResult = maxResult;
     }
 
+    public void clearAll(){
+        systemService.removeAllEntities(UserLogEntity.class);
+        refreshList();
+    }
+
 }

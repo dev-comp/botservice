@@ -42,7 +42,7 @@ public class BotEntryListModel implements Serializable {
     }
 
     public boolean isDeleteBotEntryDisabled(BotEntryEntity botEntryEntity){
-        return botEntryEntity.getState() == 1;
+        return (botEntryEntity.getState() == 1);
     }
 
     public List<BotEntryEntity> getBotEntryList(){
@@ -55,7 +55,7 @@ public class BotEntryListModel implements Serializable {
     }
 
     public boolean isStartBotEntryDisabled(BotEntryEntity botEntryEntity) {
-        return botEntryEntity.getState() == 1;
+        return (botEntryEntity.getState() == 1 || botEntryEntity.getBotAdapterEntity().getState() == 0);
     }
 
     public void doStartBotEntry(BotEntryEntity botEntryEntity){
@@ -65,7 +65,7 @@ public class BotEntryListModel implements Serializable {
     }
 
     public boolean isStopBotEntryDisabled(BotEntryEntity botEntryEntity){
-        return botEntryEntity.getState() == 0;
+        return (botEntryEntity.getState() == 0 || botEntryEntity.getBotAdapterEntity().getState() == 0);
     }
 
     public void doStopBotEntry(BotEntryEntity botEntryEntity){

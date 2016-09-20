@@ -28,6 +28,12 @@ public class BaseService {
         em.remove(entity);
     }
 
+    public <T> void removeAllEntities(Class<T> entityClass){
+        List<T> entityList = getEntityList(entityClass);
+        for (T entity: entityList)
+            removeEntity(entity);
+    }
+
     public <T> List<T> getEntityList(Class<T> entityClass){
         return getEntityList(entityClass, 0);
     }
