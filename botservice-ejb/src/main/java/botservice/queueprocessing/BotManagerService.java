@@ -6,6 +6,7 @@ import botservice.model.bot.BotEntryEntity;
 import botservice.model.system.UserKeyEntity;
 import botservice.model.system.UserKeyEntity_;
 import botservice.model.system.UserLogEntity;
+import botservice.rest.model.MsgObject;
 import botservice.service.BotService;
 import botservice.service.SystemService;
 import botservice.service.common.BaseParam;
@@ -75,17 +76,17 @@ public class BotManagerService {
         return sendCommandToBotAdapter(message, botAdapterEntity);
     }
 
-    public boolean sendMessageToBotEntry(String msgBody, String userName, String entryName){
+    public boolean sendMessageToBotEntry(MsgObject msgObject){
         BotEntryEntity botEntryEntity = botService.getEntityByCriteria(
-                BotEntryEntity.class, new BaseParam(BotAdapterEntity_.name, entryName));
+                BotEntryEntity.class, new BaseParam(BotAdapterEntity_.name, msgObject.getUserObject().getBotEntryName()));
         UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
-                new BaseParam(UserKeyEntity_.userName, userName),
+                new BaseParam(UserKeyEntity_.userName, msgObject.getUserObject().getUserName()),
                 new BaseParam(UserKeyEntity_.botEntryEntity, botEntryEntity));
         // отправляем сообщение
         Message message = new Message();
         message.setCommand(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE);
         message.setServiceProperties(userKeyEntity.getProps());
-        message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgBody);
+        message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgObject.getMsgBody());
         try {
             String queueName = IBotConst.QUEUE_ENTRY_PREFIX + botEntryEntity.getName();
             botManager.getChannel().queueDeclare(queueName, false, false, false, null);
@@ -97,7 +98,7 @@ public class BotManagerService {
         UserLogEntity userLogEntity = new UserLogEntity();
         userLogEntity.setUserKeyEntity(userKeyEntity);
         userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
-        userLogEntity.setMsgBody(msgBody);
+        userLogEntity.setMsgBody(msgObject.getMsgBody());
         userLogEntity.setDirectionType(BotMsgDirectionType.OUT);
         systemService.mergeEntity(userLogEntity);
         return true;

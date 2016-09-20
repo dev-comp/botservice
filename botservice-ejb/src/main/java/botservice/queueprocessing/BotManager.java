@@ -3,15 +3,10 @@ package botservice.queueprocessing;
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
 import botservice.model.bot.BotEntryEntity;
-import botservice.model.bot.BotEntryEntity_;
-import botservice.model.system.UserKeyEntity;
-import botservice.model.system.UserKeyEntity_;
-import botservice.model.system.UserLogEntity;
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
-import botservice.util.BotMsgDirectionType;
 import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
@@ -23,10 +18,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Класс, инкапсулирущий методы лдя работы с очередями
@@ -63,6 +57,10 @@ public class BotManager {
 
   @Inject
   BotManagerService botManagerService;
+
+  @Inject
+  @EntryMessageProcessor
+  Event<Message> entryMessageProcessorEvent;
 
   @PostConstruct
   public void init () {
@@ -134,34 +132,8 @@ public class BotManager {
 
       @Override
       public void handleMessage(Message message) throws IOException {
-        String msgBody = message.getUserProperties().get(IBotConst.PROP_BODY_TEXT);
-        // Ищем экземпляр бота
-        BotEntryEntity botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class,
-                new BaseParam(BotEntryEntity_.name, message.getServiceProperties().get(IBotConst.PROP_ENTRY_NAME)));
-        // записываем в таблицу юзеров
-        String userName = message.getServiceProperties().get(IBotConst.PROP_USER_NAME);
-        List<UserKeyEntity> userKeyEntitiesList = botService.getEntityListByCriteria(UserKeyEntity.class,
-                new BaseParam(UserKeyEntity_.userName, userName),
-                new BaseParam(UserKeyEntity_.botEntryEntity, botEntryEntity));
-        UserKeyEntity userKeyEntity;
-        if (userKeyEntitiesList.size() > 0)
-          userKeyEntity = userKeyEntitiesList.get(0);
-        else
-          userKeyEntity = new UserKeyEntity();
-        userKeyEntity.setBotEntryEntity(botEntryEntity);
-        userKeyEntity.setUserName(userName);
-        userKeyEntity.setProps(message.getServiceProperties());
-        userKeyEntity = botService.mergeEntity(userKeyEntity);
-        // Записываем в лог
-        UserLogEntity userLogEntity = new UserLogEntity();
-        userLogEntity.setDirectionType(BotMsgDirectionType.IN);
-        userLogEntity.setMsgBody(msgBody);
-        userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
-        userLogEntity.setUserKeyEntity(userKeyEntity);
-        botService.mergeEntity(userLogEntity);
-        // пробрасываем клиенту
-        //todo реализация метода проброски сообщений клиентским приложениям
-        System.err.println(msgBody);
+        // обрабатываем
+        entryMessageProcessorEvent.fire(message);
       }
     };
   }

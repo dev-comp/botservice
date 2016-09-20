@@ -57,8 +57,7 @@ public class ServiceAPI {
     @Path("/sendMsg")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sendMsg(MsgObject msgObject) throws JsonProcessingException {
-        botManagerService.sendMessageToBotEntry(msgObject.getMsgBody(),
-                msgObject.getUserObject().getUserName(), msgObject.getUserObject().getBotEntryName());
+        botManagerService.sendMessageToBotEntry(msgObject);
         return Response.ok().build();
     }
 }

@@ -3,6 +3,7 @@ package botservice.rest.model;
 /**
  * Класс для передачи информации об одном ползователе через веб-сервис
  */
+
 public class UserObject {
 
     private String userName;
