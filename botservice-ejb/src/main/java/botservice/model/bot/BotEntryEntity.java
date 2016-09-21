@@ -1,5 +1,7 @@
 package botservice.model.bot;
 
+import botservice.model.client.ClientAppEntity;
+
 import javax.persistence.*;
 import java.util.Map;
 
@@ -15,6 +17,9 @@ public class BotEntryEntity extends BotBaseEntity {
     @JoinColumn(name = "botadapter_id")
     private BotAdapterEntity botAdapterEntity;
 
+    @OneToOne(mappedBy = "botEntryEntity")
+    private ClientAppEntity clientAppEntity;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "botentryprop", joinColumns = {@JoinColumn(name = "botentry_id")})
     @MapKeyColumn(name = "key")
@@ -27,6 +32,14 @@ public class BotEntryEntity extends BotBaseEntity {
 
     public void setBotAdapterEntity(BotAdapterEntity botAdapterEntity) {
         this.botAdapterEntity = botAdapterEntity;
+    }
+
+    public ClientAppEntity getClientAppEntity() {
+        return clientAppEntity;
+    }
+
+    public void setClientAppEntity(ClientAppEntity clientAppEntity) {
+        this.clientAppEntity = clientAppEntity;
     }
 
     public Map<String, String> getProps() {
