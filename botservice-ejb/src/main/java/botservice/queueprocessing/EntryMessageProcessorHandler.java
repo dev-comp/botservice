@@ -13,13 +13,16 @@ import botservice.service.BotService;
 import botservice.service.ClientService;
 import botservice.service.common.BaseParam;
 import botservice.util.BotMsgDirectionType;
+import botservice.serviceException.ServiceExceptionObject;
 import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import botservice.serviceException.ServiceException;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
@@ -44,16 +47,23 @@ public class EntryMessageProcessorHandler {
     @Inject
     BotManagerService botManagerService;
 
+    @Inject
+    @ServiceException
+    Event<ServiceExceptionObject> serviceExceptionEvent;
+
     /**
      * Запись системной информации
      * @param message - входящее сообщение
      */
     public void handleMessage(@Observes @EntryMessageProcessor Message message){
-        // Ищем экземпляр бота
-        BotEntryEntity botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class,
-                new BaseParam(BotEntryEntity_.name, message.getServiceProperties().get(IBotConst.PROP_ENTRY_NAME)));
-        doSystemActions(message, botEntryEntity);
-        doBusinessActions(message, botEntryEntity);
+        try {
+            BotEntryEntity botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class,
+                    new BaseParam(BotEntryEntity_.name, message.getServiceProperties().get(IBotConst.PROP_ENTRY_NAME)));
+            doSystemActions(message, botEntryEntity);
+            doBusinessActions(message, botEntryEntity);
+        } catch (Exception e){
+            serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при обработке сообщения от бота", e));
+        }
     }
 
     private void doSystemActions(Message message, BotEntryEntity botEntryEntity){
