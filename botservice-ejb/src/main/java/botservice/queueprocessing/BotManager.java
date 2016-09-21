@@ -1,12 +1,8 @@
 package botservice.queueprocessing;
 
-import botservice.model.bot.BotAdapterEntity;
-import botservice.model.bot.BotAdapterEntity_;
-import botservice.model.bot.BotEntryEntity;
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
-import botservice.service.common.BaseParam;
 import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
