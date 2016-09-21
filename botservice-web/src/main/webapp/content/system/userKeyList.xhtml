@@ -26,13 +26,13 @@
             <h:dataTable id="userKeyEntityList" value="#{userKeyListModel.userKeyList}" var="userKey" border="1">
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="User name"/>
+                        <h:outputText value="User"/>
                     </f:facet>
                     <h:outputText value="#{userKey.userName}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="BotEntry name"/>
+                        <h:outputText value="BotEntry"/>
                     </f:facet>
                     <h:outputText value="#{userKey.botEntryEntity.name}"/>
                 </h:column>
