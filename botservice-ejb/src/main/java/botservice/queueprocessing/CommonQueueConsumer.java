@@ -16,7 +16,7 @@ import java.util.Map;
  * Класс-предок для обработчиков сообщений
  */
 
-public class CommonQueueConsumer extends DefaultConsumer {
+public abstract class CommonQueueConsumer extends DefaultConsumer {
 
     private Map<Enum<BotCommand>, IQueueConsumer> consumerMap = new HashMap<>();
 
