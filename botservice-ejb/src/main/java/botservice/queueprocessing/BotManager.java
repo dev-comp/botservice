@@ -62,6 +62,10 @@ public class BotManager {
   @EntryMessageProcessor
   Event<Message> entryMessageProcessorEvent;
 
+  @Inject
+  @ActiveEntriesGetter
+  Event<Message> activeEntriesGetterEvent;
+
   @PostConstruct
   public void init () {
     ConnectionFactory factory = new ConnectionFactory();
@@ -108,15 +112,7 @@ public class BotManager {
 
       @Override
       public void handleMessage(Message message) throws IOException {
-        String adapterName = message.getServiceProperties().get(IBotConst.PROP_ADAPTER_NAME);
-        if (adapterName == null)
-          throw new RuntimeException("Unknown adapter");
-        BotAdapterEntity botAdapterEntity =
-                botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.name, adapterName));
-        if (botAdapterEntity == null)
-          throw new RuntimeException("Adapter not found");
-        for(BotEntryEntity botEntryEntity: botService.getActiveAdapterEntriesList(botAdapterEntity))
-          botManagerService.stopEntrySession(botEntryEntity);
+        activeEntriesGetterEvent.fire(message);
       }
     };
   }
@@ -132,7 +128,6 @@ public class BotManager {
 
       @Override
       public void handleMessage(Message message) throws IOException {
-        // обрабатываем
         entryMessageProcessorEvent.fire(message);
       }
     };

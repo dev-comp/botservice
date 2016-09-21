@@ -48,7 +48,7 @@ public class EntryMessageProcessorHandler {
      * Запись системной информации
      * @param message - входящее сообщение
      */
-    public void handleEntryMessageLog(@Observes @EntryMessageProcessor Message message){
+    public void handleMessage(@Observes @EntryMessageProcessor Message message){
         // Ищем экземпляр бота
         BotEntryEntity botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class,
                 new BaseParam(BotEntryEntity_.name, message.getServiceProperties().get(IBotConst.PROP_ENTRY_NAME)));
