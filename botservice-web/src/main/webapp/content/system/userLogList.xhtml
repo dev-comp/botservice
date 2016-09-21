@@ -26,15 +26,33 @@
             <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogList}" var="userLog" border="1">
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="User name"/>
+                        <h:outputText value="Client"/>
                     </f:facet>
-                    <h:outputText value="#{userLog.userKeyEntity.userName}"/>
+                    <h:outputText value="#{userLog.userKeyEntity.botEntryEntity.clientAppEntity.clientEntity.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Entry name"/>
+                        <h:outputText value="Client application"/>
+                    </f:facet>
+                    <h:outputText value="#{userLog.userKeyEntity.botEntryEntity.clientAppEntity.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Bot adapter"/>
+                    </f:facet>
+                    <h:outputText value="#{userLog.userKeyEntity.botEntryEntity.botAdapterEntity.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Bot entry"/>
                     </f:facet>
                     <h:outputText value="#{userLog.userKeyEntity.botEntryEntity.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="User"/>
+                    </f:facet>
+                    <h:outputText value="#{userLog.userKeyEntity.userName}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
