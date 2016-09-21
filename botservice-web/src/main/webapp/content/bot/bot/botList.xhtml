@@ -13,51 +13,51 @@
 
         <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
 
-        <h:form id="botEntryEntityListForm">
+        <h:form id="botEntityListForm">
             <br/>
             <br/>
-            <h:button id="addEntry" value="Add entry" outcome="botEntryEdit.xhtml"/>
+            <h:button id="add" value="Add" outcome="botEdit.xhtml"/>
             <br/>
             <br/>
-            <h:dataTable id="botEntryEntityList" value="#{botEntryListModel.botEntryList}" var="botEntry" border="1">
+            <h:dataTable id="botEntityList" value="#{botListModel.botList}" var="bot" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link outcome="botEntryEdit.xhtml?id=#{botEntry.id}" value="#{botEntry.name}"/>
+                    <h:link outcome="botEdit.xhtml?id=#{bot.id}" value="#{bot.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Adapter"/>
                     </f:facet>
-                    <h:outputText value="#{botEntry.botAdapterEntity.name}"/>
+                    <h:outputText value="#{bot.botAdapterEntity.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Active"/>
                     </f:facet>
-                    <h:outputText value="#{botEntry.state == 1 ? 'Yes' : 'No'}"/>
+                    <h:outputText value="#{bot.state == 1 ? 'Yes' : 'No'}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:commandButton id="StartBotEntry" value="Start" action="#{botEntryListModel.doStartBotEntry(botEntry)}"
-                                     disabled="#{botEntryListModel.isStartBotEntryDisabled(botEntry)}"/>
+                    <h:commandButton id="StartBot" value="Start" action="#{botListModel.doStartBot(bot)}"
+                                     disabled="#{botListModel.isStartBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Stop"/>
                     </f:facet>
-                    <h:commandButton id="StopBotEntry" value="Stop" action="#{botEntryListModel.doStopBotEntry(botEntry)}"
-                                     disabled="#{botEntryListModel.isStopBotEntryDisabled(botEntry)}"/>
+                    <h:commandButton id="StopBot" value="Stop" action="#{botListModel.doStopBot(bot)}"
+                                     disabled="#{botListModel.isStopBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBotEntry" value="Delete" action="#{botEntryListModel.doDeleteBotEntry(botEntry)}"
-                                     disabled="#{botEntryListModel.isDeleteBotEntryDisabled(botEntry)}"/>
+                    <h:commandButton id="DeleteBot" value="Delete" action="#{botListModel.doDeleteBot(bot)}"
+                                     disabled="#{botListModel.isDeleteBotDisabled(bot)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

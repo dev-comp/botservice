@@ -1,6 +1,6 @@
 package botservice.model.client;
 
-import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntity;
 import botservice.model.common.AbstractBaseEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
@@ -21,8 +21,8 @@ public class ClientAppEntity extends AbstractBaseEntity {
     private String name;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "botentry_id")
-    private BotEntryEntity botEntryEntity;
+    @JoinColumn(name = "bot_id")
+    private BotEntity botEntity;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id")
@@ -40,12 +40,12 @@ public class ClientAppEntity extends AbstractBaseEntity {
         this.name = name;
     }
 
-    public BotEntryEntity getBotEntryEntity() {
-        return botEntryEntity;
+    public BotEntity getBotEntity() {
+        return botEntity;
     }
 
-    public void setBotEntryEntity(BotEntryEntity botEntryEntity) {
-        this.botEntryEntity = botEntryEntity;
+    public void setBotEntity(BotEntity botEntity) {
+        this.botEntity = botEntity;
     }
 
     public String getPath() {

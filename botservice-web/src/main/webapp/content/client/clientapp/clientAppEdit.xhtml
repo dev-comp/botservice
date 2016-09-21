@@ -27,10 +27,10 @@
                     <f:selectItems value="#{clientAppEditModel.clientEntityList}" var="client"
                                    itemLabel="#{client.name}" itemValue="#{client}"/>
                 </h:selectOneMenu>
-                <h:outputLabel value="Bot Entry:"/>
-                <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.botEntryEntity}" converter="#{botEntryConverter}">
-                    <f:selectItems value="#{clientAppEditModel.botEntryEntityList}" var="entry"
-                                   itemLabel="#{entry.name}" itemValue="#{entry}"/>
+                <h:outputLabel value="Bot:"/>
+                <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.botEntity}" converter="#{botConverter}">
+                    <f:selectItems value="#{clientAppEditModel.botEntityList}" var="bot"
+                                   itemLabel="#{bot.name}" itemValue="#{bot}"/>
                 </h:selectOneMenu>
             </h:panelGrid>
             <br/>

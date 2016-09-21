@@ -8,7 +8,7 @@ public class UserObject {
 
     private String userName;
 
-    private String botEntryName;
+    private String botName;
 
     public String getUserName() {
         return userName;
@@ -18,11 +18,11 @@ public class UserObject {
         this.userName = userName;
     }
 
-    public String getBotEntryName() {
-        return botEntryName;
+    public String getBotName() {
+        return botName;
     }
 
-    public void setBotEntryName(String botEntryName) {
-        this.botEntryName = botEntryName;
+    public void setBotName(String botName) {
+        this.botName = botName;
     }
 }

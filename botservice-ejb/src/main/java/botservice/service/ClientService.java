@@ -1,7 +1,7 @@
 package botservice.service;
 
-import botservice.model.bot.BotEntryEntity;
-import botservice.model.bot.BotEntryEntity_;
+import botservice.model.bot.BotEntity;
+import botservice.model.bot.BotEntity_;
 import botservice.model.client.ClientAppEntity;
 import botservice.model.client.ClientAppEntity_;
 import botservice.model.client.ClientEntity;
@@ -14,13 +14,8 @@ import botservice.service.common.BaseParam;
 import botservice.service.common.BaseService;
 
 import javax.ejb.Stateless;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Методы для работы со сведениями о клиентских приложениях
@@ -48,8 +43,8 @@ public class ClientService extends BaseService {
         List<ClientAppEntity> clientAppEntityList = getClientAppList(clientName);
         for (ClientAppEntity clientAppEntity: clientAppEntityList){
             resultList.addAll(getEntityListByCriteria(UserKeyEntity.class,
-                    new BaseParam(UserKeyEntity_.botEntryEntity, getEntityByCriteria(BotEntryEntity.class,
-                            new BaseParam(BotEntryEntity_.id, clientAppEntity.getBotEntryEntity().getId())))));
+                    new BaseParam(UserKeyEntity_.botEntity, getEntityByCriteria(BotEntity.class,
+                            new BaseParam(BotEntity_.id, clientAppEntity.getBotEntity().getId())))));
 
         }
         return resultList;
@@ -67,10 +62,10 @@ public class ClientService extends BaseService {
         return resultList;
     }
 
-    public List<UserLogEntity> getUserLogListByBotEntryNameAndUserName(String botEntryName, String userName){
+    public List<UserLogEntity> getUserLogListByBotNameAndUserName(String botName, String userName){
         return getUserLogEntityListByUserKeyEntity(getEntityByCriteria(
                 UserKeyEntity.class,new BaseParam(UserKeyEntity_.userName, userName),
-                new BaseParam(UserKeyEntity_.botEntryEntity, getEntityByCriteria(BotEntryEntity.class,
-                        new BaseParam(BotEntryEntity_.name, botEntryName)))));
+                new BaseParam(UserKeyEntity_.botEntity, getEntityByCriteria(BotEntity.class,
+                        new BaseParam(BotEntity_.name, botName)))));
     }
 }

@@ -10,18 +10,18 @@ import java.util.Map;
  */
 
 @Entity
-@Table(name = "botentry", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-public class BotEntryEntity extends BotBaseEntity {
+@Table(name = "bot", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+public class BotEntity extends BotBaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "botadapter_id")
     private BotAdapterEntity botAdapterEntity;
 
-    @OneToOne(mappedBy = "botEntryEntity")
+    @OneToOne(mappedBy = "botEntity")
     private ClientAppEntity clientAppEntity;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "botentryprop", joinColumns = {@JoinColumn(name = "botentry_id")})
+    @CollectionTable(name = "botprop", joinColumns = {@JoinColumn(name = "bot_id")})
     @MapKeyColumn(name = "key")
     @Column(name = "value")
     private Map<String, String> props;

@@ -44,7 +44,7 @@ public class ServiceAPI {
         for (UserKeyEntity userKeyEntity: clientService.getUserKeyListByClientName(clientName)){
             UserObject userObject = new UserObject();
             userObject.setUserName(userKeyEntity.getUserName());
-            userObject.setBotEntryName(userKeyEntity.getBotEntryEntity().getName());
+            userObject.setBotName(userKeyEntity.getBotEntity().getName());
             userObjectList.add(userObject);
         }
         return Response.ok(userObjectList).build();
@@ -71,8 +71,8 @@ public class ServiceAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserKeyLog(UserObject userObject)  {
         return Response.ok(getLogObjectListByUserLogEntityList(
-                clientService.getUserLogListByBotEntryNameAndUserName(
-                        userObject.getBotEntryName(), userObject.getUserName()))).build();
+                clientService.getUserLogListByBotNameAndUserName(
+                        userObject.getBotName(), userObject.getUserName()))).build();
     }
 
     /**
@@ -83,7 +83,7 @@ public class ServiceAPI {
     @Path("/sendMsg")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sendMsg(MsgObject msgObject) throws JsonProcessingException {
-        botManagerService.sendMessageToBotEntry(msgObject);
+        botManagerService.sendMessageToBot(msgObject);
         return Response.ok().build();
     }
 
@@ -96,7 +96,7 @@ public class ServiceAPI {
             msgObject.setMsgBody(userLogEntity.getMsgBody());
             logObject.setMsgObject(msgObject);
             UserObject userObject = new UserObject();
-            userObject.setBotEntryName(userLogEntity.getUserKeyEntity().getBotEntryEntity().getName());
+            userObject.setBotName(userLogEntity.getUserKeyEntity().getBotEntity().getName());
             userObject.setUserName(userLogEntity.getUserKeyEntity().getUserName());
             msgObject.setUserObject(userObject);
             logObjectList.add(logObject);

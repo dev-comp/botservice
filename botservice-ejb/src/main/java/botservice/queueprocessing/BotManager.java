@@ -44,12 +44,12 @@ public class BotManager {
   private String managementQueueName;
 
   @Inject
-  @BotServiceProperty(name = BotServicePropertyConst.ENTRY_QUEUE_NAME)
-  private String entryQueueName;
+  @BotServiceProperty(name = BotServicePropertyConst.BOT_QUEUE_NAME)
+  private String botQueueName;
 
   @Inject
-  @EntryMessageProcessor
-  Event<Message> entryMessageProcessorEvent;
+  @BotMessageProcessor
+  Event<Message> botMessageProcessorEvent;
 
   @Inject
   @ActiveEntriesGetter
@@ -68,9 +68,9 @@ public class BotManager {
       channel.queueDeclare(fullManagementQueueName, false, false, false, null);
       channel.basicConsume(fullManagementQueueName, true, new ManagementQueueConsumer(channel));
 
-      final String fullEntryQueueName = IBotConst.QUEUE_SERVICE_PREFIX + entryQueueName;
-      channel.queueDeclare(fullEntryQueueName, false, false, false, null);
-      channel.basicConsume(fullEntryQueueName, true, new EntryQueueConsumer(channel));
+      final String fullBotQueueName = IBotConst.QUEUE_SERVICE_PREFIX + botQueueName;
+      channel.queueDeclare(fullBotQueueName, false, false, false, null);
+      channel.basicConsume(fullBotQueueName, true, new BotQueueConsumer(channel));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -106,18 +106,18 @@ public class BotManager {
     };
   }
 
-  private class EntryQueueConsumer extends CommonQueueConsumer {
+  private class BotQueueConsumer extends CommonQueueConsumer {
 
-    public EntryQueueConsumer(Channel channel) {
+    public BotQueueConsumer(Channel channel) {
       super(channel);
     }
 
     @SuppressWarnings("unused")
-    IQueueConsumer entryProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE) {
+    IQueueConsumer botProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_PROCESS_BOT_MESSAGE) {
 
       @Override
       public void handleMessage(Message message) throws IOException {
-        entryMessageProcessorEvent.fire(message);
+        botMessageProcessorEvent.fire(message);
       }
     };
   }

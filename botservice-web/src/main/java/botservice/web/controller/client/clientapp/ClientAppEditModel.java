@@ -1,6 +1,6 @@
 package botservice.web.controller.client.clientapp;
 
-import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntity;
 import botservice.model.client.ClientAppEntity;
 import botservice.model.client.ClientAppEntity_;
 import botservice.model.client.ClientEntity;
@@ -29,7 +29,7 @@ public class ClientAppEditModel implements Serializable {
     @Inject
     private ClientAppEntity clientAppEntity;
 
-    private List<BotEntryEntity> botEntryEntityList;
+    private List<BotEntity> botEntityList;
 
     private List<ClientEntity> clientEntityList;
 
@@ -38,7 +38,7 @@ public class ClientAppEditModel implements Serializable {
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (idParam != null)
             clientAppEntity = clientService.getEntityByCriteria(ClientAppEntity.class, new BaseParam(ClientAppEntity_.id, Long.parseLong(idParam)));
-        botEntryEntityList = clientService.getEntityList(BotEntryEntity.class);
+        botEntityList = clientService.getEntityList(BotEntity.class);
         clientEntityList = clientService.getEntityList(ClientEntity.class);
     }
 
@@ -54,12 +54,12 @@ public class ClientAppEditModel implements Serializable {
         this.clientAppEntity = clientAppEntity;
     }
 
-    public List<BotEntryEntity> getBotEntryEntityList() {
-        return botEntryEntityList;
+    public List<BotEntity> getBotEntityList() {
+        return botEntityList;
     }
 
-    public void setBotEntryEntityList(List<BotEntryEntity> botEntryEntityList) {
-        this.botEntryEntityList = botEntryEntityList;
+    public void setBotEntityList(List<BotEntity> botEntityList) {
+        this.botEntityList = botEntityList;
     }
 
     public List<ClientEntity> getClientEntityList() {

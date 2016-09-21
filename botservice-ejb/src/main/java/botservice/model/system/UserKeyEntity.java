@@ -1,6 +1,6 @@
 package botservice.model.system;
 
-import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntity;
 import botservice.model.common.AbstractBaseEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,15 +12,15 @@ import java.util.Map;
  */
 
 @Entity
-@Table(name = "userkey", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "botentry_id"}))
+@Table(name = "userkey", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "bot_id"}))
 public class UserKeyEntity extends AbstractBaseEntity {
 
     @NotEmpty
     private String userName;
 
     @ManyToOne
-    @JoinColumn(name = "botentry_id")
-    private BotEntryEntity botEntryEntity;
+    @JoinColumn(name = "bot_id")
+    private BotEntity botEntity;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "userkeyprop", joinColumns = {@JoinColumn(name = "userkey_id")})
@@ -36,12 +36,12 @@ public class UserKeyEntity extends AbstractBaseEntity {
         this.userName = userName;
     }
 
-    public BotEntryEntity getBotEntryEntity() {
-        return botEntryEntity;
+    public BotEntity getBotEntity() {
+        return botEntity;
     }
 
-    public void setBotEntryEntity(BotEntryEntity botEntryEntity) {
-        this.botEntryEntity = botEntryEntity;
+    public void setBotEntity(BotEntity botEntity) {
+        this.botEntity = botEntity;
     }
 
     public Map<String, String> getProps() {

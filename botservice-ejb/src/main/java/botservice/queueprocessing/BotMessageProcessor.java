@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
-public @interface EntryMessageProcessor {
+public @interface BotMessageProcessor {
 }

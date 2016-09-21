@@ -1,8 +1,8 @@
-package botservice.web.controller.bot.botEntry;
+package botservice.web.controller.bot.bot;
 
 import botservice.model.bot.BotAdapterEntity;
-import botservice.model.bot.BotEntryEntity;
-import botservice.model.bot.BotEntryEntity_;
+import botservice.model.bot.BotEntity;
+import botservice.model.bot.BotEntity_;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 import botservice.web.controller.common.PropItem;
@@ -24,13 +24,13 @@ import java.util.Map;
 
 @Named
 @ViewScoped
-public class BotEntryEditModel implements Serializable {
+public class BotEditModel implements Serializable {
 
     @Inject
     private BotService botService;
 
     @Inject
-    private BotEntryEntity botEntryEntity;
+    private BotEntity botEntity;
 
     private List<PropItem> propList = new ArrayList<>();
 
@@ -40,46 +40,46 @@ public class BotEntryEditModel implements Serializable {
     public void init(){
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (idParam != null){
-            botEntryEntity = botService.getEntityByCriteria(BotEntryEntity.class, new BaseParam(BotEntryEntity_.id, Long.parseLong(idParam)));
+            botEntity = botService.getEntityByCriteria(BotEntity.class, new BaseParam(BotEntity_.id, Long.parseLong(idParam)));
             movePropsFromEntity();
         }
         botAdapterEntityList = botService.getEntityList(BotAdapterEntity.class);
     }
 
-    public void doSaveBotEntry(){
-        if (botEntryEntity.getProps() != null)
-            botEntryEntity.getProps().clear();
+    public void doSaveBot(){
+        if (botEntity.getProps() != null)
+            botEntity.getProps().clear();
         movePropsToEntity();
-        botEntryEntity = botService.mergeEntity(botEntryEntity);
+        botEntity = botService.mergeEntity(botEntity);
     }
 
     private void movePropsFromEntity(){
         propList.clear();
-        for(Map.Entry<String, String> entry: botEntryEntity.getProps().entrySet())
-            propList.add(new PropItem(entry.getKey(), entry.getValue()));
+        for(Map.Entry<String, String> prop: botEntity.getProps().entrySet())
+            propList.add(new PropItem(prop.getKey(), prop.getValue()));
     }
 
     private void movePropsToEntity(){
-        if (botEntryEntity.getProps() == null)
-            botEntryEntity.setProps(new HashMap<String, String>());
+        if (botEntity.getProps() == null)
+            botEntity.setProps(new HashMap<String, String>());
         for(PropItem propItem: propList)
-            botEntryEntity.getProps().put(propItem.getKey(), propItem.getValue());
+            botEntity.getProps().put(propItem.getKey(), propItem.getValue());
     }
 
-    public void doAddEntryProperty(){
+    public void doAddBotProperty(){
         propList.add(new PropItem("", ""));
     }
 
-    public void doDeleteEntryProp(PropItem propItem){
+    public void doDeleteBotProp(PropItem propItem){
         propList.remove(propItem);
     }
 
-    public BotEntryEntity getBotEntryEntity() {
-        return botEntryEntity;
+    public BotEntity getBotEntity() {
+        return botEntity;
     }
 
-    public void setBotEntryEntity(BotEntryEntity botEntryEntity) {
-        this.botEntryEntity = botEntryEntity;
+    public void setBotEntity(BotEntity botEntity) {
+        this.botEntity = botEntity;
     }
 
     public List<BotAdapterEntity> getBotAdapterEntityList() {

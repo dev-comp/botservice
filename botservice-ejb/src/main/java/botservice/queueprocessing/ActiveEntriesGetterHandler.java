@@ -2,7 +2,7 @@ package botservice.queueprocessing;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
-import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntity;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 import botservice.serviceException.ServiceExceptionObject;
@@ -36,8 +36,8 @@ public class ActiveEntriesGetterHandler {
         try {
             BotAdapterEntity botAdapterEntity =
                     botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.name, adapterName));
-            for(BotEntryEntity botEntryEntity: botService.getActiveAdapterEntriesList(botAdapterEntity))
-                botManagerService.stopEntrySession(botEntryEntity);
+            for(BotEntity botEntity : botService.getActiveAdapterEntriesList(botAdapterEntity))
+                botManagerService.stopBotSession(botEntity);
         } catch (Exception e){
             serviceExceptionEvent.fire(new ServiceExceptionObject(
                     "Ошибка при обработке запроса активных ботов: " + adapterName, e));

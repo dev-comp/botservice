@@ -13,22 +13,22 @@
 
         <h:messages showDetail="true" showSummary="true"/>
 
-        <h:link id="linkToList" value="List of bot entries" outcome="botEntryList.xhtml"/>
+        <h:link id="linkToList" value="List of bot entries" outcome="botList.xhtml"/>
         <br/>
 
-        <h:form id="botEntryEdit" enctype="multipart/form-data">
+        <h:form id="botEdit" enctype="multipart/form-data">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{botEntryEditModel.botEntryEntity.name}"/>
+                <h:inputText value="#{botEditModel.botEntity.name}"/>
                 <h:outputLabel value="Bot Adapter:"/>
-                <h:selectOneMenu value="#{botEntryEditModel.botEntryEntity.botAdapterEntity}" converter="#{botAdapterConverter}">
-                    <f:selectItems value="#{botEntryEditModel.botAdapterEntityList}" var="adapter"
+                <h:selectOneMenu value="#{botEditModel.botEntity.botAdapterEntity}" converter="#{botAdapterConverter}">
+                    <f:selectItems value="#{botEditModel.botAdapterEntityList}" var="adapter"
                                    itemLabel="#{adapter.name}" itemValue="#{adapter}"/>
                 </h:selectOneMenu>
             </h:panelGrid>
             <br/>
             <h:outputText id="propLabel" value="Properties"/>
-            <h:dataTable id="botEntryProps" value="#{botEntryEditModel.propList}" var="botProp" border="1">
+            <h:dataTable id="botProps" value="#{botEditModel.propList}" var="botProp" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Key"/>
@@ -45,13 +45,13 @@
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteEntryProp" value="Delete" action="#{botEntryEditModel.doDeleteEntryProp(botProp)}"/>
+                    <h:commandButton id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="AddProperty" value="Add property" action="#{botEntryEditModel.doAddEntryProperty}"/>
+            <h:commandButton id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
             <br/>
             <br/>
-            <h:commandButton id="ApplyBotEntry" value="Apply" action="#{botEntryEditModel.doSaveBotEntry}"/>
+            <h:commandButton id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>
         </h:form>
     </ui:define>
 </ui:composition>

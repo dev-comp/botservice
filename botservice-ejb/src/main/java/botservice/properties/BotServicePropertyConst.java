@@ -17,5 +17,5 @@ public interface BotServicePropertyConst {
     // Имя прослушиваемой очереди для служебных сообщений
     String MANAGEMENT_QUEUE_NAME = "management.queue.name";
     // Имя прослушиваемой очереди для сообщений от экземпляров ботов
-    String ENTRY_QUEUE_NAME = "entry.queue.name";
+    String BOT_QUEUE_NAME = "bot.queue.name";
 }

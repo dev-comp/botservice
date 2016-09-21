@@ -62,8 +62,8 @@ public class BotAdapterEditModel implements Serializable {
 
     private void movePropsFromEntity(){
         propList.clear();
-        for(Map.Entry<String, String> entry: botAdapterEntity.getProps().entrySet())
-            propList.add(new PropItem(entry.getKey(), entry.getValue()));
+        for(Map.Entry<String, String> prop: botAdapterEntity.getProps().entrySet())
+            propList.add(new PropItem(prop.getKey(), prop.getValue()));
     }
 
     private void movePropsToEntity(){

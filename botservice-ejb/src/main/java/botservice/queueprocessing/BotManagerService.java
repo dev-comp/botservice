@@ -2,7 +2,7 @@ package botservice.queueprocessing;
 
 import botservice.model.bot.BotAdapterEntity;
 import botservice.model.bot.BotAdapterEntity_;
-import botservice.model.bot.BotEntryEntity;
+import botservice.model.bot.BotEntity;
 import botservice.model.system.UserKeyEntity;
 import botservice.model.system.UserKeyEntity_;
 import botservice.model.system.UserLogEntity;
@@ -46,17 +46,17 @@ public class BotManagerService {
     @ServiceException
     Event<ServiceExceptionObject> serviceExceptionEvent;
 
-    private boolean sendCommandToAdapter(BotCommand botCommand, BotEntryEntity botEntryEntity){
+    private boolean sendCommandToAdapter(BotCommand botCommand, BotEntity botEntity){
         try {
             Message message = new Message();
             message.setCommand(botCommand);
-            Map<String, String> propMap = botEntryEntity.getBotAdapterEntity().getProps();
-            propMap.putAll(botEntryEntity.getProps());
+            Map<String, String> propMap = botEntity.getBotAdapterEntity().getProps();
+            propMap.putAll(botEntity.getProps());
             message.setUserProperties(propMap);
             Map<String, String> serviceProperties = new HashMap<>();
-            serviceProperties.put(IBotConst.PROP_ENTRY_NAME, botEntryEntity.getName());
+            serviceProperties.put(IBotConst.PROP_BOT_NAME, botEntity.getName());
             message.setServiceProperties(serviceProperties);
-            return sendCommandToBotAdapter(message, botEntryEntity.getBotAdapterEntity());
+            return sendCommandToBotAdapter(message, botEntity.getBotAdapterEntity());
         } catch (Exception e){
             serviceExceptionEvent.fire(new ServiceExceptionObject(
                     ("Ошибка при отправке команды " + botCommand.name() + " адаптеру"), e));
@@ -77,12 +77,12 @@ public class BotManagerService {
         return false;
     }
 
-    public boolean startEntrySession(BotEntryEntity botEntryEntity) {
-        return sendCommandToAdapter(BotCommand.ADAPTER_START_ENTRY, botEntryEntity);
+    public boolean startBotSession(BotEntity botEntity) {
+        return sendCommandToAdapter(BotCommand.ADAPTER_START_BOT, botEntity);
     }
 
-    public boolean stopEntrySession(BotEntryEntity botEntryEntity) {
-        return sendCommandToAdapter(BotCommand.ADAPTER_STOP_ENTRY, botEntryEntity);
+    public boolean stopBotSession(BotEntity botEntity) {
+        return sendCommandToAdapter(BotCommand.ADAPTER_STOP_BOT, botEntity);
     }
 
     public boolean stopAllEntries(BotAdapterEntity botAdapterEntity){
@@ -91,20 +91,20 @@ public class BotManagerService {
         return sendCommandToBotAdapter(message, botAdapterEntity);
     }
 
-    public boolean sendMessageToBotEntry(MsgObject msgObject){
+    public boolean sendMessageToBot(MsgObject msgObject){
         try {
-            BotEntryEntity botEntryEntity = botService.getEntityByCriteria(
-                    BotEntryEntity.class, new BaseParam(BotAdapterEntity_.name, msgObject.getUserObject().getBotEntryName()));
+            BotEntity botEntity = botService.getEntityByCriteria(
+                    BotEntity.class, new BaseParam(BotAdapterEntity_.name, msgObject.getUserObject().getBotName()));
             UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
                     new BaseParam(UserKeyEntity_.userName, msgObject.getUserObject().getUserName()),
-                    new BaseParam(UserKeyEntity_.botEntryEntity, botEntryEntity));
+                    new BaseParam(UserKeyEntity_.botEntity, botEntity));
             // отправляем сообщение
             Message message = new Message();
-            message.setCommand(BotCommand.SERVICE_PROCESS_ENTRY_MESSAGE);
+            message.setCommand(BotCommand.SERVICE_PROCESS_BOT_MESSAGE);
             message.setServiceProperties(userKeyEntity.getProps());
             message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgObject.getMsgBody());
             try {
-                String queueName = IBotConst.QUEUE_ENTRY_PREFIX + botEntryEntity.getName();
+                String queueName = IBotConst.QUEUE_BOT_PREFIX + botEntity.getName();
                 botManager.getChannel().queueDeclare(queueName, false, false, false, null);
                 botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
