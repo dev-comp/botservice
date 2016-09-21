@@ -19,7 +19,7 @@ import javax.inject.Inject;
  * Обработчик служебных запросов активных экземпляров ботов от адаптеров
  */
 @Stateless
-public class ActiveEntriesGetterHandler {
+public class ActiveBotGetterHandler {
 
     @Inject
     BotService botService;
@@ -31,12 +31,12 @@ public class ActiveEntriesGetterHandler {
     @ServiceException
     Event<ServiceExceptionObject> serviceExceptionEvent;
 
-    public void handleMessage(@Observes @ActiveEntriesGetter Message message){
+    public void handleMessage(@Observes @ActiveBotGetter Message message){
         String adapterName = message.getServiceProperties().get(IBotConst.PROP_ADAPTER_NAME);
         try {
             BotAdapterEntity botAdapterEntity =
                     botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.name, adapterName));
-            for(BotEntity botEntity : botService.getActiveAdapterEntriesList(botAdapterEntity))
+            for(BotEntity botEntity : botService.getActiveBotList(botAdapterEntity))
                 botManagerService.stopBotSession(botEntity);
         } catch (Exception e){
             serviceExceptionEvent.fire(new ServiceExceptionObject(

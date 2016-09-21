@@ -17,7 +17,7 @@ import java.util.List;
 @Stateless
 public class BotService extends BaseService {
 
-    public List<BotEntity> getActiveAdapterEntriesList(BotAdapterEntity botAdapterEntity){
+    public List<BotEntity> getActiveBotList(BotAdapterEntity botAdapterEntity){
         return getEntityListByCriteria(BotEntity.class,
                 new BaseParam(BotEntity_.botAdapterEntity, botAdapterEntity),
                 new BaseParam(BotBaseEntity_.state, 1));

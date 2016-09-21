@@ -52,8 +52,8 @@ public class BotManager {
   Event<Message> botMessageProcessorEvent;
 
   @Inject
-  @ActiveEntriesGetter
-  Event<Message> activeEntriesGetterEvent;
+  @ActiveBotGetter
+  Event<Message> activeBotGetterEvent;
 
   @PostConstruct
   public void init () {
@@ -97,11 +97,11 @@ public class BotManager {
     }
 
     @SuppressWarnings("unused")
-    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_ENTRIES) {
+    IQueueConsumer adapterProcessMessageConsumer = new AbstractQueueConsumer(BotCommand.SERVICE_GET_ACTIVE_BOTS) {
 
       @Override
       public void handleMessage(Message message) throws IOException {
-        activeEntriesGetterEvent.fire(message);
+        activeBotGetterEvent.fire(message);
       }
     };
   }

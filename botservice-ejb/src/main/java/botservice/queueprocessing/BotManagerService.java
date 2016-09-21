@@ -85,9 +85,9 @@ public class BotManagerService {
         return sendCommandToAdapter(BotCommand.ADAPTER_STOP_BOT, botEntity);
     }
 
-    public boolean stopAllEntries(BotAdapterEntity botAdapterEntity){
+    public boolean stopAllBots(BotAdapterEntity botAdapterEntity){
         Message message = new Message();
-        message.setCommand(BotCommand.ADAPTER_STOP_ALL_ENTRIES);
+        message.setCommand(BotCommand.ADAPTER_STOP_ALL_BOTS);
         return sendCommandToBotAdapter(message, botAdapterEntity);
     }
 
