@@ -23,7 +23,7 @@
             <h:commandButton value="Clear" action="#{userLogListModel.clearAll}"/>
             <br/>
             <br/>
-            <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogList}" var="userLog" border="1">
+            <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogSet}" var="userLog" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Client"/>

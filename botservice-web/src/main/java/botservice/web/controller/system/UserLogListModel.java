@@ -8,7 +8,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Компонент-подложка для отображения лога сообщений
@@ -21,7 +24,12 @@ public class UserLogListModel implements Serializable {
     @Inject
     SystemService systemService;
 
-    List<UserLogEntity> userLogList;
+    Set<UserLogEntity> userLogSet = new TreeSet<>(new Comparator<UserLogEntity>() {
+        @Override
+        public int compare(UserLogEntity o1, UserLogEntity o2) {
+            return ((-1) * o1.getMsgTime().compareTo(o2.getMsgTime()));
+        }
+    });
 
     private int maxResult = 100;
 
@@ -31,15 +39,16 @@ public class UserLogListModel implements Serializable {
     }
 
     public void refreshList(){
-        userLogList = systemService.getEntityList(UserLogEntity.class, maxResult);
+        userLogSet.clear();
+        userLogSet.addAll(systemService.getEntityList(UserLogEntity.class, maxResult));
     }
 
-    public List<UserLogEntity> getUserLogList() {
-        return userLogList;
+    public Set<UserLogEntity> getUserLogSet() {
+        return userLogSet;
     }
 
-    public void setUserLogList(List<UserLogEntity> userLogList) {
-        this.userLogList = userLogList;
+    public void setUserLogSet(Set<UserLogEntity> userLogSet) {
+        this.userLogSet = userLogSet;
     }
 
     public int getMaxResult() {
@@ -51,7 +60,6 @@ public class UserLogListModel implements Serializable {
     }
 
     public void clearAll(){
-        systemService.removeAllEntities(UserLogEntity.class);
         refreshList();
     }
 
