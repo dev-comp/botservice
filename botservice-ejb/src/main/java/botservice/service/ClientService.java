@@ -8,6 +8,8 @@ import botservice.model.client.ClientEntity;
 import botservice.model.client.ClientEntity_;
 import botservice.model.system.UserKeyEntity;
 import botservice.model.system.UserKeyEntity_;
+import botservice.model.system.UserLogEntity;
+import botservice.model.system.UserLogEntity_;
 import botservice.service.common.BaseParam;
 import botservice.service.common.BaseService;
 
@@ -27,14 +29,23 @@ import java.util.function.Predicate;
 @Stateless
 public class ClientService extends BaseService {
 
+    private ClientEntity getClientEntityByName(String clientName){
+        return getEntityByCriteria(ClientEntity.class,
+                new BaseParam(ClientEntity_.name, clientName));
+    }
 
+    private List<ClientAppEntity> getClientAppList(ClientEntity clientEntity){
+        return getEntityListByCriteria(ClientAppEntity.class,
+                new BaseParam(ClientAppEntity_.clientEntity, clientEntity));
+    }
+
+    private List<ClientAppEntity> getClientAppList(String clientName){
+        return getClientAppList(getClientEntityByName(clientName));
+    }
 
     public List<UserKeyEntity> getUserKeyListByClientName(String clientName){
         List<UserKeyEntity> resultList = new ArrayList<>();
-        ClientEntity clientEntity = getEntityByCriteria(ClientEntity.class,
-                new BaseParam(ClientEntity_.name, clientName));
-        List<ClientAppEntity> clientAppEntityList = getEntityListByCriteria(ClientAppEntity.class,
-                new BaseParam(ClientAppEntity_.clientEntity, clientEntity));
+        List<ClientAppEntity> clientAppEntityList = getClientAppList(clientName);
         for (ClientAppEntity clientAppEntity: clientAppEntityList){
             resultList.addAll(getEntityListByCriteria(UserKeyEntity.class,
                     new BaseParam(UserKeyEntity_.botEntryEntity, getEntityByCriteria(BotEntryEntity.class,
@@ -42,5 +53,24 @@ public class ClientService extends BaseService {
 
         }
         return resultList;
+    }
+
+    private List<UserLogEntity> getUserLogEntityListByUserKeyEntity(UserKeyEntity userKeyEntity){
+        return getEntityListByCriteria(UserLogEntity.class,
+                new BaseParam(UserLogEntity_.userKeyEntity, userKeyEntity));
+    }
+
+    public List<UserLogEntity> getUserLogListByClientName(String clientName){
+        List<UserLogEntity> resultList = new ArrayList<>();
+        for (UserKeyEntity userKeyEntity: getUserKeyListByClientName(clientName))
+            resultList.addAll(getUserLogEntityListByUserKeyEntity(userKeyEntity));
+        return resultList;
+    }
+
+    public List<UserLogEntity> getUserLogListByBotEntryNameAndUserName(String botEntryName, String userName){
+        return getUserLogEntityListByUserKeyEntity(getEntityByCriteria(
+                UserKeyEntity.class,new BaseParam(UserKeyEntity_.userName, userName),
+                new BaseParam(UserKeyEntity_.botEntryEntity, getEntityByCriteria(BotEntryEntity.class,
+                        new BaseParam(BotEntryEntity_.name, botEntryName)))));
     }
 }
