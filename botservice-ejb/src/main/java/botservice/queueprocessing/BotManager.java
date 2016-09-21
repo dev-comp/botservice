@@ -2,7 +2,6 @@ package botservice.queueprocessing;
 
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
-import botservice.service.BotService;
 import com.bftcom.devcomp.bots.BotCommand;
 import com.bftcom.devcomp.bots.IBotConst;
 import com.bftcom.devcomp.bots.Message;
@@ -49,12 +48,6 @@ public class BotManager {
   private String entryQueueName;
 
   @Inject
-  BotService botService;
-
-  @Inject
-  BotManagerService botManagerService;
-
-  @Inject
   @EntryMessageProcessor
   Event<Message> entryMessageProcessorEvent;
 
@@ -97,7 +90,7 @@ public class BotManager {
     }
   }
 
-  public class ManagementQueueConsumer extends CommonQueueConsumer {
+  private class ManagementQueueConsumer extends CommonQueueConsumer {
 
     public ManagementQueueConsumer(Channel channel) {
       super(channel);
@@ -113,7 +106,7 @@ public class BotManager {
     };
   }
 
-  public class EntryQueueConsumer extends CommonQueueConsumer {
+  private class EntryQueueConsumer extends CommonQueueConsumer {
 
     public EntryQueueConsumer(Channel channel) {
       super(channel);

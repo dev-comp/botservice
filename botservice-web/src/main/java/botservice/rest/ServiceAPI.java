@@ -39,7 +39,7 @@ public class ServiceAPI {
     @GET
     @Path("/userKeyList/{clientName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getHotelsList(@PathParam("clientName") String clientName) throws JsonProcessingException {
+    public Response getUserKeyList(@PathParam("clientName") String clientName) throws JsonProcessingException {
         List<UserObject> userObjectList = new ArrayList<>();
         for (UserKeyEntity userKeyEntity: clientService.getUserKeyListByClientName(clientName)){
             UserObject userObject = new UserObject();
