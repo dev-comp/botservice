@@ -29,7 +29,9 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Класс-обработчик входящих сообщений
@@ -93,17 +95,27 @@ public class BotMessageProcessorHandler {
     private void doBusinessActions(Message message, BotEntity botEntity){
         ClientAppEntity clientAppEntity = clientService.getEntityByCriteria(ClientAppEntity.class,
                 new BaseParam(ClientAppEntity_.botEntity, botEntity));
+        Map<String, String> autoAnswersMap = new HashMap<>();
+        autoAnswersMap.putAll(botEntity.getBotAdapterEntity().getAnswers());
+        autoAnswersMap.putAll(botEntity.getAnswers());
+        String autoAnswer = autoAnswersMap.get(message.getUserProperties().get(IBotConst.PROP_BODY_TEXT));
+        MsgObject responseMsgObject;
         UserObject userObject = new UserObject();
         userObject.setBotName(botEntity.getName());
         userObject.setUserName(message.getServiceProperties().get(IBotConst.PROP_USER_NAME));
-        MsgObject requestMsgObject = new MsgObject();
-        requestMsgObject.setUserObject(userObject);
-        requestMsgObject.setMsgBody(message.getUserProperties().get(IBotConst.PROP_BODY_TEXT));
-        ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(clientAppEntity.getPath());
-        Response response = target.request().post(Entity.entity(requestMsgObject, MediaType.APPLICATION_JSON));
-        MsgObject responseMsgObject = response.readEntity(MsgObject.class);
+        if (autoAnswer != null){
+            responseMsgObject = new MsgObject();
+            responseMsgObject.setUserObject(userObject);
+            responseMsgObject.setMsgBody(autoAnswer);
+        } else {
+            MsgObject requestMsgObject = new MsgObject();
+            requestMsgObject.setUserObject(userObject);
+            requestMsgObject.setMsgBody(message.getUserProperties().get(IBotConst.PROP_BODY_TEXT));
+            ResteasyClient client = new ResteasyClientBuilder().build();
+            ResteasyWebTarget target = client.target(clientAppEntity.getPath());
+            Response response = target.request().post(Entity.entity(requestMsgObject, MediaType.APPLICATION_JSON));
+            responseMsgObject = response.readEntity(MsgObject.class);
+        }
         botManagerService.sendMessageToBot(responseMsgObject);
-        response.close();
     }
 }

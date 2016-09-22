@@ -6,7 +6,7 @@ import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
-import botservice.web.controller.common.PropItem;
+import botservice.web.controller.common.MapItem;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -36,7 +36,9 @@ public class BotAdapterEditModel implements Serializable {
     @Inject
     private BotService botService;
 
-    private List<PropItem> propList = new ArrayList<>();
+    private List<MapItem> propList = new ArrayList<>();
+
+    private List<MapItem> answerList = new ArrayList<>();
 
     private Part botAdapterPart;
 
@@ -49,28 +51,40 @@ public class BotAdapterEditModel implements Serializable {
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (idParam != null){
             botAdapterEntity = botService.getEntityByCriteria(BotAdapterEntity.class, new BaseParam(BotAdapterEntity_.id, Long.parseLong(idParam)));
-            movePropsFromEntity();
+            moveMapItemsFromEntity();
         }
     }
 
     public void doSaveBotAdapter(){
         if (botAdapterEntity.getProps() != null)
             botAdapterEntity.getProps().clear();
-        movePropsToEntity();
+        if (botAdapterEntity.getAnswers() != null)
+            botAdapterEntity.getAnswers().clear();
+        moveMapItemsToEntity();
         botAdapterEntity = botService.mergeEntity(botAdapterEntity);
     }
 
-    private void movePropsFromEntity(){
+    private void moveMapItemsFromEntity(){
         propList.clear();
+        answerList.clear();
         for(Map.Entry<String, String> prop: botAdapterEntity.getProps().entrySet())
-            propList.add(new PropItem(prop.getKey(), prop.getValue()));
+            propList.add(new MapItem(prop.getKey(), prop.getValue()));
+        for(Map.Entry<String, String> answer: botAdapterEntity.getAnswers().entrySet())
+            answerList.add(new MapItem(answer.getKey(), answer.getValue()));
     }
 
-    private void movePropsToEntity(){
+    private void moveMapItemsToEntity(){
         if (botAdapterEntity.getProps() == null)
             botAdapterEntity.setProps(new HashMap<String, String>());
-        for(PropItem propItem: propList)
-            botAdapterEntity.getProps().put(propItem.getKey(), propItem.getValue());
+        moveMapItemToEntity(propList, botAdapterEntity.getProps());
+        if (botAdapterEntity.getAnswers() == null)
+            botAdapterEntity.setAnswers(new HashMap<String, String>());
+        moveMapItemToEntity(answerList, botAdapterEntity.getAnswers());
+    }
+
+    private void moveMapItemToEntity(List<MapItem> mapItems, Map<String, String> itemMap){
+        for(MapItem mapItem : mapItems)
+            itemMap.put(mapItem.getKey(), mapItem.getValue());
     }
 
     public void uploadBotAdapter(){
@@ -94,11 +108,19 @@ public class BotAdapterEditModel implements Serializable {
     }
 
     public void doAddAdapterProperty(){
-        propList.add(new PropItem("", ""));
+        propList.add(new MapItem("", ""));
     }
 
-    public void doDeleteAdapterProp(PropItem propItem){
-        propList.remove(propItem);
+    public void doDeleteAdapterProp(MapItem mapItem){
+        propList.remove(mapItem);
+    }
+
+    public void doAddAdapterAnswer(){
+        answerList.add(new MapItem("", ""));
+    }
+
+    public void doDeleteAdapterAnswer(MapItem mapItem){
+        answerList.remove(mapItem);
     }
 
     public BotAdapterEntity getBotAdapterEntity() {
@@ -113,11 +135,19 @@ public class BotAdapterEditModel implements Serializable {
         this.botAdapterPart = botAdapterPart;
     }
 
-    public List<PropItem> getPropList() {
+    public List<MapItem> getPropList() {
         return propList;
     }
 
-    public void setPropList(List<PropItem> propList) {
+    public void setPropList(List<MapItem> propList) {
         this.propList = propList;
+    }
+
+    public List<MapItem> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<MapItem> answerList) {
+        this.answerList = answerList;
     }
 }

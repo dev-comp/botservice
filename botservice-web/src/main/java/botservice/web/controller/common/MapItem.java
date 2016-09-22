@@ -3,11 +3,11 @@ package botservice.web.controller.common;
 /**
  * Класс для хранения пары ключ-значение
  */
-public class PropItem {
+public class MapItem {
     String key;
     String value;
 
-    public PropItem(String key, String value) {
+    public MapItem(String key, String value) {
         this.key = key;
         this.value = value;
     }

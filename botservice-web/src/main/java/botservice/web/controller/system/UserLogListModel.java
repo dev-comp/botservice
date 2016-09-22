@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -60,6 +59,7 @@ public class UserLogListModel implements Serializable {
     }
 
     public void clearAll(){
+        systemService.removeAllEntities(UserLogEntity.class);
         refreshList();
     }
 

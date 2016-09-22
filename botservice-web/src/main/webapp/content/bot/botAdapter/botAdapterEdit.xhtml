@@ -50,6 +50,30 @@
             <h:commandButton id="AddProperty" value="Add property" action="#{botAdapterEditModel.doAddAdapterProperty}"/>
             <br/>
             <br/>
+            <h:outputText id="answerLabel" value="Auto answers"/>
+            <h:dataTable id="botAdapterAnswers" value="#{botAdapterEditModel.answerList}" var="botAnswer" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Key"/>
+                    </f:facet>
+                    <h:inputText value="#{botAnswer.key}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Value"/>
+                    </f:facet>
+                    <h:inputText value="#{botAnswer.value}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Delete"/>
+                    </f:facet>
+                    <h:commandButton id="DeleteAdapterAnswer" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterAnswer(botAnswer)}"/>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton id="AddAnswer" value="Add auto answer" action="#{botAdapterEditModel.doAddAdapterAnswer}"/>
+            <br/>
+            <br/>
             <h:commandButton id="ApplyBotAdapter" value="Apply" action="#{botAdapterEditModel.doSaveBotAdapter}"/>
         </h:form>
     </ui:define>

@@ -22,6 +22,12 @@ public class BotAdapterEntity extends BotBaseEntity{
     @Column(name = "value")
     private Map<String, String> props;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "botadapteranswer", joinColumns = {@JoinColumn(name = "botadapter_id")})
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
+    private Map<String, String> answers;
+
     public String getFilePath() {
         return filePath;
     }
@@ -37,5 +43,13 @@ public class BotAdapterEntity extends BotBaseEntity{
     @SuppressWarnings("unused")
     public void setProps(Map<String, String> props) {
         this.props = props;
+    }
+
+    public Map<String, String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Map<String, String> answers) {
+        this.answers = answers;
     }
 }

@@ -26,6 +26,13 @@ public class BotEntity extends BotBaseEntity {
     @Column(name = "value")
     private Map<String, String> props;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "botanswer", joinColumns = {@JoinColumn(name = "bot_id")})
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
+    private Map<String, String> answers;
+
+
     public BotAdapterEntity getBotAdapterEntity() {
         return botAdapterEntity;
     }
@@ -48,5 +55,13 @@ public class BotEntity extends BotBaseEntity {
 
     public void setProps(Map<String, String> props) {
         this.props = props;
+    }
+
+    public Map<String, String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Map<String, String> answers) {
+        this.answers = answers;
     }
 }
