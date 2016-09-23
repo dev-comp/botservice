@@ -6,8 +6,8 @@ import botservice.model.bot.BotEntity;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
 import botservice.serviceException.ServiceExceptionObject;
-import com.bftcom.devcomp.bots.IBotConst;
-import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.api.IBotConst;
+import com.bftcom.devcomp.api.Message;
 import botservice.serviceException.ServiceException;
 
 import javax.ejb.Stateless;

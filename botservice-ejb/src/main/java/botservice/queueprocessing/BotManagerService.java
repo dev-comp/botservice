@@ -12,9 +12,9 @@ import botservice.service.SystemService;
 import botservice.service.common.BaseParam;
 import botservice.util.BotMsgDirectionType;
 import botservice.serviceException.ServiceExceptionObject;
-import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.IBotConst;
-import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.api.BotCommand;
+import com.bftcom.devcomp.api.IBotConst;
+import com.bftcom.devcomp.api.Message;
 import botservice.serviceException.ServiceException;
 
 import javax.ejb.Stateless;

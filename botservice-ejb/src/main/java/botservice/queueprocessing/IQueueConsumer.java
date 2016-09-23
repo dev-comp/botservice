@@ -1,6 +1,6 @@
 package botservice.queueprocessing;
 
-import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.api.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

@@ -2,9 +2,9 @@ package botservice.queueprocessing;
 
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
-import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.IBotConst;
-import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.api.BotCommand;
+import com.bftcom.devcomp.api.IBotConst;
+import com.bftcom.devcomp.api.Message;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;

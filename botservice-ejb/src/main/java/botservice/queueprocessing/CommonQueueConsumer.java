@@ -1,7 +1,7 @@
 package botservice.queueprocessing;
 
-import com.bftcom.devcomp.bots.BotCommand;
-import com.bftcom.devcomp.bots.Message;
+import com.bftcom.devcomp.api.BotCommand;
+import com.bftcom.devcomp.api.Message;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;

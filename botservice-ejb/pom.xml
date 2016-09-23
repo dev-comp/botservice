@@ -139,6 +139,12 @@
             <version>1.1.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.bftcom.devcomp.api</groupId>
+            <artifactId>bot-adapter-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
