@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -11,12 +11,10 @@
 
         <h:messages showDetail="true" showSummary="true"/>
 
-        <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
-
         <h:form id="botEntityListForm">
             <br/>
             <br/>
-            <h:button id="add" value="Add" outcome="botEdit.xhtml"/>
+            <p:button id="add" value="Add" outcome="botEdit.xhtml"/>
             <br/>
             <br/>
             <h:dataTable id="botEntityList" value="#{botListModel.botList}" var="bot" border="1">
@@ -42,21 +40,21 @@
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:commandButton id="StartBot" value="Start" action="#{botListModel.doStartBot(bot)}"
+                    <p:commandButton id="StartBot" value="Start" action="#{botListModel.doStartBot(bot)}"
                                      disabled="#{botListModel.isStartBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Stop"/>
                     </f:facet>
-                    <h:commandButton id="StopBot" value="Stop" action="#{botListModel.doStopBot(bot)}"
+                    <p:commandButton id="StopBot" value="Stop" action="#{botListModel.doStopBot(bot)}"
                                      disabled="#{botListModel.isStopBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBot" value="Delete" action="#{botListModel.doDeleteBot(bot)}"
+                    <p:commandButton id="DeleteBot" value="Delete" action="#{botListModel.doDeleteBot(bot)}"
                                      disabled="#{botListModel.isDeleteBotDisabled(bot)}"/>
                 </h:column>
             </h:dataTable>
