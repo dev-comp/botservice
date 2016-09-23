@@ -17,9 +17,8 @@ public class CORSResponseFilter implements ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        responseContext.getHeaders().add(CorsHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         responseContext.getHeaders().add(CorsHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST, GET, OPTIONS");
         responseContext.getHeaders().add(CorsHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin,X-Requested-With,Content-Type,Accept,Authorization");
-        responseContext.getHeaders().add(CorsHeaders.ACCESS_CONTROL_MAX_AGE, "1728000");
+        responseContext.getHeaders().add(CorsHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
     }
 }
