@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -19,7 +19,7 @@
         <h:form id="botEdit" enctype="multipart/form-data">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{botEditModel.botEntity.name}"/>
+                <p:inputText value="#{botEditModel.botEntity.name}"/>
                 <h:outputLabel value="Bot Adapter:"/>
                 <h:selectOneMenu value="#{botEditModel.botEntity.botAdapterEntity}" converter="#{botAdapterConverter}">
                     <f:selectItems value="#{botEditModel.botAdapterEntityList}" var="adapter"
@@ -33,22 +33,22 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.key}"/>
+                    <p:inputText value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.value}"/>
+                    <p:inputText value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
+                    <p:commandButton id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
+            <p:commandButton id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
             <br/>
             <br/>
             <h:outputText id="answerLabel" value="Auto answers"/>
@@ -57,25 +57,25 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.key}"/>
+                    <p:inputText value="#{botAnswer.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.value}"/>
+                    <p:inputText value="#{botAnswer.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBotAnswer" value="Delete" action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
+                    <p:commandButton id="DeleteBotAnswer" value="Delete" action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="AddAnswer" value="Add auto answer" action="#{botEditModel.doAddBotAnswer}"/>
+            <p:commandButton id="AddAnswer" value="Add auto answer" action="#{botEditModel.doAddBotAnswer}"/>
             <br/>
             <br/>
-            <h:commandButton id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>
+            <p:commandButton id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>
         </h:form>
     </ui:define>
 </ui:composition>

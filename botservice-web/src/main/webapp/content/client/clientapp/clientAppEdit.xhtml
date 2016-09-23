@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <f:metadata>
-            <f:viewParam name="id" />
+            <f:viewParam name="id"/>
         </f:metadata>
 
         <h:messages showDetail="true" showSummary="true"/>
@@ -19,23 +19,22 @@
         <h:form id="clientAppEdit" enctype="multipart/form-data">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{clientAppEditModel.clientAppEntity.name}"/>
-                <h:outputLabel value="Path:"/>
-                <h:inputText value="#{clientAppEditModel.clientAppEntity.path}"/>
+                <p:inputText value="#{clientAppEditModel.clientAppEntity.name}"/>
+                <p:outputLabel value="Path:"/>
+                <p:inputText value="#{clientAppEditModel.clientAppEntity.path}"/>
                 <h:outputLabel value="Client:"/>
-                <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.clientEntity}" converter="#{clientConverter}">
+                <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.clientEntity}"
+                                 converter="#{clientConverter}">
                     <f:selectItems value="#{clientAppEditModel.clientEntityList}" var="client"
                                    itemLabel="#{client.name}" itemValue="#{client}"/>
                 </h:selectOneMenu>
-                <h:outputLabel value="Bot:"/>
+                <p:outputLabel value="Bot:"/>
                 <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.botEntity}" converter="#{botConverter}">
                     <f:selectItems value="#{clientAppEditModel.botEntityList}" var="bot"
                                    itemLabel="#{bot.name}" itemValue="#{bot}"/>
                 </h:selectOneMenu>
             </h:panelGrid>
-            <br/>
-            <br/>
-            <h:commandButton id="ApplyClientApp" value="Apply" action="#{clientAppEditModel.doSaveClientApp}"/>
+            <p:commandButton id="ApplyClientApp" value="Apply" action="#{clientAppEditModel.doSaveClientApp}"/>
         </h:form>
     </ui:define>
 </ui:composition>

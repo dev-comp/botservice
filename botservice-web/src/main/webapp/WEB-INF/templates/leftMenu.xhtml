@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+    <h:form id="leftMenu">
+        <ul class="nav nav-sidebar">
+            <li><p:link id="linkToMain" value="Home" outcome="/index.xhtml"/></li>
+            <li><h:link id="linkToBotAdapters" value="Bot adapters"
+                        outcome="/content/bot/botAdapter/botAdapterList.xhtml"/></li>
+            <li><h:link id="linkToBots" value="Bots" outcome="/content/bot/bot/botList.xhtml"/></li>
+            <li><h:link id="linkToClients" value="Clients" outcome="/content/client/client/clientList.xhtml"/></li>
+            <li><h:link id="linkToClientApps" value="Client applications"
+                        outcome="/content/client/clientapp/clientAppList.xhtml"/></li>
+            <li><h:link id="linkToUserKeys" value="User keys" outcome="/content/system/userKeyList.xhtml"/></li>
+            <li><h:link id="linkToUserLog" value="User log" outcome="/content/system/userLogList.xhtml"/></li>
+        </ul>
+    </h:form>
+</ui:composition>
+</html>
+

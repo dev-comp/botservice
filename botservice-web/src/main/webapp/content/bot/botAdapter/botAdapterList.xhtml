@@ -2,6 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -9,65 +10,59 @@
 
     <ui:define name="content">
 
-        <h:messages showDetail="true" showSummary="true"/>
-
-        <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
+        <p:messages showDetail="true" showSummary="true"/>
 
         <h:form id="botAdapterEntityListForm">
-            <br/>
-            <br/>
-            <h:button id="addAdapter" value="Add adapter" outcome="botAdapterEdit.xhtml"/>
-            <br/>
-            <br/>
-            <h:dataTable id="botAdapterEntityList" value="#{botAdapterListModel.botAdapterList}" var="botAdapter" border="1">
-                <h:column>
+            <p:button id="addAdapter" value="Add adapter" outcome="botAdapterEdit.xhtml"/>
+            <p:dataTable id="botAdapterEntityList" value="#{botAdapterListModel.botAdapterList}" var="botAdapter" border="1">
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link outcome="botAdapterEdit.xhtml?id=#{botAdapter.id}" value="#{botAdapter.name}"/>
-                </h:column>
-                <h:column>
+                    <p:link outcome="botAdapterEdit.xhtml?id=#{botAdapter.id}" value="#{botAdapter.name}"/>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Active"/>
                     </f:facet>
                     <h:outputText value="#{botAdapter.state == 1 ? 'Yes' : 'No'}"/>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Install"/>
                     </f:facet>
-                    <h:commandButton id="InstallBotAdapter" value="Install" action="#{botAdapterListModel.doInstallBotAdapter(botAdapter)}"
+                    <p:commandButton id="InstallBotAdapter" value="Install" action="#{botAdapterListModel.doInstallBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isInstallBotAdapterDisabled(botAdapter)}"/>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:commandButton id="StartBotAdapter" value="Start" action="#{botAdapterListModel.doStartBotAdapter(botAdapter)}"
+                    <p:commandButton id="StartBotAdapter" value="Start" action="#{botAdapterListModel.doStartBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isStartBotAdapterDisabled(botAdapter)}"/>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Stop"/>
                     </f:facet>
-                    <h:commandButton id="StopBotAdapter" value="Stop" action="#{botAdapterListModel.doStopBotAdapter(botAdapter)}"
+                    <p:commandButton id="StopBotAdapter" value="Stop" action="#{botAdapterListModel.doStopBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isStopBotAdapterDisabled(botAdapter)}"/>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Uninstall"/>
                     </f:facet>
-                    <h:commandButton id="UninstallBotAdapter" value="Uninstall" action="#{botAdapterListModel.doUninstallBotAdapter(botAdapter)}"
+                    <p:commandButton id="UninstallBotAdapter" value="Uninstall" action="#{botAdapterListModel.doUninstallBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isUninstallBotAdapterDisabled(botAdapter)}"/>
-                </h:column>
-                <h:column>
+                </p:column>
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteBotAdapter" value="Delete" action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"
+                    <p:commandButton id="DeleteBotAdapter" value="Delete" action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isDeleteBotAdapterDisabled(botAdapter)}"/>
-                </h:column>
-            </h:dataTable>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </ui:define>
 

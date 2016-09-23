@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -11,12 +11,10 @@
 
         <h:messages showDetail="true" showSummary="true"/>
 
-        <h:link id="linkToMain" value="Home" outcome="/index.xhtml"/>
-
         <h:form id="clientEntityListForm">
             <br/>
             <br/>
-            <h:button id="addClient" value="Add client" outcome="clientEdit.xhtml"/>
+            <p:button id="addClient" value="Add client" outcome="clientEdit.xhtml"/>
             <br/>
             <br/>
             <h:dataTable id="clientEntityList" value="#{clientListModel.clientList}" var="client" border="1">
@@ -30,7 +28,7 @@
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteClient" value="Delete" action="#{clientListModel.doDeleteClient(client)}"/>
+                    <p:commandButton id="DeleteClient" value="Delete" action="#{clientListModel.doDeleteClient(client)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

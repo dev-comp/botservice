@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
@@ -18,12 +19,12 @@
 
         <h:form id="botAdapterEdit" enctype="multipart/form-data">
             <h:panelGrid columns="2">
-                <h:outputLabel value="Name:"/>
-                <h:inputText value="#{botAdapterEditModel.botAdapterEntity.name}"/>
+                <p:outputLabel value="Name:"/>
+                <p:inputText value="#{botAdapterEditModel.botAdapterEntity.name}"/>
                 <h:outputLabel value="FilePath:"/>
-                <h:inputText value="#{botAdapterEditModel.botAdapterEntity.filePath}" readonly="true"/>
+                <p:inputText value="#{botAdapterEditModel.botAdapterEntity.filePath}" readonly="true"/>
                 <h:inputFile id="file" value="#{botAdapterEditModel.botAdapterPart}"/>
-                <h:commandButton value="Upload" action="#{botAdapterEditModel.uploadBotAdapter}"/>
+                <p:commandButton value="Upload" action="#{botAdapterEditModel.uploadBotAdapter}"/>
             </h:panelGrid>
             <br/>
             <h:outputText id="propLabel" value="Properties"/>
@@ -32,22 +33,22 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.key}"/>
+                    <p:inputText value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.value}"/>
+                    <p:inputText value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteAdapterProp" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterProp(botProp)}"/>
+                    <p:commandButton id="DeleteAdapterProp" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterProp(botProp)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="AddProperty" value="Add property" action="#{botAdapterEditModel.doAddAdapterProperty}"/>
+            <p:commandButton id="AddProperty" value="Add property" action="#{botAdapterEditModel.doAddAdapterProperty}"/>
             <br/>
             <br/>
             <h:outputText id="answerLabel" value="Auto answers"/>
@@ -56,25 +57,25 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.key}"/>
+                    <p:inputText value="#{botAnswer.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.value}"/>
+                    <p:inputText value="#{botAnswer.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton id="DeleteAdapterAnswer" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterAnswer(botAnswer)}"/>
+                    <p:commandButton id="DeleteAdapterAnswer" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterAnswer(botAnswer)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="AddAnswer" value="Add auto answer" action="#{botAdapterEditModel.doAddAdapterAnswer}"/>
+            <p:commandButton id="AddAnswer" value="Add auto answer" action="#{botAdapterEditModel.doAddAdapterAnswer}"/>
             <br/>
             <br/>
-            <h:commandButton id="ApplyBotAdapter" value="Apply" action="#{botAdapterEditModel.doSaveBotAdapter}"/>
+            <p:commandButton id="ApplyBotAdapter" value="Apply" action="#{botAdapterEditModel.doSaveBotAdapter}"/>
         </h:form>
     </ui:define>
 </ui:composition>

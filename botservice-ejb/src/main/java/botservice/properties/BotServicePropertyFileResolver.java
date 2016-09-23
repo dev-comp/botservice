@@ -29,7 +29,7 @@ public class BotServicePropertyFileResolver {
     private void init() {
         try {
             String propertyFile = System.getProperty(BotServicePropertyConst.PROPERTIES_FILE_PATH);
-            File file = new File(propertyFile);
+            File file = new File("D:\\git\\github\\dev-comp\\botservice\\botservice-ejb\\target\\classes\\botservice.properties");
             properties.load(new FileInputStream(file));
         } catch (IOException e) {
             serviceExceptionEvent.fire(new ServiceExceptionObject(
