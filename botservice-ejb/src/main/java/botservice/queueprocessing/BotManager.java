@@ -92,7 +92,7 @@ public class BotManager {
   }
 
   public void registerBotQueueConsumer(String uqBotName){
-    final String fullBotQueueName = IBotConst.QUEUE_TO_BOT_PREFIX + uqBotName;
+    final String fullBotQueueName = IBotConst.QUEUE_FROM_BOT_PREFIX + uqBotName;
     try {
       channel.queueDeclare(fullBotQueueName, false, false, false, null);
       String consumerTag = channel.basicConsume(fullBotQueueName, true, new ManagementQueueConsumer(channel));
@@ -108,7 +108,7 @@ public class BotManager {
       channel.basicCancel(botConsumersMap.get(uqBotName));
     } catch (IOException e) {
       serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке отписаться от очереди "
-              + IBotConst.QUEUE_TO_BOT_PREFIX + uqBotName, e));
+              + IBotConst.QUEUE_FROM_BOT_PREFIX + uqBotName, e));
     }
   }
 
