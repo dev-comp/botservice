@@ -16,6 +16,4 @@ public interface BotServicePropertyConst {
     String RABBITMQ_PORT = "rabbitmq.port";
     // Имя прослушиваемой очереди для служебных сообщений
     String MANAGEMENT_QUEUE_NAME = "management.queue.name";
-    // Имя прослушиваемой очереди для сообщений от экземпляров ботов
-    String BOT_QUEUE_NAME = "bot.queue.name";
 }

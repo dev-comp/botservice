@@ -66,7 +66,7 @@ public class BotManagerService {
 
     private boolean sendCommandToBotAdapter(Message message, BotAdapterEntity botAdapterEntity){
         try {
-            String queueName = IBotConst.QUEUE_ADAPTER_PREFIX + botAdapterEntity.getName();
+            String queueName = IBotConst.QUEUE_TO_ADAPTER_PREFIX + botAdapterEntity.getName();
             botManager.getChannel().queueDeclare(queueName, false, false, false, null);
             botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
             return true;
@@ -78,10 +78,12 @@ public class BotManagerService {
     }
 
     public boolean startBotSession(BotEntity botEntity) {
+        botManager.registerBotQueueConsumer(botEntity.getName());
         return sendCommandToAdapter(BotCommand.ADAPTER_START_BOT, botEntity);
     }
 
     public boolean stopBotSession(BotEntity botEntity) {
+        botManager.unRegisterBotQueueConsumer(botEntity.getName());
         return sendCommandToAdapter(BotCommand.ADAPTER_STOP_BOT, botEntity);
     }
 
@@ -104,7 +106,7 @@ public class BotManagerService {
             message.setServiceProperties(userKeyEntity.getProps());
             message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgObject.getMsgBody());
             try {
-                String queueName = IBotConst.QUEUE_BOT_PREFIX + botEntity.getName();
+                String queueName = IBotConst.QUEUE_TO_BOT_PREFIX + botEntity.getName();
                 botManager.getChannel().queueDeclare(queueName, false, false, false, null);
                 botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {

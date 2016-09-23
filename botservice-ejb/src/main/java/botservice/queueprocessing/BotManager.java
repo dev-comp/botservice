@@ -2,6 +2,8 @@ package botservice.queueprocessing;
 
 import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
+import botservice.serviceException.ServiceException;
+import botservice.serviceException.ServiceExceptionObject;
 import com.bftcom.devcomp.api.BotCommand;
 import com.bftcom.devcomp.api.IBotConst;
 import com.bftcom.devcomp.api.Message;
@@ -16,6 +18,8 @@ import javax.ejb.Startup;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Класс, инкапсулирущий методы лдя работы с очередями
@@ -44,16 +48,18 @@ public class BotManager {
   private String managementQueueName;
 
   @Inject
-  @BotServiceProperty(name = BotServicePropertyConst.BOT_QUEUE_NAME)
-  private String botQueueName;
-
-  @Inject
   @BotMessageProcessor
   Event<Message> botMessageProcessorEvent;
 
   @Inject
   @ActiveBotGetter
   Event<Message> activeBotGetterEvent;
+
+  @ServiceException
+  Event<ServiceExceptionObject> serviceExceptionEvent;
+
+
+  private Map<String, String> botConsumersMap = new HashMap<>();
 
   @PostConstruct
   public void init () {
@@ -63,14 +69,9 @@ public class BotManager {
     try {
       connection = factory.newConnection();
       channel = connection.createChannel();
-
-      final String fullManagementQueueName = IBotConst.QUEUE_SERVICE_PREFIX + managementQueueName;
+      final String fullManagementQueueName = IBotConst.QUEUE_TO_SERVICE_PREFIX + managementQueueName;
       channel.queueDeclare(fullManagementQueueName, false, false, false, null);
       channel.basicConsume(fullManagementQueueName, true, new ManagementQueueConsumer(channel));
-
-      final String fullBotQueueName = IBotConst.QUEUE_SERVICE_PREFIX + botQueueName;
-      channel.queueDeclare(fullBotQueueName, false, false, false, null);
-      channel.basicConsume(fullBotQueueName, true, new BotQueueConsumer(channel));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -87,6 +88,27 @@ public class BotManager {
       connection.close();
     } catch (Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public void registerBotQueueConsumer(String uqBotName){
+    final String fullBotQueueName = IBotConst.QUEUE_TO_BOT_PREFIX + uqBotName;
+    try {
+      channel.queueDeclare(fullBotQueueName, false, false, false, null);
+      String consumerTag = channel.basicConsume(fullBotQueueName, true, new ManagementQueueConsumer(channel));
+      botConsumersMap.put(uqBotName, consumerTag);
+    } catch (IOException e) {
+      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь "
+              + fullBotQueueName, e));
+    }
+  }
+
+  public void unRegisterBotQueueConsumer(String uqBotName){
+    try {
+      channel.basicCancel(botConsumersMap.get(uqBotName));
+    } catch (IOException e) {
+      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке отписаться от очереди "
+              + IBotConst.QUEUE_TO_BOT_PREFIX + uqBotName, e));
     }
   }
 
