@@ -1,11 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
     <h:form id="leftMenu">
         <ul class="nav nav-sidebar">
-            <li><p:link id="linkToMain" value="Home" outcome="/index.xhtml"/></li>
+            <li><h:link id="linkToMain" value="Home" outcome="/index.xhtml"/></li>
             <li><h:link id="linkToBotAdapters" value="Bot adapters"
                         outcome="/content/bot/botAdapter/botAdapterList.xhtml"/></li>
             <li><h:link id="linkToBots" value="Bots" outcome="/content/bot/bot/botList.xhtml"/></li>

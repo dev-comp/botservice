@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -13,13 +13,13 @@
 
         <h:messages showDetail="true" showSummary="true"/>
 
-        <h:link id="linkToList" value="List of bots" outcome="botList.xhtml"/>
+        <h:link  id="linkToList" value="List of bots" outcome="botList.xhtml"/>
         <br/>
 
         <h:form id="botEdit" enctype="multipart/form-data">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
-                <p:inputText value="#{botEditModel.botEntity.name}"/>
+                <h:inputText value="#{botEditModel.botEntity.name}"/>
                 <h:outputLabel value="Bot Adapter:"/>
                 <h:selectOneMenu value="#{botEditModel.botEntity.botAdapterEntity}" converter="#{botAdapterConverter}">
                     <f:selectItems value="#{botEditModel.botAdapterEntityList}" var="adapter"
@@ -33,22 +33,22 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <p:inputText value="#{botProp.key}"/>
+                    <h:inputText value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <p:inputText value="#{botProp.value}"/>
+                    <h:inputText value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <p:commandButton id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
+                    <h:commandButton class="btn btn-primary" id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
                 </h:column>
             </h:dataTable>
-            <p:commandButton id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
+            <h:commandButton class="btn btn-primary" id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
             <br/>
             <br/>
             <h:outputText id="answerLabel" value="Auto answers"/>
@@ -57,25 +57,25 @@
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <p:inputText value="#{botAnswer.key}"/>
+                    <h:inputText value="#{botAnswer.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <p:inputText value="#{botAnswer.value}"/>
+                    <h:inputText value="#{botAnswer.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <p:commandButton id="DeleteBotAnswer" value="Delete" action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
+                    <h:commandButton class="btn btn-primary" id="DeleteBotAnswer" value="Delete" action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
                 </h:column>
             </h:dataTable>
-            <p:commandButton id="AddAnswer" value="Add auto answer" action="#{botEditModel.doAddBotAnswer}"/>
+            <h:commandButton class="btn btn-primary" id="AddAnswer" value="Add auto answer" action="#{botEditModel.doAddBotAnswer}"/>
             <br/>
             <br/>
-            <p:commandButton id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>
+            <h:commandButton class="btn btn-primary" id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>
         </h:form>
     </ui:define>
 </ui:composition>

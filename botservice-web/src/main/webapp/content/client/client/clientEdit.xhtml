@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -11,19 +11,19 @@
             <f:viewParam name="id" />
         </f:metadata>
 
-        <p:messages showDetail="true" showSummary="true"/>
+        <h:messages showDetail="true" showSummary="true"/>
 
-        <h:link id="linkToList" value="List of clients" outcome="clientList.xhtml"/>
+        <h:link  id="linkToList" value="List of clients" outcome="clientList.xhtml"/>
         <br/>
 
         <h:form id="clientEdit">
             <h:panelGrid columns="2">
-                <p:outputLabel value="Name:"/>
-                <p:inputText value="#{clientEditModel.clientEntity.name}"/>
+                <h:outputLabel value="Name:"/>
+                <h:inputText value="#{clientEditModel.clientEntity.name}"/>
             </h:panelGrid>
             <br/>
             <br/>
-            <p:commandButton id="ApplyClient" value="Apply" action="#{clientEditModel.doSaveClient}"/>
+            <h:commandButton class="btn btn-primary" id="ApplyClient" value="Apply" action="#{clientEditModel.doSaveClient}"/>
         </h:form>
     </ui:define>
 </ui:composition>
