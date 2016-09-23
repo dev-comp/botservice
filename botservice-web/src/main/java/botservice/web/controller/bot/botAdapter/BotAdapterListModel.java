@@ -46,7 +46,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isDeleteBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return !osgiService.isBundleInstalled(botAdapterEntity.getName());
+        return osgiService.isBundleInstalled(botAdapterEntity.getName());
     }
 
     public void doDeleteBotAdapter(BotAdapterEntity botAdapterEntity){
