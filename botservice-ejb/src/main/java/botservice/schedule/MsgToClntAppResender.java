@@ -50,7 +50,7 @@ public class MsgToClntAppResender implements Serializable{
     @PostConstruct
     public void init(){
         timerService.createIntervalTimer(0L, msgToClntAppResendTimeOut*1000,
-                new TimerConfig(this, true));
+                new TimerConfig(this, false));
     }
 
     @Timeout
