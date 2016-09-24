@@ -9,7 +9,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,8 +53,17 @@ public class BotListModel implements Serializable {
     }
 
     public void doDeleteBot(BotEntity botEntity){
-        botBotList.remove(botEntity);
-        botService.removeEntity(botEntity);
+        botEntity.setState(1);
+        try {
+            botBotList.remove(botEntity);
+            botService.removeEntity(botEntity);
+            String summary = botEntity.getName() + " bot successfully deleted";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        }
     }
 
     public boolean isStartBotDisabled(BotEntity botEntity) {
@@ -63,11 +71,11 @@ public class BotListModel implements Serializable {
     }
 
     public void doStartBot(BotEntity botEntity){
-        botEntity.setState(1);
         try {
+            botEntity.setState(1);
             botManagerService.startBotSession(botEntity);
             doSaveBotEntity(botEntity);
-            String summary = botEntity.getName() + " bot successfully  started";
+            String summary = botEntity.getName() + " bot successfully started";
             FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
             FacesContext.getCurrentInstance().addMessage(null, mess);
         } catch (Exception e) {

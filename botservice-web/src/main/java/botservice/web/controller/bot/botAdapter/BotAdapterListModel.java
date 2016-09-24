@@ -4,8 +4,11 @@ import botservice.model.bot.*;
 import botservice.queueprocessing.BotManagerService;
 import botservice.service.BotService;
 import botservice.web.controller.common.OSGIService;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -50,8 +53,16 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public void doDeleteBotAdapter(BotAdapterEntity botAdapterEntity){
-        botAdapterList.remove(botAdapterEntity);
-        botService.removeEntity(botAdapterEntity);
+        try {
+            botAdapterList.remove(botAdapterEntity);
+            botService.removeEntity(botAdapterEntity);
+            String summary = botAdapterEntity.getName() + " bot adapter successfully deleted";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        }
     }
 
     public boolean isInstallBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
@@ -59,7 +70,15 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public void doInstallBotAdapter(BotAdapterEntity botAdapterEntity){
-        osgiService.installBotAdapter(botAdapterEntity.getFilePath(), botAdapterEntity.getName());
+        try {
+            osgiService.installBotAdapter(botAdapterEntity.getFilePath(), botAdapterEntity.getName());
+            String summary = botAdapterEntity.getName() + " bot adapter successfully installed";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        }
     }
 
     public boolean isStartBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
@@ -67,9 +86,17 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public void doStartBotAdapter(BotAdapterEntity botAdapterEntity){
-        if (osgiService.startBotAdapter(botAdapterEntity.getName())){
-            botAdapterEntity.setState(1);
-            doSaveBotAdapterEntity(botAdapterEntity);
+        try {
+            if (osgiService.startBotAdapter(botAdapterEntity.getName())){
+                botAdapterEntity.setState(1);
+                doSaveBotAdapterEntity(botAdapterEntity);
+            }
+            String summary = botAdapterEntity.getName() + " bot adapter successfully started";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
         }
     }
 
@@ -78,15 +105,23 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public void doStopBotAdapter(BotAdapterEntity botAdapterEntity){
-        if (osgiService.stopBotAdapter(botAdapterEntity.getName())){
-            List<BotEntity> botList = botService.getActiveBotList(botAdapterEntity);
-            for (BotEntity botEntity : botList){
-                botEntity.setState(0);
-                botService.mergeEntity(botEntity);
+        try {
+            if (osgiService.stopBotAdapter(botAdapterEntity.getName())){
+                List<BotEntity> botList = botService.getActiveBotList(botAdapterEntity);
+                for (BotEntity botEntity : botList){
+                    botEntity.setState(0);
+                    botService.mergeEntity(botEntity);
+                }
+                botAdapterEntity.setState(0);
+                doSaveBotAdapterEntity(botAdapterEntity);
+                botManagerService.stopAllBots(botAdapterEntity);
             }
-            botAdapterEntity.setState(0);
-            doSaveBotAdapterEntity(botAdapterEntity);
-            botManagerService.stopAllBots(botAdapterEntity);
+            String summary = botAdapterEntity.getName() + " bot adapter successfully stoped";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
         }
     }
 
@@ -96,6 +131,14 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public void doUninstallBotAdapter(BotAdapterEntity botAdapterEntity){
-        osgiService.uninstallBotAdapter(botAdapterEntity.getName());
+        try {
+            osgiService.uninstallBotAdapter(botAdapterEntity.getName());
+            String summary = botAdapterEntity.getName() + " bot adapter successfully uninstalled";
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        } catch (Exception e) {
+            FacesMessage mess = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getCause().getMessage(), ExceptionUtils.getStackTrace(e));
+            FacesContext.getCurrentInstance().addMessage(null, mess);
+        }
     }
 }
