@@ -17,6 +17,8 @@ import com.bftcom.devcomp.api.BotCommand;
 import com.bftcom.devcomp.api.IBotConst;
 import com.bftcom.devcomp.api.Message;
 import botservice.serviceException.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -33,6 +35,8 @@ import java.util.Map;
 
 @Stateless
 public class BotManagerService {
+    private static final Logger logger = LoggerFactory.getLogger(BotManagerService.class);
+
 
     @Inject
     BotManager botManager;
@@ -88,37 +92,24 @@ public class BotManagerService {
         return sendCommandToBotAdapter(message, botAdapterEntity);
     }
 
-    public boolean sendMessageToBot(MsgObject msgObject){
+    public void sendMessageToBot(MsgObject msgObject){
+        BotEntity botEntity = botService.getEntityByCriteria(
+                BotEntity.class, new BaseParam(BotAdapterEntity_.name, msgObject.getUserObject().getBotName()));
+        UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
+                new BaseParam(UserKeyEntity_.userName, msgObject.getUserObject().getUserName()),
+                new BaseParam(UserKeyEntity_.botEntity, botEntity));
+        UserLogEntity userLogEntity = new UserLogEntity();
+        userLogEntity.setUserKeyEntity(userKeyEntity);
+        userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
+        userLogEntity.setMsgBody(msgObject.getMsgBody());
+        userLogEntity.setDirectionType(BotMsgDirectionType.TO_USER);
         try {
-            BotEntity botEntity = botService.getEntityByCriteria(
-                    BotEntity.class, new BaseParam(BotAdapterEntity_.name, msgObject.getUserObject().getBotName()));
-            UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
-                    new BaseParam(UserKeyEntity_.userName, msgObject.getUserObject().getUserName()),
-                    new BaseParam(UserKeyEntity_.botEntity, botEntity));
-            Message message = new Message();
-            message.setCommand(BotCommand.SERVICE_PROCESS_BOT_MESSAGE);
-            message.setServiceProperties(userKeyEntity.getProps());
-            message.getUserProperties().put(IBotConst.PROP_BODY_TEXT, msgObject.getMsgBody());
-            try {
-                String queueName = IBotConst.QUEUE_TO_BOT_PREFIX + botEntity.getName();
-                botManager.getChannel().queueDeclare(queueName, false, false, false, null);
-                botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            UserLogEntity userLogEntity = new UserLogEntity();
-            userLogEntity.setUserKeyEntity(userKeyEntity);
-            userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
-            userLogEntity.setMsgBody(msgObject.getMsgBody());
-            userLogEntity.setDirectionType(BotMsgDirectionType.TO_USER);
+            systemService.sendMessageToBotQueue(msgObject.getMsgBody(), userKeyEntity);
             userLogEntity.setTransportStatus(BotMsgTransportStatus.DELIVERED);
-            systemService.mergeEntity(userLogEntity);
-            return true;
-        } catch (Exception e){
-            serviceExceptionEvent.fire(new ServiceExceptionObject(
-                    ("Ошибка при отправке сообщения боту"), e));
+        } catch (Exception e) {
+            userLogEntity.setTransportStatus(BotMsgTransportStatus.DEFERRED);
+            logger.error("Ошибка при отправке сообщения боту: " + botEntity.getName(), e);
         }
-        return false;
+        systemService.mergeEntity(userLogEntity);
     }
-
 }

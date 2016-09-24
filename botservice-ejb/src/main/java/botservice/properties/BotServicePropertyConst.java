@@ -18,4 +18,6 @@ public interface BotServicePropertyConst {
     String MANAGEMENT_QUEUE_NAME = "management.queue.name";
     // Интервал запуска процедуры повторной отсылки сообщений, которые не удалось доставить, клиентским сервисам
     String MSG_TO_CLNTAPP_RESEND_TIMEAUT = "msg.to.clntapp.resend.timeout";
+    // Интервал запуска процедуры повторной отсылки сообщений, которые не удалось доставить, в очередь к ботам (конечным пользователеям)
+    String MSG_TO_USER_RESEND_TIMEAUT = "msg.to.user.resend.timeout";
 }
