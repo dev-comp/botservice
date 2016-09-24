@@ -93,6 +93,7 @@ public class ServiceAPI {
             LogObject logObject = new LogObject();
             logObject.setMsgTime(userLogEntity.getMsgTime());
             MsgObject msgObject = new MsgObject();
+            msgObject.setDirectionType(userLogEntity.getDirectionType().name());
             msgObject.setMsgBody(userLogEntity.getMsgBody());
             logObject.setMsgObject(msgObject);
             UserObject userObject = new UserObject();
