@@ -113,9 +113,18 @@ public class BotMessageProcessorHandler {
             requestMsgObject.setMsgBody(message.getUserProperties().get(IBotConst.PROP_BODY_TEXT));
             ResteasyClient client = new ResteasyClientBuilder().build();
             ResteasyWebTarget target = client.target(clientAppEntity.getPath());
-            Response response = target.request().post(Entity.entity(requestMsgObject, MediaType.APPLICATION_JSON));
-            responseMsgObject = response.readEntity(MsgObject.class);
+            try {
+                Response response = target.request().post(Entity.entity(requestMsgObject, MediaType.APPLICATION_JSON));
+                responseMsgObject = response.readEntity(MsgObject.class);
+                botManagerService.sendMessageToBot(responseMsgObject);
+            } catch (Exception e){
+                String errStr = "Ошибка при попытке отправить сообщение клиентскому приложению.";
+                serviceExceptionEvent.fire(new ServiceExceptionObject(errStr, e));
+                responseMsgObject = new MsgObject();
+                responseMsgObject.setUserObject(userObject);
+                responseMsgObject.setMsgBody(errStr);
+                botManagerService.sendMessageToBot(responseMsgObject);
+            }
         }
-        botManagerService.sendMessageToBot(responseMsgObject);
     }
 }
