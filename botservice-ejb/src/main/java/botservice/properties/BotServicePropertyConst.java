@@ -16,4 +16,6 @@ public interface BotServicePropertyConst {
     String RABBITMQ_PORT = "rabbitmq.port";
     // Имя прослушиваемой очереди для служебных сообщений
     String MANAGEMENT_QUEUE_NAME = "management.queue.name";
+    // Интервал запуска процедуры повторной отсылки сообщений, которые не удалось доставить, клиентским сервисам
+    String MSG_TO_CLNTAPP_RESEND_TIMEAUT = "msg.to.clntapp.resend.timeout";
 }
