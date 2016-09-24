@@ -108,7 +108,6 @@ public class BotManager {
       }
     } catch (AlreadyClosedException | IOException e) {
       serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь " + fullBotQueueName, e));
-      throw new RuntimeException(e);
     }
   }
 
