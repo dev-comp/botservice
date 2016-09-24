@@ -22,4 +22,11 @@
     xsi:schemaLocation="
         http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+  <render-kit>
+    <renderer>
+      <component-family>javax.faces.Messages</component-family>
+      <renderer-type>javax.faces.Messages</renderer-type>
+      <renderer-class>botservice.web.controller.bot.common.BootstrapMessagesRenderer</renderer-class>
+    </renderer>
+  </render-kit>
 </faces-config>

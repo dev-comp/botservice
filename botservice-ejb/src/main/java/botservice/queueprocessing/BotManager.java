@@ -7,9 +7,12 @@ import botservice.serviceException.ServiceExceptionObject;
 import com.bftcom.devcomp.api.BotCommand;
 import com.bftcom.devcomp.api.IBotConst;
 import com.bftcom.devcomp.api.Message;
+import com.rabbitmq.client.AlreadyClosedException;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -31,6 +34,7 @@ import java.util.Map;
 @Singleton
 @Startup
 public class BotManager {
+  private static final Logger logger = LoggerFactory.getLogger(BotManager.class);
 
   private Connection connection;
   private Channel channel;
@@ -62,7 +66,7 @@ public class BotManager {
   private Map<String, String> botConsumersMap = new HashMap<>();
 
   @PostConstruct
-  public void init () {
+  public void init() {
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost(rabbitMQHost);
     factory.setPort(rabbitMQPort);
@@ -91,24 +95,34 @@ public class BotManager {
     }
   }
 
-  public void registerBotQueueConsumer(String uqBotName){
+  public void registerBotQueueConsumer(String uqBotName) {
     final String fullBotQueueName = IBotConst.QUEUE_FROM_BOT_PREFIX + uqBotName;
     try {
-      channel.queueDeclare(fullBotQueueName, false, false, false, null);
-      String consumerTag = channel.basicConsume(fullBotQueueName, true, new ManagementQueueConsumer(channel));
-      botConsumersMap.put(uqBotName, consumerTag);
-    } catch (IOException e) {
-      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь "
-              + fullBotQueueName, e));
+      if (channel.isOpen()) {
+        channel.queueDeclare(fullBotQueueName, false, false, false, null);
+        String consumerTag = channel.basicConsume(fullBotQueueName, true, new BotQueueConsumer(channel));
+        botConsumersMap.put(uqBotName, consumerTag);
+      } else {
+        logger.error("!!! Attention !!!");
+        logger.error("The communication channel is closed. DEBUG THIS CASE");
+      }
+    } catch (AlreadyClosedException | IOException e) {
+       logger.error("", e);
+//      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь " + fullBotQueueName, e));
+      throw new RuntimeException(e);
     }
   }
 
-  public void unRegisterBotQueueConsumer(String uqBotName){
+  public void unRegisterBotQueueConsumer(String uqBotName) {
     try {
-      channel.basicCancel(botConsumersMap.get(uqBotName));
-    } catch (IOException e) {
-      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке отписаться от очереди "
-              + IBotConst.QUEUE_FROM_BOT_PREFIX + uqBotName, e));
+      if (channel.isOpen()) {
+        channel.basicCancel(botConsumersMap.get(uqBotName));
+      } else {
+        logger.error("!!! Attention !!!");
+        logger.error("The communication channel is closed. DEBUG THIS CASE");
+      }
+    } catch (AlreadyClosedException | IOException e) {
+      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке отписаться от очереди " + IBotConst.QUEUE_FROM_BOT_PREFIX + uqBotName, e));
     }
   }
 

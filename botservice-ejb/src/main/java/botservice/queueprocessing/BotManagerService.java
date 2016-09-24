@@ -58,10 +58,10 @@ public class BotManagerService {
             message.setServiceProperties(serviceProperties);
             return sendCommandToBotAdapter(message, botEntity.getBotAdapterEntity());
         } catch (Exception e){
-            serviceExceptionEvent.fire(new ServiceExceptionObject(
-                    ("Ошибка при отправке команды " + botCommand.name() + " адаптеру"), e));
+//            serviceExceptionEvent.fire(new ServiceExceptionObject(
+//                    ("Ошибка при отправке команды " + botCommand.name() + " адаптеру"), e));
+            throw new RuntimeException("Ошибка при отправке команды " + botCommand.name() + " адаптеру", e);
         }
-        return false;
     }
 
     private boolean sendCommandToBotAdapter(Message message, BotAdapterEntity botAdapterEntity){
@@ -71,10 +71,10 @@ public class BotManagerService {
             botManager.getChannel().basicPublish("", queueName, null, IQueueConsumer.mapper.writeValueAsString(message).getBytes(StandardCharsets.UTF_8));
             return true;
         } catch (IOException e) {
-            serviceExceptionEvent.fire(new ServiceExceptionObject(
-                    ("Ошибка при отправке команды  адаптеру"), e));
+//            serviceExceptionEvent.fire(new ServiceExceptionObject(
+//                    ("Ошибка при отправке команды  адаптеру"), e));
+            throw new RuntimeException("Ошибка при отправке команды " + message.getCommand().name() + " адаптеру", e);
         }
-        return false;
     }
 
     public boolean startBotSession(BotEntity botEntity) {
