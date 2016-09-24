@@ -10,6 +10,7 @@ import botservice.service.SystemService;
 import botservice.service.common.BaseParam;
 import botservice.serviceException.ServiceException;
 import botservice.serviceException.ServiceExceptionObject;
+import botservice.util.BotMsgDirectionType;
 import botservice.util.BotMsgTransportStatus;
 
 import javax.annotation.PostConstruct;
@@ -56,6 +57,7 @@ public class MsgToClntAppResender implements Serializable{
     public void resendMsgToClntApp(Timer timer){
         if (timer.getInfo() instanceof MsgToClntAppResender){
             List<UserLogEntity> userLogEntityList = systemService.getEntityListByCriteria(UserLogEntity.class,
+                    new BaseParam(UserLogEntity_.directionType, BotMsgDirectionType.TO_CLIENT_APP),
                     new BaseParam(UserLogEntity_.transportStatus, BotMsgTransportStatus.DEFERRED));
             for(UserLogEntity userLogEntity: userLogEntityList){
                 try {
