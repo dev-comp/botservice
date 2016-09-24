@@ -48,21 +48,15 @@ public class BotManagerService {
     Event<ServiceExceptionObject> serviceExceptionEvent;
 
     private boolean sendCommandToAdapter(BotCommand botCommand, BotEntity botEntity){
-        try {
-            Message message = new Message();
-            message.setCommand(botCommand);
-            Map<String, String> propMap = botEntity.getBotAdapterEntity().getProps();
-            propMap.putAll(botEntity.getProps());
-            message.setUserProperties(propMap);
-            Map<String, String> serviceProperties = new HashMap<>();
-            serviceProperties.put(IBotConst.PROP_BOT_NAME, botEntity.getName());
-            message.setServiceProperties(serviceProperties);
-            return sendCommandToBotAdapter(message, botEntity.getBotAdapterEntity());
-        } catch (Exception e){
-            serviceExceptionEvent.fire(new ServiceExceptionObject(
-                    ("Ошибка при отправке команды " + botCommand.name() + " адаптеру"), e));
-        }
-        return false;
+        Message message = new Message();
+        message.setCommand(botCommand);
+        Map<String, String> propMap = botEntity.getBotAdapterEntity().getProps();
+        propMap.putAll(botEntity.getProps());
+        message.setUserProperties(propMap);
+        Map<String, String> serviceProperties = new HashMap<>();
+        serviceProperties.put(IBotConst.PROP_BOT_NAME, botEntity.getName());
+        message.setServiceProperties(serviceProperties);
+        return sendCommandToBotAdapter(message, botEntity.getBotAdapterEntity());
     }
 
     private boolean sendCommandToBotAdapter(Message message, BotAdapterEntity botAdapterEntity){
