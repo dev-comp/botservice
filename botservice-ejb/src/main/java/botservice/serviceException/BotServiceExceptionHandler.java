@@ -16,5 +16,6 @@ public class BotServiceExceptionHandler {
 
     public void handleError(@Observes @ServiceException ServiceExceptionObject serviceExceptionObject){
         logger.error(serviceExceptionObject.getMessage(), serviceExceptionObject.getThrowable());
+        throw new RuntimeException(serviceExceptionObject.getThrowable());
     }
 }
