@@ -85,7 +85,7 @@ public class BotMessageProcessorHandler {
         userKeyEntity = botService.mergeEntity(userKeyEntity);
         // Записываем в лог
         UserLogEntity userLogEntity = new UserLogEntity();
-        userLogEntity.setDirectionType(BotMsgDirectionType.IN);
+        userLogEntity.setDirectionType(BotMsgDirectionType.TO_CLIENT_APP);
         userLogEntity.setMsgBody(message.getUserProperties().get(IBotConst.PROP_BODY_TEXT));
         userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
         userLogEntity.setUserKeyEntity(userKeyEntity);
@@ -116,15 +116,22 @@ public class BotMessageProcessorHandler {
             try {
                 Response response = target.request().post(Entity.entity(requestMsgObject, MediaType.APPLICATION_JSON));
                 responseMsgObject = response.readEntity(MsgObject.class);
-                botManagerService.sendMessageToBot(responseMsgObject);
             } catch (Exception e){
-                String errStr = "Ошибка при попытке отправить сообщение клиентскому приложению.";
+                //todo сохранить сообщение в списке неотправленных
+                String errStr = "Ошибка при попытке отправить сообщение клиентскому приложению. " +
+                        "Попытки отправить сообщение будут продолжены. По факту успешной доставки вам поступит уведомление.";
                 serviceExceptionEvent.fire(new ServiceExceptionObject(errStr, e));
                 responseMsgObject = new MsgObject();
                 responseMsgObject.setUserObject(userObject);
                 responseMsgObject.setMsgBody(errStr);
-                botManagerService.sendMessageToBot(responseMsgObject);
+                sendMessageToBot(responseMsgObject);
             }
         }
+        sendMessageToBot(responseMsgObject);
+    }
+
+    private void sendMessageToBot(MsgObject responseMsgObject){
+        responseMsgObject.setDirectionType(BotMsgDirectionType.TO_CLIENT_APP.name());
+        botManagerService.sendMessageToBot(responseMsgObject);
     }
 }

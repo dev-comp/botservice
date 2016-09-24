@@ -4,5 +4,5 @@ package botservice.util;
  * Типы сообщений по направлению
  */
 public enum BotMsgDirectionType {
-    IN, OUT
+    TO_CLIENT_APP, TO_USER
 }

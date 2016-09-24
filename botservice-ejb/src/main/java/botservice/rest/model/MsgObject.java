@@ -9,6 +9,8 @@ public class MsgObject {
 
     private String msgBody;
 
+    private String directionType;
+
     public UserObject getUserObject() {
         return userObject;
     }
@@ -23,5 +25,13 @@ public class MsgObject {
 
     public void setMsgBody(String msgBody) {
         this.msgBody = msgBody;
+    }
+
+    public String getDirectionType() {
+        return directionType;
+    }
+
+    public void setDirectionType(String directionType) {
+        this.directionType = directionType;
     }
 }

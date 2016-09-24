@@ -117,7 +117,7 @@ public class BotManagerService {
             userLogEntity.setUserKeyEntity(userKeyEntity);
             userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
             userLogEntity.setMsgBody(msgObject.getMsgBody());
-            userLogEntity.setDirectionType(BotMsgDirectionType.OUT);
+            userLogEntity.setDirectionType(BotMsgDirectionType.TO_USER);
             systemService.mergeEntity(userLogEntity);
             return true;
         } catch (Exception e){
