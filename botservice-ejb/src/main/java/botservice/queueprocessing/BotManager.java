@@ -107,8 +107,7 @@ public class BotManager {
         logger.error("The communication channel is closed. DEBUG THIS CASE");
       }
     } catch (AlreadyClosedException | IOException e) {
-       logger.error("", e);
-//      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь " + fullBotQueueName, e));
+      serviceExceptionEvent.fire(new ServiceExceptionObject("Ошибка при попытке подписаться на очередь " + fullBotQueueName, e));
       throw new RuntimeException(e);
     }
   }
