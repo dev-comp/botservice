@@ -95,7 +95,6 @@ public class BotManagerService {
             UserKeyEntity userKeyEntity = botService.getEntityByCriteria(UserKeyEntity.class,
                     new BaseParam(UserKeyEntity_.userName, msgObject.getUserObject().getUserName()),
                     new BaseParam(UserKeyEntity_.botEntity, botEntity));
-            // отправляем сообщение
             Message message = new Message();
             message.setCommand(BotCommand.SERVICE_PROCESS_BOT_MESSAGE);
             message.setServiceProperties(userKeyEntity.getProps());
@@ -107,7 +106,6 @@ public class BotManagerService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // логируем
             UserLogEntity userLogEntity = new UserLogEntity();
             userLogEntity.setUserKeyEntity(userKeyEntity);
             userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
