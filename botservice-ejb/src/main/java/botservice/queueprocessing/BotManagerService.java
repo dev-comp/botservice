@@ -12,6 +12,7 @@ import botservice.service.SystemService;
 import botservice.service.common.BaseParam;
 import botservice.util.BotMsgDirectionType;
 import botservice.serviceException.ServiceExceptionObject;
+import botservice.util.BotMsgTransportStatus;
 import com.bftcom.devcomp.api.BotCommand;
 import com.bftcom.devcomp.api.IBotConst;
 import com.bftcom.devcomp.api.Message;
@@ -118,6 +119,7 @@ public class BotManagerService {
             userLogEntity.setMsgTime(new Date(System.currentTimeMillis()));
             userLogEntity.setMsgBody(msgObject.getMsgBody());
             userLogEntity.setDirectionType(BotMsgDirectionType.TO_USER);
+            userLogEntity.setTransportStatus(BotMsgTransportStatus.DELIVERED);
             systemService.mergeEntity(userLogEntity);
             return true;
         } catch (Exception e){

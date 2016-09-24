@@ -2,12 +2,11 @@ package botservice.model.system;
 
 import botservice.model.common.AbstractBaseEntity;
 import botservice.util.BotMsgDirectionType;
-import org.hibernate.validator.constraints.NotEmpty;
+import botservice.util.BotMsgTransportStatus;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -33,6 +32,11 @@ public class UserLogEntity extends AbstractBaseEntity {
     @Valid
     @Enumerated(EnumType.STRING)
     private BotMsgDirectionType directionType;
+
+    @NotNull
+    @Valid
+    @Enumerated(EnumType.STRING)
+    private BotMsgTransportStatus transportStatus;
 
     public UserKeyEntity getUserKeyEntity() {
         return userKeyEntity;
@@ -64,5 +68,13 @@ public class UserLogEntity extends AbstractBaseEntity {
 
     public void setDirectionType(BotMsgDirectionType directionType) {
         this.directionType = directionType;
+    }
+
+    public BotMsgTransportStatus getTransportStatus() {
+        return transportStatus;
+    }
+
+    public void setTransportStatus(BotMsgTransportStatus transportStatus) {
+        this.transportStatus = transportStatus;
     }
 }
