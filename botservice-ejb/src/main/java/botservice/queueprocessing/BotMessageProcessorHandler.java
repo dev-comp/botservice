@@ -124,14 +124,9 @@ public class BotMessageProcessorHandler {
                 responseMsgObject = new MsgObject();
                 responseMsgObject.setUserObject(userObject);
                 responseMsgObject.setMsgBody(errStr);
-                sendMessageToBot(responseMsgObject);
+                botManagerService.sendMessageToBot(responseMsgObject);
             }
         }
-        sendMessageToBot(responseMsgObject);
-    }
-
-    private void sendMessageToBot(MsgObject responseMsgObject){
-        responseMsgObject.setDirectionType(BotMsgDirectionType.TO_CLIENT_APP.name());
         botManagerService.sendMessageToBot(responseMsgObject);
     }
 }
