@@ -1,8 +1,11 @@
 package botservice.model.bot;
 
+import botservice.util.BotAdapterType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -28,6 +31,11 @@ public class BotAdapterEntity extends BotBaseEntity{
     @Column(name = "value")
     private Map<String, String> answers;
 
+    @NotNull
+    @Valid
+    @Enumerated(EnumType.STRING)
+    private BotAdapterType botAdapterType;
+
     public String getFilePath() {
         return filePath;
     }
@@ -51,5 +59,13 @@ public class BotAdapterEntity extends BotBaseEntity{
 
     public void setAnswers(Map<String, String> answers) {
         this.answers = answers;
+    }
+
+    public BotAdapterType getBotAdapterType() {
+        return botAdapterType;
+    }
+
+    public void setBotAdapterType(BotAdapterType botAdapterType) {
+        this.botAdapterType = botAdapterType;
     }
 }

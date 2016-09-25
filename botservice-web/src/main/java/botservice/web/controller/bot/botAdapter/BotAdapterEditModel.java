@@ -6,6 +6,7 @@ import botservice.properties.BotServiceProperty;
 import botservice.properties.BotServicePropertyConst;
 import botservice.service.BotService;
 import botservice.service.common.BaseParam;
+import botservice.util.BotAdapterType;
 import botservice.web.controller.common.MapItem;
 
 import javax.annotation.PostConstruct;
@@ -149,5 +150,9 @@ public class BotAdapterEditModel implements Serializable {
 
     public void setAnswerList(List<MapItem> answerList) {
         this.answerList = answerList;
+    }
+
+    public BotAdapterType[] getBotAdapterTypes(){
+        return BotAdapterType.values();
     }
 }

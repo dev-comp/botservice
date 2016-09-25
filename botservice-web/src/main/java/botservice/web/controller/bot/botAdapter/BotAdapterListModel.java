@@ -3,6 +3,7 @@ package botservice.web.controller.bot.botAdapter;
 import botservice.model.bot.*;
 import botservice.queueprocessing.BotManagerService;
 import botservice.service.BotService;
+import botservice.util.BotAdapterType;
 import botservice.web.controller.common.OSGIService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -66,7 +67,7 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isInstallBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return osgiService.isBundleInstalled(botAdapterEntity.getName());
+        return (osgiService.isBundleInstalled(botAdapterEntity.getName()) || botAdapterEntity.getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE));
     }
 
     public void doInstallBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -82,7 +83,9 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isStartBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return (!osgiService.isBundleInstalled(botAdapterEntity.getName())) || (botAdapterEntity.getState() == 1);
+        return ((!osgiService.isBundleInstalled(botAdapterEntity.getName()))
+                || (botAdapterEntity.getState() == 1)
+                || botAdapterEntity.getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE));
     }
 
     public void doStartBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -101,7 +104,9 @@ public class BotAdapterListModel implements Serializable{
     }
 
     public boolean isStopBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
-        return (!osgiService.isBundleInstalled(botAdapterEntity.getName())) || (botAdapterEntity.getState() == 0);
+        return ((!osgiService.isBundleInstalled(botAdapterEntity.getName()))
+                || (botAdapterEntity.getState() == 0)
+                || botAdapterEntity.getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE));
     }
 
     public void doStopBotAdapter(BotAdapterEntity botAdapterEntity){
@@ -127,7 +132,8 @@ public class BotAdapterListModel implements Serializable{
 
     public boolean isUninstallBotAdapterDisabled(BotAdapterEntity botAdapterEntity){
         return (   (osgiService.isBundleInstalled(botAdapterEntity.getName()) && (botAdapterEntity.getState() == 1))
-                || !osgiService.isBundleInstalled(botAdapterEntity.getName()));
+                || !osgiService.isBundleInstalled(botAdapterEntity.getName())
+                || botAdapterEntity.getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE));
     }
 
     public void doUninstallBotAdapter(BotAdapterEntity botAdapterEntity){

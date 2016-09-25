@@ -21,6 +21,11 @@
             <h:panelGrid columns="2">
                 <h:outputLabel value="Name:"/>
                 <h:inputText value="#{botAdapterEditModel.botAdapterEntity.name}"/>
+                <h:outputLabel value="Type:"/>
+                <h:selectOneMenu value="#{botAdapterEditModel.botAdapterEntity.botAdapterType}">
+                    <f:selectItems value="#{botAdapterEditModel.botAdapterTypes}" var="adapterType"
+                                   itemLabel="#{adapterType.name}" itemValue="#{adapterType}"/>
+                </h:selectOneMenu>
                 <h:outputLabel value="FilePath:"/>
                 <h:inputText value="#{botAdapterEditModel.botAdapterEntity.filePath}" readonly="true"/>
                 <h:inputFile id="file" value="#{botAdapterEditModel.botAdapterPart}"/>
