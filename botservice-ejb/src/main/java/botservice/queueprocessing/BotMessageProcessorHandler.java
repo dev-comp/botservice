@@ -106,7 +106,7 @@ public class BotMessageProcessorHandler {
                 logger.error("Failed to send message to client service with url: " + botEntity.getClientAppEntity().getPath(), e);
                 userLogEntity.setTransportStatus(BotMsgTransportStatus.DEFERRED);
                 String errStr = "Ошибка при попытке отправить сообщение клиентскому приложению. " +
-                        "Попытки отправить сообщение будут продолжены. По факту успешной доставки вам поступит уведомление.";
+                        "Попытки отправить сообщение будут продолжены.";
                 responseMsgObject = new MsgObject();
                 responseMsgObject.setUserObject(userObject);
                 responseMsgObject.setMsgBody(errStr);
