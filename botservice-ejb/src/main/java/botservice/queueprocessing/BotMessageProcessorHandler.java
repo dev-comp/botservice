@@ -94,6 +94,7 @@ public class BotMessageProcessorHandler {
         UserObject userObject = new UserObject();
         userObject.setBotName(botEntity.getName());
         userObject.setUserName(userName);
+        userLogEntity.setTransportStatus(BotMsgTransportStatus.DELIVERED);
         if (autoAnswer != null){
             responseMsgObject = new MsgObject();
             responseMsgObject.setUserObject(userObject);
