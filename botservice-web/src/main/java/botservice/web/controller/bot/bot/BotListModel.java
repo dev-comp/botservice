@@ -68,8 +68,8 @@ public class BotListModel implements Serializable {
     }
 
     public boolean isStartBotDisabled(BotEntity botEntity) {
-        return (   (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))
-                && (botEntity.getState() == 1 || botEntity.getBotAdapterEntity().getState() == 0));
+        return botEntity.getState() == 1 ||
+                (botEntity.getBotAdapterEntity().getState() == 0 && (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE)));
     }
 
     public void doStartBot(BotEntity botEntity){
@@ -87,8 +87,8 @@ public class BotListModel implements Serializable {
     }
 
     public boolean isStopBotDisabled(BotEntity botEntity){
-        return (   (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))
-                && (botEntity.getState() == 0 || botEntity.getBotAdapterEntity().getState() == 0));
+        return (botEntity.getState() == 0 ||
+                (botEntity.getBotAdapterEntity().getState() == 0 && (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))));
     }
 
     public void doStopBot(BotEntity botEntity){
