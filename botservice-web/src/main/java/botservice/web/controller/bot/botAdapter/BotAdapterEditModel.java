@@ -31,6 +31,8 @@ import java.util.*;
 @ViewScoped
 public class BotAdapterEditModel implements Serializable {
 
+    private static final String noneFilePath = "NONE";
+
     @Inject
     private BotAdapterEntity botAdapterEntity;
 
@@ -62,6 +64,8 @@ public class BotAdapterEditModel implements Serializable {
         if (botAdapterEntity.getAnswers() != null)
             botAdapterEntity.getAnswers().clear();
         moveMapItemsToEntity();
+        if (botAdapterEntity.getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))
+            botAdapterEntity.setFilePath(noneFilePath);
         botAdapterEntity = botService.mergeEntity(botAdapterEntity);
     }
 

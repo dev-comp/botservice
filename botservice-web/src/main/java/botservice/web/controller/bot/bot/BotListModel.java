@@ -3,6 +3,7 @@ package botservice.web.controller.bot.bot;
 import botservice.model.bot.BotEntity;
 import botservice.queueprocessing.BotManagerService;
 import botservice.service.BotService;
+import botservice.util.BotAdapterType;
 import botservice.web.controller.common.OSGIService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -67,7 +68,8 @@ public class BotListModel implements Serializable {
     }
 
     public boolean isStartBotDisabled(BotEntity botEntity) {
-        return (botEntity.getState() == 1 || botEntity.getBotAdapterEntity().getState() == 0);
+        return (   (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))
+                && (botEntity.getState() == 1 || botEntity.getBotAdapterEntity().getState() == 0));
     }
 
     public void doStartBot(BotEntity botEntity){
@@ -85,7 +87,8 @@ public class BotListModel implements Serializable {
     }
 
     public boolean isStopBotDisabled(BotEntity botEntity){
-        return (botEntity.getState() == 0 || botEntity.getBotAdapterEntity().getState() == 0);
+        return (   (!botEntity.getBotAdapterEntity().getBotAdapterType().equals(BotAdapterType.STANDALONE_TYPE))
+                && (botEntity.getState() == 0 || botEntity.getBotAdapterEntity().getState() == 0));
     }
 
     public void doStopBot(BotEntity botEntity){
