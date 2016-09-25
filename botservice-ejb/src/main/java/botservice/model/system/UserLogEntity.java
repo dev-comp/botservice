@@ -7,6 +7,7 @@ import botservice.util.BotMsgTransportStatus;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -26,6 +27,7 @@ public class UserLogEntity extends AbstractBaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date msgTime;
 
+    @Size(max = 4096)
     private String msgBody;
 
     @NotNull
