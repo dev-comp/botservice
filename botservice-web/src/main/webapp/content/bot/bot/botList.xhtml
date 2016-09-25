@@ -8,13 +8,10 @@
 <ui:composition template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="content">
+        <h1>Bots</h1>
 
         <h:form id="botEntityListForm">
-            <br/>
-            <br/>
             <h:button id="add" value="Add" outcome="botEdit.xhtml"/>
-            <br/>
-            <br/>
             <h:dataTable id="botEntityList" value="#{botListModel.botList}" var="bot" border="1">
                 <h:column>
                     <f:facet name="header">
