@@ -11,13 +11,15 @@
         <h1>Bot adapters</h1>
 
         <h:form id="botAdapterEntityListForm">
-            <h:button id="addAdapter" value="Add adapter" outcome="botAdapterEdit.xhtml"/>
-            <h:dataTable id="botAdapterEntityList" value="#{botAdapterListModel.botAdapterList}" var="botAdapter" border="1">
+            <h:button styleClass="btn btn-default" id="addAdapter" value="Add adapter" outcome="botAdapterEdit.xhtml"/>
+            <h:dataTable styleClass="table table-hover table-condensed table-bordered"
+                         id="botAdapterEntityList" value="#{botAdapterListModel.botAdapterList}" var="botAdapter"
+                         border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link  outcome="botAdapterEdit.xhtml?id=#{botAdapter.id}" value="#{botAdapter.name}"/>
+                    <h:link outcome="botAdapterEdit.xhtml?id=#{botAdapter.id}" value="#{botAdapter.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -35,40 +37,44 @@
                     <f:facet name="header">
                         <h:outputText value="Install"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="InstallBotAdapter" value="Install" action="#{botAdapterListModel.doInstallBotAdapter(botAdapter)}"
+                    <h:commandButton class="btn btn-primary" id="InstallBotAdapter" value="Install"
+                                     action="#{botAdapterListModel.doInstallBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isInstallBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="StartBotAdapter" value="Start" action="#{botAdapterListModel.doStartBotAdapter(botAdapter)}"
+                    <h:commandButton class="btn btn-primary" id="StartBotAdapter" value="Start"
+                                     action="#{botAdapterListModel.doStartBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isStartBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Stop"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="StopBotAdapter" value="Stop" action="#{botAdapterListModel.doStopBotAdapter(botAdapter)}"
+                    <h:commandButton class="btn btn-primary" id="StopBotAdapter" value="Stop"
+                                     action="#{botAdapterListModel.doStopBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isStopBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Uninstall"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="UninstallBotAdapter" value="Uninstall" action="#{botAdapterListModel.doUninstallBotAdapter(botAdapter)}"
+                    <h:commandButton class="btn btn-primary" id="UninstallBotAdapter" value="Uninstall"
+                                     action="#{botAdapterListModel.doUninstallBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isUninstallBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="DeleteBotAdapter" value="Delete" action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"
+                    <h:commandButton class="btn btn-primary" id="DeleteBotAdapter" value="Delete"
+                                     action="#{botAdapterListModel.doDeleteBotAdapter(botAdapter)}"
                                      disabled="#{botAdapterListModel.isDeleteBotAdapterDisabled(botAdapter)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>
     </ui:define>
-
 </ui:composition>
 </html>

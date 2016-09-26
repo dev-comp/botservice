@@ -2,25 +2,25 @@
  * Base structure
  */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+/*!* Move down content because we have a fixed navbar that is 50px tall *!*/
 body {
     padding-top: 50px;
 }
 
 
-/*
- * Global add-ons
- */
+/*!**/
+ /** Global add-ons*/
+ /**!*/
 
-.sub-header {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
+/*.sub-header {*/
+    /*padding-bottom: 10px;*/
+    /*border-bottom: 1px solid #eee;*/
+/*}*/
 
 
-/*
- * Sidebar
- */
+/*!**/
+ /** Sidebar*/
+ /**!*/
 
 /* Hide for mobile, show later */
 .sidebar {
@@ -42,55 +42,110 @@ body {
     }
 }
 
-/* Sidebar navigation */
-.nav-sidebar {
-    margin-right: -21px; /* 20px padding + 1px border */
-    margin-bottom: 20px;
-    margin-left: -20px;
-}
-.nav-sidebar > li > a {
-    padding-right: 20px;
-    padding-left: 20px;
-}
-.nav-sidebar > .active > a {
-    color: #fff;
-    background-color: #428bca;
-}
+/*!* Sidebar navigation *!*/
+/*!*.nav-sidebar {*!*/
+    /*!*margin-right: -21px; !* 20px padding + 1px border *!*!*/
+    /*!*margin-bottom: 20px;*!*/
+    /*!*margin-left: -20px;*!*/
+/*!*}*!*/
+/*!*.nav-sidebar > li > a {*!*/
+    /*!*padding-right: 20px;*!*/
+    /*!*padding-left: 20px;*!*/
+/*!*}*!*/
+/*!*.nav-sidebar > .active > a {*!*/
+    /*!*color: #fff;*!*/
+    /*!*background-color: #428bca;*!*/
+/*!*}*!*/
+
+/*!*.nav-sidebar >  a:hover {*!*/
+    /*!*background-color: #428bca;*!*/
+/*!*}*!*/
+
+/*!**/
+ /** Main content*/
+ /**!*/
+
+/*.main {*/
+    /*padding: 20px;*/
+/*}*/
+/*@media (min-width: 768px) {*/
+    /*.main {*/
+        /*padding-right: 40px;*/
+        /*padding-left: 40px;*/
+    /*}*/
+/*}*/
+/*.main .page-header {*/
+    /*margin-top: 0;*/
+/*}*/
 
 
-/*
- * Main content
- */
+/*!**/
+ /** Placeholder dashboard ideas*/
+ /**!*/
 
-.main {
-    padding: 20px;
+/*.placeholders {*/
+    /*margin-bottom: 30px;*/
+    /*text-align: center;*/
+/*}*/
+/*.placeholders h4 {*/
+    /*margin-bottom: 0;*/
+/*}*/
+/*.placeholder {*/
+    /*margin-bottom: 20px;*/
+/*}*/
+/*.placeholder img {*/
+    /*display: inline-block;*/
+    /*border-radius: 50%;*/
+/*}*/
+
+/*.navbar-fixed-left {*/
+    /*width: 100px;*/
+    /*position: fixed;*/
+    /*border-radius: 0;*/
+    /*height: 100%;*/
+/*}*/
+
+/*.navbar-fixed-left .navbar-nav > li {*/
+    /*float: none;  !* Cancel default li float: left *!*/
+    /*width: 100px;*/
+/*}*/
+
+/*.navbar-fixed-left + .container {*/
+    /*padding-left: 100px;*/
+/*}*/
+
+/*!* On using dropdown menu (To right shift popuped) *!*/
+/*.navbar-fixed-left .navbar-nav > li > .dropdown-menu {*/
+    /*margin-top: -50px;*/
+    /*margin-left: 100px;*/
+/*}*/
+
+.btn-primary.active, .btn-primary.active:hover, .btn-primary:focus, .btn-primary:active:focus, .btn-primary:hover {
+    background-color: limegreen;
 }
-@media (min-width: 768px) {
-    .main {
-        padding-right: 40px;
-        padding-left: 40px;
-    }
-}
-.main .page-header {
-    margin-top: 0;
-}
 
-
-/*
- * Placeholder dashboard ideas
- */
-
-.placeholders {
-    margin-bottom: 30px;
+.modal {
     text-align: center;
 }
-.placeholders h4 {
-    margin-bottom: 0;
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
 }
-.placeholder {
-    margin-bottom: 20px;
-}
-.placeholder img {
+
+.modal-dialog {
     display: inline-block;
-    border-radius: 50%;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.alert {
+    position: absolute;
+    bottom: 50px;
+    left: 5px;
+    right: 5px;
+    min-height: 50px;
 }

@@ -13,38 +13,37 @@
         </f:metadata>
 
         <h1>Bot adapter</h1>
-
-        <h:link  id="linkToList" value="List of bot adapters" outcome="botAdapterList.xhtml"/>
-        <br/>
+        <h:link styleClass="btn btn-primary" id="linkToList" value="List of bot adapters" outcome="botAdapterList.xhtml"/>
+        <hr/>
 
         <h:form id="botAdapterEdit" enctype="multipart/form-data">
-            <h:panelGrid columns="2">
+            <h:panelGrid styleClass="table table-hover table-condensed table-bordered" columns="2">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{botAdapterEditModel.botAdapterEntity.name}"/>
+                <h:inputText styleClass="form-control" value="#{botAdapterEditModel.botAdapterEntity.name}"/>
                 <h:outputLabel value="Type:"/>
                 <h:selectOneMenu value="#{botAdapterEditModel.botAdapterEntity.botAdapterType}">
                     <f:selectItems value="#{botAdapterEditModel.botAdapterTypes}" var="adapterType"
                                    itemLabel="#{adapterType.name}" itemValue="#{adapterType}"/>
                 </h:selectOneMenu>
                 <h:outputLabel value="FilePath:"/>
-                <h:inputText value="#{botAdapterEditModel.botAdapterEntity.filePath}" readonly="true"/>
+                <h:inputText styleClass="form-control" value="#{botAdapterEditModel.botAdapterEntity.filePath}" readonly="true"/>
                 <h:inputFile id="file" value="#{botAdapterEditModel.botAdapterPart}"/>
                 <h:commandButton class="btn btn-primary" value="Upload" action="#{botAdapterEditModel.uploadBotAdapter}"/>
             </h:panelGrid>
             <br/>
             <h:outputText id="propLabel" value="Properties"/>
-            <h:dataTable id="botAdapterProps" value="#{botAdapterEditModel.propList}" var="botProp" border="1">
+            <h:dataTable id="botAdapterProps" value="#{botAdapterEditModel.propList}" var="botProp" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.key}"/>
+                    <h:inputText styleClass="form-control" value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.value}"/>
+                    <h:inputText styleClass="form-control" value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -57,18 +56,18 @@
             <br/>
             <br/>
             <h:outputText id="answerLabel" value="Auto answers"/>
-            <h:dataTable id="botAdapterAnswers" value="#{botAdapterEditModel.answerList}" var="botAnswer" border="1">
+            <h:dataTable id="botAdapterAnswers" value="#{botAdapterEditModel.answerList}" var="botAnswer" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.key}"/>
+                    <h:inputText styleClass="form-control" value="#{botAnswer.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.value}"/>
+                    <h:inputText styleClass="form-control" value="#{botAnswer.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">

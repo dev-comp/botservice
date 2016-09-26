@@ -13,8 +13,8 @@
         <h:messages showDetail="true" showSummary="true"/>
 
         <h:form id="clientAppEntityListForm">
-            <h:button id="addClientApp" value="Add client application" outcome="clientAppEdit.xhtml"/>
-            <h:dataTable id="clientAppEntityList" value="#{clientAppListModel.clientAppList}" var="clientApp" border="1">
+            <h:button styleClass="btn btn-primary" id="addClientApp" value="Add client application" outcome="clientAppEdit.xhtml"/>
+            <h:dataTable id="clientAppEntityList" value="#{clientAppListModel.clientAppList}" var="clientApp" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>

@@ -119,7 +119,7 @@ public class BootstrapMessagesRenderer extends MessagesRenderer {
     }
 
     writer.startElement("div", null);
-    writer.writeAttribute("class", "alert fade in alert-block " + alertSeverityClass + " fade in alert-block", "alert " + alertSeverityClass + " fade in alert-block");
+    writer.writeAttribute("class", "alert modal modal-dialog " + alertSeverityClass + " alert-block", "alert modal modal-dialog" + alertSeverityClass + " alert-block");
     writer.writeAttribute("role", "alert", "alert");
     writer.startElement("a", uiMessages);
     writer.writeAttribute("class", "close", "class");
