@@ -1,23 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="content">
-        <h1>Bots</h1>
-
+        <h1>List of bots</h1>
+        <hr/>
         <h:form id="botEntityListForm">
-            <h:button id="add" value="Add" outcome="botEdit.xhtml"/>
-            <h:dataTable id="botEntityList" value="#{botListModel.botList}" var="bot" border="1">
+            <h:button styleClass="btn btn-primary" id="add" value="Add" outcome="botEdit.xhtml">
+            </h:button>
+            <h:dataTable styleClass="table table-hover table-condensed table-bordered" id="botEntityList"
+                         value="#{botListModel.botList}" var="bot">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link  outcome="botEdit.xhtml?id=#{bot.id}" value="#{bot.name}"/>
+                    <h:link outcome="botEdit.xhtml?id=#{bot.id}" value="#{bot.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -35,21 +37,24 @@
                     <f:facet name="header">
                         <h:outputText value="Start"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="StartBot" value="Start" action="#{botListModel.doStartBot(bot)}"
+                    <h:commandButton class="btn btn-primary" id="StartBot" value="Start"
+                                     action="#{botListModel.doStartBot(bot)}"
                                      disabled="#{botListModel.isStartBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Stop"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="StopBot" value="Stop" action="#{botListModel.doStopBot(bot)}"
+                    <h:commandButton class="btn btn-primary" id="StopBot" value="Stop"
+                                     action="#{botListModel.doStopBot(bot)}"
                                      disabled="#{botListModel.isStopBotDisabled(bot)}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="DeleteBot" value="Delete" action="#{botListModel.doDeleteBot(bot)}"
+                    <h:commandButton class="btn btn-primary" id="DeleteBot" value="Delete"
+                                     action="#{botListModel.doDeleteBot(bot)}"
                                      disabled="#{botListModel.isDeleteBotDisabled(bot)}"/>
                 </h:column>
             </h:dataTable>

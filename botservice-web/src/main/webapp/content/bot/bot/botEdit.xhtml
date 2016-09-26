@@ -1,78 +1,86 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <f:metadata>
-            <f:viewParam name="id" />
+            <f:viewParam name="id"/>
         </f:metadata>
 
-        <h1>Bot</h1>
+        <h1>Edit bot</h1>
 
-        <h:link  id="linkToList" value="List of bots" outcome="botList.xhtml"/>
-        <br/>
-
+        <h:link styleClass="btn btn-primary" id="linkToList" value="Return to the list of bots"
+                outcome="botList.xhtml"/>
+        <hr/>
         <h:form id="botEdit" enctype="multipart/form-data">
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="2" styleClass="table table-hover table-condensed table-bordered">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{botEditModel.botEntity.name}"/>
+                <h:inputText styleClass="form-control" value="#{botEditModel.botEntity.name}"/>
                 <h:outputLabel value="Bot Adapter:"/>
-                <h:selectOneMenu value="#{botEditModel.botEntity.botAdapterEntity}" converter="#{botAdapterConverter}">
+                <h:selectOneMenu value="#{botEditModel.botEntity.botAdapterEntity}" converter="#{botAdapterConverter}"
+                                 styleClass="form-control">
                     <f:selectItems value="#{botEditModel.botAdapterEntityList}" var="adapter"
                                    itemLabel="#{adapter.name}" itemValue="#{adapter}"/>
                 </h:selectOneMenu>
             </h:panelGrid>
-            <br/>
-            <h:outputText id="propLabel" value="Properties"/>
-            <h:dataTable id="botProps" value="#{botEditModel.propList}" var="botProp" border="1">
+            <hr/>
+            <h1>Properties</h1>
+            <h:dataTable styleClass="table table-hover table-condensed table-bordered"
+                         id="botProps"
+                         value="#{botEditModel.propList}" var="botProp" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.key}"/>
+                    <h:inputText styleClass="form-control" value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botProp.value}"/>
+                    <h:inputText styleClass="form-control" value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="DeleteProp" value="Delete" action="#{botEditModel.doDeleteBotProp(botProp)}"/>
+                    <h:commandButton class="btn btn-primary" id="DeleteProp" value="Delete"
+                                     action="#{botEditModel.doDeleteBotProp(botProp)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton class="btn btn-primary" id="AddProperty" value="Add property" action="#{botEditModel.doAddBotProperty}"/>
-            <br/>
-            <br/>
-            <h:outputText id="answerLabel" value="Auto answers"/>
-            <h:dataTable id="botAnswers" value="#{botEditModel.answerList}" var="botAnswer" border="1">
+            <h:commandButton class="btn btn-primary" id="AddProperty" value="Add property"
+                             action="#{botEditModel.doAddBotProperty}"/>
+            <hr/>
+            <h2>Automatic answers</h2>
+            <!--<h:outputText id="answerLabel" value="Auto answers"/>-->
+            <h:dataTable styleClass="table table-hover table-condensed table-bordered" id="botAnswers"
+                         value="#{botEditModel.answerList}" var="botAnswer" border="1">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Key"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.key}"/>
+                    <h:inputText styleClass="form-control" value="#{botAnswer.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Value"/>
                     </f:facet>
-                    <h:inputText value="#{botAnswer.value}"/>
+                    <h:inputText styleClass="form-control" value="#{botAnswer.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="DeleteBotAnswer" value="Delete" action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
+                    <h:commandButton class="btn btn-primary" id="DeleteBotAnswer" value="Delete"
+                                     action="#{botEditModel.doDeleteBotAnswer(botAnswer)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton class="btn btn-primary" id="AddAnswer" value="Add auto answer" action="#{botEditModel.doAddBotAnswer}"/>
+            <h:commandButton class="btn btn-primary" id="AddAnswer" value="Add auto answer"
+                             action="#{botEditModel.doAddBotAnswer}"/>
             <br/>
             <br/>
             <h:commandButton class="btn btn-primary" id="ApplyBot" value="Apply" action="#{botEditModel.doSaveBot}"/>

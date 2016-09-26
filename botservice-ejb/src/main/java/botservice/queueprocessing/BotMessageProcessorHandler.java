@@ -89,7 +89,13 @@ public class BotMessageProcessorHandler {
         Map<String, String> autoAnswersMap = new HashMap<>();
         autoAnswersMap.putAll(botEntity.getBotAdapterEntity().getAnswers());
         autoAnswersMap.putAll(botEntity.getAnswers());
-        String autoAnswer = autoAnswersMap.get(bodyText);
+        String autoAnswer = null;
+        for (Map.Entry<String, String> stringStringEntry : autoAnswersMap.entrySet()) {
+            if (bodyText.toLowerCase().contains(stringStringEntry.getKey().toLowerCase())) {
+//            bodyText.toLowerCase().contains(stringStringEntry.g())
+                autoAnswer = stringStringEntry.getValue();
+            }
+        }
         MsgObject responseMsgObject;
         UserObject userObject = new UserObject();
         userObject.setBotName(botEntity.getName());

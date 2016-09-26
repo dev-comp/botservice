@@ -9,20 +9,18 @@
 
     <ui:define name="content">
         <h1>User log</h1>
-
         <h:messages showDetail="true" showSummary="true"/>
 
         <h:form id="userLogEntityListForm">
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="2" styleClass="table table-hover table-condensed table-bordered">
                 <h:outputLabel value="MaxResult:"/>
-                <h:inputText value="#{userLogListModel.maxResult}"/>
+                <h:inputText styleClass="form-control" value="#{userLogListModel.maxResult}"/>
             </h:panelGrid>
 
             <h:commandButton class="btn btn-primary" value="Refresh" action="#{userLogListModel.refreshList}"/>
             <h:commandButton class="btn btn-primary" value="Clear" action="#{userLogListModel.clearAll}"/>
-            <br/>
-            <br/>
-            <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogSet}" var="userLog" border="1">
+            <hr/>
+            <h:dataTable id="userLogEntityList" value="#{userLogListModel.userLogSet}" var="userLog" class="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Client"/>

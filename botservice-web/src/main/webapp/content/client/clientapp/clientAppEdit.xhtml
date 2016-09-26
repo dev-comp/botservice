@@ -17,11 +17,11 @@
         <br/>
 
         <h:form id="clientAppEdit" enctype="multipart/form-data">
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="2" styleClass="table table-hover table-condensed table-bordered">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{clientAppEditModel.clientAppEntity.name}"/>
+                <h:inputText styleClass="form-control" value="#{clientAppEditModel.clientAppEntity.name}"/>
                 <h:outputLabel value="Path:"/>
-                <h:inputText value="#{clientAppEditModel.clientAppEntity.path}"/>
+                <h:inputText styleClass="form-control" value="#{clientAppEditModel.clientAppEntity.path}"/>
                 <h:outputLabel value="Client:"/>
                 <h:selectOneMenu value="#{clientAppEditModel.clientAppEntity.clientEntity}"
                                  converter="#{clientConverter}">

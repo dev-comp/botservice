@@ -13,16 +13,16 @@
         <h:messages showDetail="true" showSummary="true"/>
 
         <h:form id="userKeyEntityListForm">
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="2" styleClass="table table-hover table-condensed table-bordered">
                 <h:outputLabel value="MaxResult:"/>
-                <h:inputText value="#{userKeyListModel.maxResult}"/>
+                <h:inputText styleClass="form-control" value="#{userKeyListModel.maxResult}"/>
             </h:panelGrid>
 
             <h:commandButton class="btn btn-primary" value="Refresh" action="#{userKeyListModel.refreshList}"/>
             <h:commandButton class="btn btn-primary" value="Clear" action="#{userKeyListModel.clearAll}"/>
             <br/>
             <br/>
-            <h:dataTable id="userKeyEntityList" value="#{userKeyListModel.userKeyList}" var="userKey" border="1">
+            <h:dataTable id="userKeyEntityList" value="#{userKeyListModel.userKeyList}" var="userKey" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="User"/>

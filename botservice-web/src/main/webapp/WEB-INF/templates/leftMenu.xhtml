@@ -1,21 +1,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition>
-    <h:form id="leftMenu">
-        <ul class="nav nav-sidebar">
-            <li><h:link id="linkToMain" value="Home" outcome="/index.xhtml"/></li>
-            <li><h:link id="linkToBotAdapters" value="Bot adapters"
-                        outcome="/content/bot/botAdapter/botAdapterList.xhtml"/></li>
-            <li><h:link id="linkToBots" value="Bots" outcome="/content/bot/bot/botList.xhtml"/></li>
-            <li><h:link id="linkToClients" value="Clients" outcome="/content/client/client/clientList.xhtml"/></li>
-            <li><h:link id="linkToClientApps" value="Client applications"
-                        outcome="/content/client/clientapp/clientAppList.xhtml"/></li>
-            <li><h:link id="linkToUserKeys" value="User keys" outcome="/content/system/userKeyList.xhtml"/></li>
-            <li><h:link id="linkToUserLog" value="User log" outcome="/content/system/userLogList.xhtml"/></li>
-        </ul>
-    </h:form>
+    <nav class="navbar navbar navbar-fixed-left">
+        <div class="container">
+            <!--<h:form id="leftMenu">-->
+                <ul  class="nav navbar-nav">
+                    <ui:repeat value="#{leftNavMenu.links}" var="link">
+                        <!--<li>-->
+                            <h:link value="#{link.value}" outcome="#{link.outcome}"
+                                    styleClass="#{link.styleClass} #{view.viewId eq link.viewId ? 'active' : ''}"/>
+                        <!--</li>-->
+                    </ui:repeat>
+                </ul>
+            <!--</h:form>-->
+        </div>
+    </nav>
+
+    <!--<h:outputScript>-->
+    <!--<h:outputScript target="body">-->
+    <!--$ = jQuery;-->
+    <!--// Then you can use it-->
+    <!--$(document).ready(function() {-->
+    <!--$(".nav a").on("click", function(){-->
+    <!--$(".nav").find(".active").removeClass("active");-->
+    <!--$(this).parent().addClass("active");-->
+    <!--});-->
+    <!--});-->
+    <!--</h:outputScript>-->
+    <!--</h:outputScript>-->
 </ui:composition>
 </html>
 

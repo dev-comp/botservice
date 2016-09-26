@@ -1,29 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <f:metadata>
-            <f:viewParam name="id" />
+            <f:viewParam name="id"/>
         </f:metadata>
 
         <h1>Client</h1>
 
-        <h:link  id="linkToList" value="List of clients" outcome="clientList.xhtml"/>
+        <h:link styleClass="btn btn-primary" id="linkToList" value="List of clients" outcome="clientList.xhtml"/>
         <br/>
 
         <h:form id="clientEdit">
-            <h:panelGrid columns="2">
+            <h:panelGrid styleClass="table table-hover table-condensed table-bordered" columns="2">
                 <h:outputLabel value="Name:"/>
-                <h:inputText value="#{clientEditModel.clientEntity.name}"/>
+                <h:inputText styleClass="form-control" value="#{clientEditModel.clientEntity.name}"/>
             </h:panelGrid>
             <br/>
-            <br/>
-            <h:commandButton class="btn btn-primary" id="ApplyClient" value="Apply" action="#{clientEditModel.doSaveClient}"/>
+            <h:commandButton class="btn btn-primary" id="ApplyClient" value="Apply"
+                             action="#{clientEditModel.doSaveClient}"/>
         </h:form>
     </ui:define>
 </ui:composition>
