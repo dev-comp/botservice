@@ -12,7 +12,7 @@
 
         <h:form id="botAdapterEntityListForm">
             <h:button styleClass="btn btn-default" id="addAdapter" value="Add adapter" outcome="botAdapterEdit.xhtml"/>
-            <h:dataTable styleClass="table table-hover table-condensed table-bordered"
+            <h:dataTable headerClass="dtheader" styleClass="table table-hover table-condensed table-bordered"
                          id="botAdapterEntityList" value="#{botAdapterListModel.botAdapterList}" var="botAdapter"
                          border="1">
                 <h:column>

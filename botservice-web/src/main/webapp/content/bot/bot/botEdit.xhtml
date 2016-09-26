@@ -29,7 +29,7 @@
             </h:panelGrid>
             <hr/>
             <h1>Properties</h1>
-            <h:dataTable styleClass="table table-hover table-condensed table-bordered"
+            <h:dataTable headerClass="dtheader" styleClass="table table-hover table-condensed table-bordered"
                          id="botProps"
                          value="#{botEditModel.propList}" var="botProp" border="1">
                 <h:column>
@@ -57,7 +57,7 @@
             <hr/>
             <h2>Automatic answers</h2>
             <!--<h:outputText id="answerLabel" value="Auto answers"/>-->
-            <h:dataTable styleClass="table table-hover table-condensed table-bordered" id="botAnswers"
+            <h:dataTable  headerClass="dtheader" styleClass="table table-hover table-condensed table-bordered" id="botAnswers"
                          value="#{botEditModel.answerList}" var="botAnswer" border="1">
                 <h:column>
                     <f:facet name="header">

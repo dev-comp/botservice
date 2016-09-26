@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -13,13 +13,15 @@
         <h:messages showDetail="true" showSummary="true"/>
 
         <h:form id="clientAppEntityListForm">
-            <h:button styleClass="btn btn-primary" id="addClientApp" value="Add client application" outcome="clientAppEdit.xhtml"/>
-            <h:dataTable id="clientAppEntityList" value="#{clientAppListModel.clientAppList}" var="clientApp" styleClass="table table-hover table-condensed table-bordered">
+            <h:button styleClass="btn btn-primary" id="addClientApp" value="Add client application"
+                      outcome="clientAppEdit.xhtml"/>
+            <h:dataTable headerClass="dtheader" id="clientAppEntityList" value="#{clientAppListModel.clientAppList}"
+                         var="clientApp" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
-                    <h:link  outcome="clientAppEdit.xhtml?id=#{clientApp.id}" value="#{clientApp.name}"/>
+                    <h:link outcome="clientAppEdit.xhtml?id=#{clientApp.id}" value="#{clientApp.name}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -43,7 +45,8 @@
                     <f:facet name="header">
                         <h:outputText value="Delete"/>
                     </f:facet>
-                    <h:commandButton class="btn btn-primary" id="DeleteClientApp" value="Delete" action="#{clientAppListModel.doDeleteClientApp(clientApp)}"/>
+                    <h:commandButton class="btn btn-primary" id="DeleteClientApp" value="Delete"
+                                     action="#{clientAppListModel.doDeleteClientApp(clientApp)}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

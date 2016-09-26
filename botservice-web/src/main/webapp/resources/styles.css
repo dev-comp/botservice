@@ -149,3 +149,11 @@ body {
     right: 5px;
     min-height: 50px;
 }
+
+.thead {
+    text-align: center;
+}
+
+.dtheader {
+    text-align: center;
+}

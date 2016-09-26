@@ -35,19 +35,19 @@
             <h:dataTable id="botAdapterProps" value="#{botAdapterEditModel.propList}" var="botProp" styleClass="table table-hover table-condensed table-bordered">
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Key"/>
+                        <div align="center"><h:outputText value="Key"/></div>
                     </f:facet>
                     <h:inputText styleClass="form-control" value="#{botProp.key}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Value"/>
+                        <div align="center"><h:outputText value="Value"/></div>
                     </f:facet>
                     <h:inputText styleClass="form-control" value="#{botProp.value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Delete"/>
+                        <div align="center"><h:outputText value="Delete"/></div>
                     </f:facet>
                     <h:commandButton class="btn btn-primary" id="DeleteAdapterProp" value="Delete" action="#{botAdapterEditModel.doDeleteAdapterProp(botProp)}"/>
                 </h:column>
@@ -57,9 +57,9 @@
             <br/>
             <h:outputText id="answerLabel" value="Auto answers"/>
             <h:dataTable id="botAdapterAnswers" value="#{botAdapterEditModel.answerList}" var="botAnswer" styleClass="table table-hover table-condensed table-bordered">
-                <h:column>
+                <h:column headerClass="text-center">
                     <f:facet name="header">
-                        <h:outputText value="Key"/>
+                         <h:outputText value="Key"/>
                     </f:facet>
                     <h:inputText styleClass="form-control" value="#{botAnswer.key}"/>
                 </h:column>
