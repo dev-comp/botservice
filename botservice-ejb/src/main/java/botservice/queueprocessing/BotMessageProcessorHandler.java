@@ -91,10 +91,8 @@ public class BotMessageProcessorHandler {
         autoAnswersMap.putAll(botEntity.getAnswers());
         String autoAnswer = null;
         for (Map.Entry<String, String> stringStringEntry : autoAnswersMap.entrySet()) {
-            if (bodyText.toLowerCase().contains(stringStringEntry.getKey().toLowerCase())) {
-//            bodyText.toLowerCase().contains(stringStringEntry.g())
+            if (bodyText.toLowerCase().contains(stringStringEntry.getKey().toLowerCase()))
                 autoAnswer = stringStringEntry.getValue();
-            }
         }
         MsgObject responseMsgObject;
         UserObject userObject = new UserObject();
