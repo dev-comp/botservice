@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,23 @@ public class BaseService {
     }
 
     public <T> List<T> getEntityList(Class<T> entityClass, int maxResult){
-        CriteriaQuery<T> criteria = em.getCriteriaBuilder().createQuery(entityClass);
-        criteria.select(criteria.from(entityClass));
+        return getEntityList(entityClass, maxResult, null, null);
+    }
+
+    public <T> List<T> getEntityList(Class<T> entityClass, int maxResult,
+                                     SingularAttribute[] orderByArrAsc, SingularAttribute[] orderByArrDesc){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> criteria = cb.createQuery(entityClass);
+        Root<T> root = criteria.from(entityClass);
+        criteria.select(root);
+        if (orderByArrAsc != null){
+            for (SingularAttribute attr: orderByArrAsc)
+                criteria.orderBy(cb.asc(root.get(attr.getName())));
+        }
+        if (orderByArrDesc != null){
+            for (SingularAttribute attr: orderByArrDesc)
+                criteria.orderBy(cb.desc(root.get(attr.getName())));
+        }
         TypedQuery<T> typedQuery = em.createQuery(criteria);
         if (maxResult > 0)
             typedQuery.setMaxResults(maxResult);

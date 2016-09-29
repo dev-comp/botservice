@@ -1,12 +1,14 @@
 package botservice.web.controller.system;
 
 import botservice.model.system.UserKeyEntity;
+import botservice.model.system.UserKeyEntity_;
 import botservice.service.SystemService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.metamodel.SingularAttribute;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class UserKeyListModel implements Serializable{
     }
 
     public void refreshList(){
-        userKeyList = systemService.getEntityList(UserKeyEntity.class, maxResult);
+        userKeyList = systemService.getEntityList(UserKeyEntity.class, maxResult,
+                new SingularAttribute[]{UserKeyEntity_.userName}, null);
     }
 
     public List<UserKeyEntity> getUserKeyList() {

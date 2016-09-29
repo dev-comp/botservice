@@ -1,16 +1,16 @@
 package botservice.web.controller.system;
 
 import botservice.model.system.UserLogEntity;
+import botservice.model.system.UserLogEntity_;
 import botservice.service.SystemService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.metamodel.SingularAttribute;
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Компонент-подложка для отображения лога сообщений
@@ -23,12 +23,7 @@ public class UserLogListModel implements Serializable {
     @Inject
     SystemService systemService;
 
-    Set<UserLogEntity> userLogSet = new TreeSet<>(new Comparator<UserLogEntity>() {
-        @Override
-        public int compare(UserLogEntity o1, UserLogEntity o2) {
-            return ((-1) * o1.getMsgTime().compareTo(o2.getMsgTime()));
-        }
-    });
+    List<UserLogEntity> userLogList = new ArrayList<>();
 
     private int maxResult = 100;
 
@@ -38,16 +33,9 @@ public class UserLogListModel implements Serializable {
     }
 
     public void refreshList(){
-        userLogSet.clear();
-        userLogSet.addAll(systemService.getEntityList(UserLogEntity.class, maxResult));
-    }
-
-    public Set<UserLogEntity> getUserLogSet() {
-        return userLogSet;
-    }
-
-    public void setUserLogSet(Set<UserLogEntity> userLogSet) {
-        this.userLogSet = userLogSet;
+        userLogList.clear();
+        userLogList.addAll(systemService.getEntityList(UserLogEntity.class, maxResult,
+                null, new SingularAttribute[]{UserLogEntity_.msgTime}));
     }
 
     public int getMaxResult() {
@@ -63,4 +51,11 @@ public class UserLogListModel implements Serializable {
         refreshList();
     }
 
+    public List<UserLogEntity> getUserLogList() {
+        return userLogList;
+    }
+
+    public void setUserLogList(List<UserLogEntity> userLogList) {
+        this.userLogList = userLogList;
+    }
 }
